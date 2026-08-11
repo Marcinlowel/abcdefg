@@ -19,7 +19,6 @@
 
         *, *:before, *:after {
           box-sizing: inherit;
-          outline: 1px solid red;
         }
          /* Header plus dostawa free zintegrowane- */
         .header {
@@ -522,9 +521,8 @@
 
         .footer {
             position: relative;
-            width: 97vw;
-            left: 50%;
-            transform: translateX(-50%);
+            width: 100%;
+            box-sizing: border-box;
             z-index: 10;
             background: rgba(10, 10, 10, 0.55);
             backdrop-filter: blur(16px);
