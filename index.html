@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona</title>
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap'); /* czcionka import*/
+        
+         /* Header plus dostawa free zintegrowane- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            z-index: 10;
+            background: rgba(10, 10, 10, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            font-family: 'Inter', Arial, sans-serif;
+            color: #fff;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+        .header-podzial {
+            max-width: 1320px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 8px 40px;
+        }
+        .efekt-glow {
+            position: absolute;
+            bottom: 0;
+            left: -30%;
+            width: 30%;
+            height: 1px;
+            background: linear-gradient(
+            90deg,
+            rgba(168, 85, 247, 0) 0%,
+            rgba(168, 85, 247, 0.9) 50%,
+            rgba(168, 85, 247, 0) 100%
+            );
+            box-shadow: 0 0 6px 0.5px rgba(168, 85, 247, 0.6);
+            animation: glow 6s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0% { left: -30%; }
+            35% { left: 100%; }
+            100% { left: 100%; }
+        } 
+
+        .lewo {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .logo-wrap {
+            justify-self: center;
+            perspective: 600px;
+        }
+
+        .logo-img {
+            height: 52px;
+            display: block;
+            cursor: pointer;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        .prawo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+
+        .koszyk {
+            height: 28px;
+            width: auto;
+            cursor: pointer;
+            transition: transform 0.15s ease, filter 0.2s ease;
+            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.25));
+        }
+
+        .koszyk:hover {
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.55));
+        }
+
+        .odstep {
+            height: 132px;
+        }
+
+        .tg {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-family: 'Inter', Arial, sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            overflow: hidden;
+            transition: box-shadow 0.2s ease, transform 0.15s ease;
+            box-shadow:
+            0 0 10px rgba(42, 171, 238, 0.35),
+            0 0 20px rgba(42, 171, 238, 0.18),
+            0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .tg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.35) 0%,
+            rgba(255,255,255,0) 100%
+            );
+            border-radius: 999px 999px 0 0;
+            pointer-events: none;
+        }
+
+        .tg:hover {
+            transform: scale(1.06);
+            box-shadow:
+            0 0 14px rgba(42, 171, 238, 0.5),
+            0 0 28px rgba(42, 171, 238, 0.28),
+            0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .tg:active {
+            transform: scale(0.96);
+        }
+
+        .tg svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tg span {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            margin: 0;
+            background: #0a0a0a;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            }
+            .header-podzial {
+            grid-template-columns: auto 1fr auto;
+            padding: 10px 16px;
+            }
+            .logo-wrap {
+            position: relative;
+            z-index: 2;
+            }
+            .logo-img { 
+            height: 40px; 
+            opacity: 1; 
+            }
+            .tg { 
+            padding: 8px 14px; 
+            font-size: 12px; }
+        }
+
+        
+        .pasek {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            background: #7C3AED;
+            color: #fff;
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 12  px;
+            text-align: center;
+            z-index: 11;
+        }
+
+        .pasek svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+
+
+        /* Header koniec- */
+
+        /* Cały kod katalogu */
+        
+ 
+        .vw-catalog {
+            font-family: 'Inter', Arial, sans-serif;
+            color: #fff;
+            width: 100vw;
+            max-width: 1320px;
+            padding: 20px 40px 80px;
+            box-sizing: border-box;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        /*
+        tutaj zaczyna się logika częściowo podkatalogów, czyli podstron produktów, które są ukryte i wyświetlane po kliknięciu w przycisk "Zobacz produkt" na karcie produktu. Każdy produkt ma swoje unikalne radio, które przełącza widok na odpowiednią podstronę produktu.
+        */
+
+        .vw-radio, .vw-radio-view {
+        position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        #page-katalog, .vw-product-page {
+            display: none;
+        }
+
+        #view-katalog:checked ~ #page-katalog {
+            display: block; 
+        }
+
+        #view-prod-1:checked ~ #page-prod-1,
+        #view-prod-2:checked ~ #page-prod-2,
+        #view-prod-3:checked ~ #page-prod-3,
+        #view-prod-4:checked ~ #page-prod-4,
+        #view-prod-5:checked ~ #page-prod-5,
+        #view-prod-6:checked ~ #page-prod-6,      
+        #view-prod-7:checked ~ #page-prod-7,
+        #view-prod-8:checked ~ #page-prod-8,
+        #view-prod-9:checked ~ #page-prod-9,
+        #view-prod-10:checked ~ #page-prod-10,
+        #view-prod-11:checked ~ #page-prod-11 {
+            display: block; 
+        }
+
+        .vw-title {
+            display: none;
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0;
+            text-align: left;
+        }
+
+        .vw-catalog-top {
+            margin-bottom: 28px;
+        }
+
+        #tab-wszystko:checked ~ #page-katalog .vw-title-wszystko,
+        #tab-jednorazowki:checked ~ #page-katalog .vw-title-jednorazowki,
+        #tab-liquidy:checked ~ #page-katalog .vw-title-liquidy,
+        #tab-urzadzenia:checked ~ #page-katalog .vw-title-urzadzenia,
+        #tab-zestawy:checked ~ #page-katalog .vw-title-zestawy {
+            display: block;
+        }
+
+        #tab-wszystko:checked ~ .vw-catalog-top .vw-title-wszystko, 
+        #tab-jednorazowki:checked ~ .vw-catalog-top .vw-title-jednorazowki, 
+        #tab-liquidy:checked ~ .vw-catalog-top .vw-title-liquidy, 
+        #tab-urzadzenia:checked ~ .vw-catalog-top .vw-title-urzadzenia, 
+        #tab-zestawy:checked ~ .vw-catalog-top .vw-title-zestawy {
+            display: block; 
+        }
+
+        .vw-tabs {
+            display: flex;
+            gap: 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 32px;
+            overflow-x: auto;
+        }
+
+        .vw-tab-label {
+            color: #888;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 6px 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .vw-tab-label:hover {
+            text-decoration: underline;
+            text-decoration-color: rgba(168,85,247,0.5);
+            text-underline-offset: 20px;
+        }
+
+        #tab-wszystko:checked ~ #page-katalog label[for="tab-wszystko"],
+        #tab-jednorazowki:checked ~ #page-katalog label[for="tab-jednorazowki"],
+        #tab-liquidy:checked ~ #page-katalog label[for="tab-liquidy"],
+        #tab-urzadzenia:checked ~ #page-katalog label[for="tab-urzadzenia"],
+        #tab-zestawy:checked ~ #page-katalog label[for="tab-zestawy"] {
+            color: #fff;
+            border-bottom-color: #a855f7;
+        }
+
+        .vw-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            justify-content: center;
+            text-align: left;
+        }
+
+        #tab-jednorazowki:checked ~ .vw-grid .vw-card:not(.cat-jednorazowki),
+        #tab-liquidy:checked ~ .vw-grid .vw-card:not(.cat-liquidy),
+        #tab-urzadzenia:checked ~ .vw-grid .vw-card:not(.cat-urzadzenia),
+        #tab-zestawy:checked ~ .vw-grid .vw-card:not(.cat-zestawy) {
+            display: none;
+        }
+
+        .vw-card {
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .vw-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: rgba(168,85,247,0.4);
+        }
+
+        #tab-jednorazowki:checked ~ #page-katalog .vw-card:not(.cat-jednorazowki),
+        #tab-liquidy:checked ~ #page-katalog .vw-card:not(.cat-liquidy),
+        #tab-urzadzenia:checked ~ #page-katalog .vw-card:not(.cat-urzadzenia),
+        #tab-zestawy:checked ~ #page-katalog .vw-card:not(.cat-zestawy) {
+            display: none;
+        }
+
+        .vw-card-media {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            background: #1c1c1c;
+        }
+
+        .vw-card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .vw-card-stock {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .vw-card-stock .dot {
+            width: 6px;
+            height: 6px;
+            background: #34d399;
+            border-radius: 50%;
+        }
+
+        .vw-card-stock.sold-out .dot {
+            background: #ef4444;
+        }
+
+        .vw-card-body {
+            padding: 16px 16px 18px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .vw-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 8px;
+            text-align: left;
+        }
+        .vw-card-footer {
+            margin-top: auto;
+        }
+
+        .vw-price {
+            font-family: 'JetBrains Mono', monospace;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .vw-price-sub {
+            font-size: 11px;
+            color: #34d399;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .vw-add-btn {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 11px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.15s ease, transform 0.2s ease;
+        }
+        /* Tutaj zaczyna się styl dla strony produktu */
+        .vw-product-page {
+            text-align: left;
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .vw-back-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #222;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-bottom: 24px;
+            transition: background 0.2s;
+        }
+
+        .vw-add-btn:hover {
+            border-color: rgba(161, 69, 247, 0.5);
+            background: #a855f7;
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 1100px) {
+            .vw-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 800px) {
+            .vw-catalog { padding: 24px 16px 60px; }
+            .vw-title { font-size: 30px; }
+            .vw-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        }
+
+        @media (max-width: 480px) {
+            .vw-grid { grid-template-columns: 1fr 1fr; }
+            .vw-card-title { font-size: 14px; }
+            .vw-price { font-size: 17px; }
+        }
+
+        /* Koniec kodu katalogu*/
+
+        /* Początek kodu footera*/
+
+        .footer {
+            position: relative;
+            width: 99.8vw;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: rgba(10, 10, 10, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            font-family: 'Inter', Arial, sans-serif;
+            color: #fff;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            box-sizing: border-box;
+            padding: 20px 32px;
+        }
+        
+        .logo-footer {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 52px;
+            display: block;
+            cursor: pointer;
+
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .info1 {
+            margin-top: 8px;
+            margin-left: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            color: rgba(136, 136, 136, 0.8);
+        }
+
+        .info2 {
+            margin-top: 8px;
+            margin-left: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            color: rgba(136, 136, 136, 0.8);
+        }
+
+        .info3 {
+            margin-top: 8px;
+            margin-left: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            color: rgba(136, 136, 136, 0.8);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(168, 85, 247, 0.6);
+            padding-top: 10px;
+            margin-top: 8px;
+            margin-left: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            color: rgba(136, 136, 136, 0.8);
+        }
+
+        .odstep {
+            height: 66px;
+        }
+
+        /* Media headera */
+        @media (max-width: 480px) {
+            .pasek {
+            font-size: 12px;
+            padding: 8px 12px;
+            }
+        }
+
+        /* Media katalogu */
+
+        @media (max-width: 1100px) {
+            .vw-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 800px) {
+            .vw-catalog { padding: 24px 16px 60px; }
+            .vw-title { font-size: 30px; }
+            .vw-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        }
+
+        @media (max-width: 480px) {
+            .vw-grid { grid-template-columns: 1fr 1fr; }
+            .vw-card-title { font-size: 14px; }
+            .vw-price { font-size: 17px; }
+        }
+        
+        /* Media footera */
+        
+        @media (max-width: 768px) {
+            .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            margin: 0;
+            background: #0a0a0a;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            padding: 16px;
+            }
+            .footer-logo {
+            position: relative;
+            z-index: 2;
+            }
+            .logo-img { 
+            height: 40px; 
+            opacity: 1; 
+            }
+        }
+    /*Koniec kodu footera*/
+    </style>
+</head>
+<body>
+    <!-- Tutaj zaczyna się kod headera-->
+    <div class="header">
+        <div class="efekt-glow"></div>
+        <div class="pasek">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 6H14V16H3V6Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M14 9H17.5L21 12.5V16H14V9Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="7" cy="18" r="1.5" stroke="white" stroke-width="1.5"/>
+            <circle cx="17.5" cy="18" r="1.5" stroke="white" stroke-width="1.5"/>
+        </svg>
+        <span>Darmowa dostawa niezależnie od wartości zamówienia</span>
+        </div>
+        
+        <div class="header-podzial">
+            <div class="lewo">
+            <a href="https://t.me/vapeowo" target="_blank" class="tg">
+                <svg viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M100.5 170.5L104.5 137.5L177.5 71.5C180.5 68.5 177 67 173.5 69L72 130.5L40 120C33 118 33 113 41.5 109.5L188 55C193.5 53 199 56.5 197 65L172 178C170.5 185.5 165.5 187.5 158.5 183.5L118 154L98.5 173C96 175.5 94 176.5 100.5 170.5Z" fill="white"/>
+                </svg>
+                <span class="label">Dołącz</span>
+            </a>
+            </div>
+
+            <div class="logo-wrap logo-animacja">
+            <img src="https://i.postimg.cc/Y0CP27SF/vaowo.png" alt="Vapeowo" class="logo-img" onclick="window.location.reload()">
+            </div>
+
+            <div class="prawo">
+            <img src="https://i.postimg.cc/DzK6xhLB/icons8-cart-64.png" alt="Koszyk" class="koszyk">
+            </div>
+        </div>
+    </div>
+    <div class="odstep"></div>
+
+    <!-- Koniec kodu headera-->
+    <!-- Początek kodu katalogu-->
+    <div class="vw-catalog">
+
+    <input type="radio" name="view_switcher" id="view-katalog" class="vw-radio-view" checked>
+    <input type="radio" name="view_switcher" id="view-prod-1" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-2" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-3" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-4" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-5" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-6" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-7" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-8" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-9" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-10" class="vw-radio-view">
+    <input type="radio" name="view_switcher" id="view-prod-11" class="vw-radio-view">
+
+    <div id="page-katalog">
+    <input type="radio" name="vwtab" id="tab-wszystko" class="vw-radio" checked>
+    <input type="radio" name="vwtab" id="tab-jednorazowki" class="vw-radio">
+    <input type="radio" name="vwtab" id="tab-liquidy" class="vw-radio">
+    <input type="radio" name="vwtab" id="tab-urzadzenia" class="vw-radio">
+    <input type="radio" name="vwtab" id="tab-zestawy" class="vw-radio">
+
+    <div class="vw-catalog-top">
+        <h1 class="vw-title vw-title-wszystko">Wszystkie Produkty</h1>
+        <h1 class="vw-title vw-title-jednorazowki">Jednorazówki</h1>
+        <h1 class="vw-title vw-title-liquidy">Liquidy</h1>
+        <h1 class="vw-title vw-title-urzadzenia">Urządzenia</h1>
+        <h1 class="vw-title vw-title-zestawy">Zestawy</h1>
+    </div>
+
+    <div class="vw-tabs">
+        <label class="vw-tab-label" for="tab-wszystko">Wszystko</label>
+        <label class="vw-tab-label" for="tab-jednorazowki">Jednorazówki</label>
+        <label class="vw-tab-label" for="tab-liquidy">Liquidy</label>
+        <label class="vw-tab-label" for="tab-urzadzenia">Urządzenia</label>
+        <label class="vw-tab-label" for="tab-zestawy">Zestawy</label>
+    </div>
+
+    <div class="vw-grid">
+        
+
+
+
+        <!-- ===== JEDNORAZÓWKI (3 pozycje) ===== -->
+        <div class="vw-card cat-jednorazowki">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/7Y7vFXGX/6.png" alt="Aroma King 700">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">Aroma King 700</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">14,99 zł</div>
+            <label for="view-prod-1" class="vw-add-btn"> Zobacz produkt</label> <!-- To trzeba dodać żeby powstała nowa podstrona-->
+        </div>
+        </div>
+        </div>
+
+        <div class="vw-card cat-jednorazowki">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/RZNtC6mW/7.png" alt="MerryMi Blade 30k">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">MerryMi Blade 30k</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">59,99 zł</div>
+            <label for="view-prod-2" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+
+        <div class="vw-card cat-jednorazowki">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/QtyG3yJp/8.png" alt="Crystal WGA 35k">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">Crystal WGA 35k</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">64,99 zł</div>
+            <label for="view-prod-3" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+
+        <!-- ===== LIQUIDY (2 pozycje) ===== -->
+        <div class="vw-card cat-liquidy">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/LX0v5d7g/4.png" alt="MerryMi 30ml">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">MerryMi 30ml</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">44,99zł</div>
+            <label for="view-prod-4" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+
+        <div class="vw-card cat-liquidy">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/7hFV13qy/5.png" alt="Vapen 10ml">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">Vapen 10ml</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">16,99 zł</div>
+            <label for="view-prod-5" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+
+        <!-- ===== URZĄDZENIA (3 pozycje) ===== -->
+        <div class="vw-card cat-urzadzenia">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/vH4kWhLf/1.png" alt="Cartridge XLIM">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">Cartridge XLIM</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">19,99 zł</div>
+            <label for="view-prod-6" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+
+        <div class="vw-card cat-urzadzenia">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/tTg29RBF/2.png" alt="OXVA XLIM Go 2">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">OXVA XLIM Go 2</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">89.99 zł</div>
+            <label for="view-prod-7" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+
+        <div class="vw-card cat-urzadzenia">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/mDr8TZm0/3.png" alt="OXVA NeXLIM">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">OXVA NeXLIM</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">169,99zł</div>
+            <label for="view-prod-8" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+
+        <!-- Zestawy (3 pozycje)-->
+
+        <div class="vw-card cat-zestawy">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/520jHQQh/9.png" alt="OXVA XLIM Go 2 + Cartridge">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">OXVA XLIM Go 2 + Cartridge</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">99,99 zł</div>
+            <label for="view-prod-9" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+
+        <div class="vw-card cat-zestawy">
+        <div class="vw-card-media">
+            <img src="https://i.postimg.cc/gJ90BMSf/10.png" alt="OXVA XLIM Go 2 + MerryMi 30ml">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">OXVA XLIM Go 2 + MerryMi 30ml</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">129,99 zł</div>
+            <label for="view-prod-10" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+
+        <div class="vw-card cat-zestawy">
+        <div class="vw-card-media">
+            <img src="LINK_DO_ZDJECIA.png" alt="Nazwa produktu 6">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">Nazwa produktu 6</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">0,00 zł</div>
+            <label for="view-prod-11" class="vw-add-btn"> Zobacz produkt</label>
+        </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Widok podstron kod-->
+    </div>
+    <div id="page-prod-1" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-2" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 2</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-3" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-4" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-5" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-6" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-7" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-8" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-9" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-10" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+
+    <div id="page-prod-11" class="vw-product-page">
+        <label for="view-katalog" class="vw-back-btn">← Powrót do katalogu</label>
+        
+        <h1 style="margin-top:0;">Nazwa Produktu 1</h1>
+        <div class="vw-price">49,99 zł</div>
+        <p style="color: #aaa; line-height: 1.6;">
+        Tutaj wpisujesz pełny opis pierwszego produktu. Możesz dodać listę smaków, specyfikację techniczną, pojemność oraz instrukcję zamówienia.
+        </p>
+    </div>
+    </div>
+
+    <!-- Koniec kodu katalogu-->
+    <!-- Początek kodu footera-->
+
+    <div class="odstep"></div>
+    <div class="footer">
+    <div class="footer-logo">
+        <img src="https://i.postimg.cc/Y0CP27SF/vaowo.png" alt="Vapeowo" class="logo-img" onclick="window.location.reload()">
+    </div>
+    <div>
+        <p class="info1">Vapeowo to twój najlepszy wybór!</p>
+    </div>
+    <div>
+        <p class="info2">Polityka prywatności</p>
+    </div>
+    <div>
+        <p class="info3">Wszystkie produkty oferowane na tej stronie są przeznaczone wyłącznie dla osób pełnoletnich. Upewnij się, że masz ukończone 18 lat przed dokonaniem zakupu.</p>
+    </div>
+    <div class="linia"></div>
+    <div>
+        <p class="copyright">© 2026 Vapeowo. Wszelkie prawa zastrzeżone.</p>
+    </div>
+    </div>
+
+    <!-- Koniec kodu footera-->
+</body>
+</html>
