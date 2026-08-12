@@ -1000,30 +1000,28 @@
         // Funkcja otwierająca podstronę z odpowiednimi danymi
         function openProduct(title, price, imgSrc, description, stock) {
         // Podmieniamy wartości w HTML-u podstrony
-        document.getElementById('podstrona-title').innerText = title;
-        document.getElementById('podstrona-price').innerText = price;
-        document.getElementById('podstrona-img').src = imgSrc;
-        document.getElementById('podstrona-opis').innerText = description;
+            document.getElementById('podstrona-title').innerText = title;
+            document.getElementById('podstrona-price').innerText = price;
+            document.getElementById('podstrona-img').src = imgSrc;
+            document.getElementById('podstrona-opis').innerText = description;
 
         // Logika stanu magazynowego (Dostępny / Wyprzedany)
         const stockElement = document.getElementById('podstrona-stock');
         if (stock > 0) {
-        stockElement.innerText = 'Dostępne: ' + stock + ' szt.';
-        stockElement.className = 'vw-stock-badge in-stock';
+            stockElement.innerText = 'Dostępne: ' + stock + ' szt.';
+            stockElement.className = 'vw-stock-badge in-stock';
         } else {
-        stockElement.innerText = 'Brak w magazynie';
-        stockElement.className = 'vw-stock-badge out-of-stock';
+            stockElement.innerText = 'Brak w magazynie';
+            stockElement.className = 'vw-stock-badge out-of-stock';
         }
 
         // Link do zamówienia (np. na Telegram / WhatsApp)
         const buyBtn = document.getElementById('podstrona-buy-btn');
         buyBtn.href = 'link do platformy, chcę zamówić: ' + encodeURIComponent(title);
 
-        // Wyświetlamy podstronę (dodając klasę .active)
-        document.getElementById('podstrona').classList.add('active');
-        
-        // Blokujemy scrollowanie głównej strony w tle
-        document.body.style.overflow = 'hidden';
+        // Chowamy katalog i pokazujemy podstronę
+            document.getElementById('page-katalog').style.display = 'none';
+            document.getElementById('podstrona').classList.add('active');
         }
 
         // Funkcja zamykająca podstronę
