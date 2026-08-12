@@ -12,7 +12,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
+            width: 100%;
             z-index: 10;
             background: rgba(10, 10, 10, 0.55);
             backdrop-filter: blur(16px);
@@ -93,8 +93,12 @@
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.55));
         }
 
-        .odstep.header {
+        .odstep-header {
             height: 132px;
+        }
+
+        .odstep-footer {
+            height: 66px;
         }
 
         .tg {
@@ -542,7 +546,9 @@
 
         .footer {
             position: relative;
-            width: 100%;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
             z-index: 10;
             background: rgba(10, 10, 10, 0.55);
             backdrop-filter: blur(16px);
@@ -603,10 +609,6 @@
             font-size: 10px;
             font-weight: 800;
             color: rgba(136, 136, 136, 0.8);
-        }
-
-        .odstep.footer {
-            height: 66px;
         }
 
         /* Media headera */
@@ -695,7 +697,7 @@
             </div>
         </div>
     </div>
-    <div class="odstep.header"></div>
+    <div class="odstep-header"></div>
 
     <!-- Koniec kodu headera-->
     <!-- Początek kodu katalogu-->
@@ -977,7 +979,7 @@
     <!-- Koniec kodu katalogu-->
     <!-- Początek kodu footera-->
 
-    <div class="odstep.footer"></div>
+    <div class="odstep-footer"></div>
     <div class="footer">
     <div class="footer-logo">
         <img src="https://i.postimg.cc/Y0CP27SF/vaowo.png" alt="Vapeowo" class="logo-img" onclick="window.location.reload()">
