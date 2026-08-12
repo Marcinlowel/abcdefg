@@ -8,6 +8,9 @@
          @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap'); /* czcionka import*/
         html, body {
             overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
          /* Header plus dostawa free zintegrowane- */
         .header {
@@ -235,6 +238,7 @@
             padding: 20px 40px 80px;
             box-sizing: border-box;
             text-align: center;
+            flex: 1 0 auto;
         }
         /*
         tutaj zaczyna się logika częściowo podkatalogów, czyli podstron produktów, które są ukryte i wyświetlane po kliknięciu w przycisk "Zobacz produkt" na karcie produktu. Każdy produkt ma swoje unikalne radio, które przełącza widok na odpowiednią podstronę produktu.
