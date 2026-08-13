@@ -232,14 +232,32 @@
         /* Baner początek*/
 
         .baner {
-            width: 1320px;
-            margin-left: 300px;
+            position: relative;
+            width: 100%px;
+            max-width: 1320px;
+            margin: 0 auto 40px;
             height: 300px;
-            background: url('https://i.postimg.cc/SR1jmZnQ/baner.png') center center / cover no-repeat;
-            align-items: center;
-            justify-content: center;
             border-radius: 32px;
+            overflow: hidden;
         }
+
+        .baner-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .baner-img-1 {
+            opacity: 1; /* pierwsze zdjęcie widoczne na start */
+        }
+
 
         /* Baner koniec*/
 
@@ -506,6 +524,14 @@
 
         }
 
+        .stock-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            border: 1px solid rgba(168,85,247,0.4);
+            border-radius: 8px;
+        }
+
         .vw-close-btn {
             background: transparent;
             border: none;
@@ -539,19 +565,13 @@
             object-fit: cover;
         }
 
-        .vw-stock-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
+        .podstrona-stock {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
             font-size: 14px;
-            margin: 10px 0;
             font-weight: 600;
-        }
-        .vw-stock-badge.in-stock {
-            background: rgba(0, 255, 128, 0.15); color: #00ff80; 
-        }
-        .vw-stock-badge.out-of-stock { 
-            background: rgba(255, 50, 50, 0.15); color: #ff3232; 
         }
 
         .vw-see-btn {
@@ -731,7 +751,6 @@
         <div class="baner-img baner-img-2" style="background-image: url('https://i.postimg.cc/SR1jmZnQ/baner.png');"></div>
     </div>
 
-    <div class="odstep-header"></div>
     <!-- Koniec kodu banera-->
 
     <!-- Początek kodu katalogu-->
@@ -1002,7 +1021,16 @@
         <div class="vw-podstrona-info">
             <h2 id="podstrona-title"></h2>
             <div id="podstrona-price" class="vw-price"></div>
-            <div id="podstrona-stock" class="vw-stock-badge"></div>  
+            <div id="podstrona-stock" > <div class="stock-title">Dostępność:</div>
+                <ul>
+                    <li><div>a</div></li>
+                    <li><div>b</div></li>
+                    <li><div>c</div></li>
+                    <li><div>d</div></li>
+                    <li><div>e</div></li>
+                    <li><div>f</div></li>
+                </ul>
+            </div>  
             <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-see-btn">Zamów teraz</a>
             
         </div>
@@ -1044,15 +1072,9 @@
             document.getElementById('podstrona-price').innerText = price;
             document.getElementById('podstrona-img').src = imgSrc;
 
-        // Logika stanu magazynowego (Dostępny / Wyprzedany)
-        const stockElement = document.getElementById('podstrona-stock');
-        if (stock > 0) {
-            stockElement.innerText = 'Dostępne: ' + stock + ' szt.';
-            stockElement.className = 'vw-stock-badge in-stock';
-        } else {
-            stockElement.innerText = 'Brak w magazynie';
-            stockElement.className = 'vw-stock-badge out-of-stock';
-        }
+        // Tu ma być zrobione w późniejszym czasie integracja z bazą danych (najprościej będzie chyba zrobić to w spreadsheetcie), żeby wyświetlało dostępność w zależności od produktu. Na razie jest to statyczny tekst.
+            document.getElementById('podstrona-stock').innerHTML = '<div class="stock-title">Dostępność:</div><ul><li><div>a</div></li><li><div>b</div></li><li><div>c</div></li><li><div>d</div></li><li><div>e</div></li><li><div>f</div></li></ul>';
+        
 
         // Link do zamówienia (np. na Telegram / WhatsApp)
         const buyBtn = document.getElementById('podstrona-buy-btn');
