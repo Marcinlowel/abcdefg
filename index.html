@@ -232,7 +232,7 @@
         /* Baner początek*/
 
         .baner {
-            width: 1520px;
+            width: 1320px;
             margin-left: 200px;
             height: 300px;
             background: url('https://i.postimg.cc/SR1jmZnQ/baner.png') center center / cover no-repeat;
@@ -477,42 +477,54 @@
         /* Początek kodu podstrony */
 
         .vw-podstrona {
-        display: none; 
+            display: none; 
         }
 
         /* Klasa włączana przez JS po kliknięciu */
         .vw-podstrona.active {
-        display: block;
+            display: block;
         }
 
         .vw-podstrona-content {
-        width: 100%;
-        height: 100%;
-        max-width: 1320px;
-        margin: 0px auto;
-        background: #141414;
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 16px;
-        padding: 24px;
-        color: #fff;
+            width: 100%;
+            height: 100%;
+            max-width: 1320px;
+            margin: 0px auto;
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 24px;
+            color: #fff;
+        }
+
+        .podstrona-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            margin-left: 12px;
+            
         }
 
         .vw-close-btn {
-        background: transparent;
-        border: none;
-        color: #888;
-        font-size: 16px;
-        cursor: pointer;
-        margin-bottom: 20px;
-        transition: color 0.2s;
-        text-align: left;
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+            text-align: left;
         }
-        .vw-close-btn:hover { color: #fff; }
+
+        .vw-close-btn:hover { 
+            color: #fff; 
+        }
 
         .vw-podstrona-body {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
         }
 
         @media (max-width: 600px) {
@@ -522,36 +534,36 @@
         }
 
         .vw-podstrona-img-wrapper img {
-        width: 100%;
-        border-radius: 12px;
-        object-fit: cover;
+            width: 100%;
+            border-radius: 12px;
+            object-fit: cover;
         }
 
         .vw-stock-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 14px;
-        margin: 10px 0;
-        font-weight: 600;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 10px 0;
+            font-weight: 600;
         }
         .vw-stock-badge.in-stock {
-        background: rgba(0, 255, 128, 0.15); color: #00ff80; 
+            background: rgba(0, 255, 128, 0.15); color: #00ff80; 
         }
         .vw-stock-badge.out-of-stock { 
-        background: rgba(255, 50, 50, 0.15); color: #ff3232; 
+            background: rgba(255, 50, 50, 0.15); color: #ff3232; 
         }
 
         .vw-see-btn {
-        display: block;
-        text-align: center;
-        background: #fff;
-        color: #000;
-        padding: 12px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: bold;
-        margin-top: 20px;
+            display: block;
+            text-align: center;
+            background: #fff;
+            color: #000;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
         }
 
         /* Koniec kodu podstrony */
@@ -987,9 +999,9 @@
         <div class="vw-podstrona-info">
             <h2 id="podstrona-title"></h2>
             <div id="podstrona-price" class="vw-price"></div>
-            <p id="podstrona-opis"></p>   
+            <div id="podstrona-stock" class="vw-stock-badge"></div>  
             <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-see-btn">Zamów teraz</a>
-            <div id="podstrona-stock" class="vw-stock-badge"></div>
+            
         </div>
         </div>
     </div>
@@ -1023,12 +1035,11 @@
 
     <script>
         // Funkcja otwierająca podstronę z odpowiednimi danymi
-        function openProduct(title, price, imgSrc, description, stock) {
+        function openProduct(title, price, imgSrc, stock) {
         // Podmieniamy wartości w HTML-u podstrony
             document.getElementById('podstrona-title').innerText = title;
             document.getElementById('podstrona-price').innerText = price;
             document.getElementById('podstrona-img').src = imgSrc;
-            document.getElementById('podstrona-opis').innerText = description;
 
         // Logika stanu magazynowego (Dostępny / Wyprzedany)
         const stockElement = document.getElementById('podstrona-stock');
@@ -1053,6 +1064,7 @@
         function closeProduct() {
             document.getElementById('podstrona').classList.remove('active');
             document.getElementById('page-katalog').style.display = '';
+            document.getElementById('baner').style.display = '';
         }
     </script>
 </body>
