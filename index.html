@@ -753,7 +753,7 @@
             </div>
 
             <div class="prawo">
-                <div class="koszyk-wrapper" onclick="openCart()"></div>
+                <div class="koszyk-wrapper" onclick="openCart()">
                     <img src="https://i.postimg.cc/DzK6xhLB/icons8-cart-64.png" alt="Koszyk" class="koszyk">
                     <span id="koszyk-pamiec" class="koszyk-pamiec">0</span>
                 </div>
@@ -1059,9 +1059,9 @@
               const wariantyArr = produkt.warianty.split(','); // z przecinków na tablicę
               const listaHTML = wariantyArr.map(w => `<li><div>${w.trim()}</div></li>`).join(''); // map robi liste, trim usuwa spacje
 
-              stockContainer.innerHTML = '<div class="stock-title">Dostępność:</div><ul>' + listaHTML + '</ul>';
+              warianty.innerHTML = '<div class="stock-title">Dostępność:</div><ul>' + listaHTML + '</ul>';
               } else {
-                  stockContainer.innerHTML = '<div class="stock-title">Dostępność:</div><p>Brak wariantów</p>';
+                  warianty.innerHTML = '<div class="stock-title">Dostępność:</div><p>Brak wariantów</p>';
               }
 
             document.getElementById('page-katalog').style.display = 'none';
