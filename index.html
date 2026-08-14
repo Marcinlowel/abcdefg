@@ -1020,7 +1020,8 @@
         wczytajProdukty();
 
         function openProduct(id) {
-            const produkt = produktyData[id];
+            const idstr = String(id);
+            const produkt = produktyData[idstr];
 
             if (!produkt) {
                 console.error('Nie znaleziono produktu o id:', id);
@@ -1028,17 +1029,19 @@
             }
 
             document.getElementById('podstrona-title').innerText = produkt.nazwa;
-            document.getElementById('podstrona-price').innerText = produkt.cena;
+            document.getElementById('podstrona-price').innerText = produkt.cena ? produkt.cena + ' zł' : '';
             document.getElementById('podstrona-img').src = produkt.zdjecie;
 
             // Zamieniamy "Mango,Cola,Mięta" na listę <li>
-            const warianty = produkt.warianty.split(',');
-            const listaHTML = warianty.map(w => `<li><div>${w.trim()}</div></li>`).join('');
-            document.getElementById('podstrona-stock').innerHTML =
-                '<div class="stock-title">Dostępność:</div><ul>' + listaHTML + '</ul>';
+            const warianty = document.getElementById('podstrona-stock');
+            if (produkt.warianty) {
+              const wariantyArr = produkt.warianty.split(','); // z przecinków na tablicę
+              const listaHTML = wariantyArr.map(w => `<li><div>${w.trim()}</div></li>`).join(''); // map robi liste, trim usuwa spacje
 
-            const buyBtn = document.getElementById('podstrona-buy-btn');
-            buyBtn.href = 'link do platformy, chcę zamówić: ' + encodeURIComponent(produkt.nazwa);
+              stockContainer.innerHTML = '<div class="stock-title">Dostępność:</div><ul>' + listaHTML + '</ul>';
+              } else {
+                  stockContainer.innerHTML = '<div class="stock-title">Dostępność:</div><p>Brak wariantów</p>';
+              }
 
             document.getElementById('page-katalog').style.display = 'none';
             document.getElementById('podstrona').classList.add('active');
@@ -1055,4 +1058,3 @@
     </script>
 </body>
 </html>
-
