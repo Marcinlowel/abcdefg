@@ -123,6 +123,178 @@
             border: 2px solid #0a0a0a;
         }
 
+        /* Koszyk overlay */
+
+        /* Overlay (przyciemnienie tła) */
+        .koszyk-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 99;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .koszyk-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Wysuwany Sidebar */
+        .koszyk-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 100%;
+            max-width: 380px;
+            height: 100%;
+            background: #141414;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            font-family: 'Inter', Arial, sans-serif;
+            color: #fff;
+        }
+        .koszyk-sidebar.active {
+            right: 0;
+        }
+
+        .koszyk-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .koszyk-header h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .koszyk-close {
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .koszyk-close:hover { color: #fff; }
+
+        /* Lista produktów */
+        .koszyk-lista {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .koszyk-pusty {
+            text-align: center;
+            color: #888;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        .koszyk-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #1a1a1a;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .koszyk-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .koszyk-item-info {
+            flex: 1;
+        }
+        .koszyk-item-nazwa {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .koszyk-item-wariant {
+            font-size: 11px;
+            color: #a855f7;
+            margin-bottom: 4px;
+        }
+        .koszyk-item-cena {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* Licznik ilości w koszyku */
+        .koszyk-item-ilosc {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #0a0a0a;
+            border-radius: 6px;
+            padding: 2px 6px;
+        }
+        .koszyk-btn-ilosc {
+            background: transparent;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 2px 4px;
+        }
+        .koszyk-btn-ilosc:hover { color: #a855f7; }
+
+        /* Podsumowanie dolne */
+        .koszyk-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: #101010;
+        }
+        .koszyk-suma {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        #koszyk-suma-kwota {
+            font-family: 'JetBrains Mono', monospace;
+            color: #34d399;
+        }
+        .koszyk-checkout-btn {
+            width: 100%;
+            background: #a855f7;
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+        .koszyk-checkout-btn:hover {
+            background: #9333ea;
+            transform: translateY(-2px);
+        }
+
+        /* Koszyk overlay */
+
         .odstep-header {
             height: 132px;
         }
@@ -767,7 +939,32 @@
     <div class="odstep-header"></div>
 
     <!-- Koniec kodu headera-->
+    
 
+    <!-- panel koszyka -->
+
+    <div id="koszyk-overlay" class="koszyk-overlay" onclick="closeCart()"></div>
+
+    <div id="koszyk-sidebar" class="koszyk-sidebar">
+        <div class="koszyk-header">
+            <h2>Twój przedmioty</h2>
+            <button class="koszyk-close" onclick="closeCart()">&times;</button>
+        </div>
+
+        <div id="koszyk-lista" class="koszyk-lista">
+            <!-- Tutaj JS wyrenderuje dodane produkty -->
+        </div>
+
+        <div class="koszyk-footer">
+            <div class="koszyk-suma">
+                <span>Suma:</span>
+                <span id="koszyk-suma-kwota">0.00 zł</span>
+            </div>
+            <button class="koszyk-checkout-btn" onclick="realizujZamowienie()">Przejdź do zamówienia</button>
+        </div>
+    </div>
+
+    <!-- panel koszyka koniec -->
     <!-- Kod Banera-->
     <div class="odstep-footer"></div>
 
@@ -1080,6 +1277,129 @@
             document.getElementById('baner').style.display = '';
         }
          
+
+        //koszyk 
+
+        let koszyk = JSON.parse(localStorage.getItem('vapeowo_koszyk')) || [];
+        let wybranyWariant = null;
+
+        // Wybór wariantu na podstronie
+        function wybierzWariant(nazwa, el) {
+            wybranyWariant = nazwa;
+            document.querySelectorAll('.wariant-item').forEach(item => item.style.borderColor = '');
+            el.style.borderColor = '#a855f7';
+        }
+
+        // Otwieranie / Zamykanie panelu koszyka
+        function openCart() {
+            document.getElementById('koszyk-sidebar').classList.add('active');
+            document.getElementById('koszyk-overlay').classList.add('active');
+        }
+
+        function closeCart() {
+            document.getElementById('koszyk-sidebar').classList.remove('active');
+            document.getElementById('koszyk-overlay').classList.remove('active');
+        }
+
+        // Dodawanie produktu do koszyka
+        function dodajDoKoszyka(id) {
+            const produkt = produktyData[id];
+            if (!produkt) return;
+
+            if (produkt.warianty && !wybranyWariant) {
+                alert('Proszę wybrać wariant przed dodaniem do koszyka!');
+                return;
+            }
+
+            const mialWariant = wybranyWariant || 'Standard';
+            const numCena = parseFloat(String(produkt.cena).replace(',', '.'));
+
+            const idx = koszyk.findIndex(item => item.id === id && item.wariant === mialWariant);
+
+            if (idx > -1) {
+                koszyk[idx].ilosc += 1;
+            } else {
+                koszyk.push({
+                    id: id,
+                    nazwa: produkt.nazwa,
+                    cena: numCena,
+                    zdjecie: produkt.zdjecie,
+                    wariant: mialWariant,
+                    ilosc: 1
+                });
+            }
+
+            wybranyWariant = null; // Reset po dodaniu
+            zapiszIOdswiez();
+            openCart();
+        }
+
+        // Zmiana ilości i usuwanie
+        function zmienIlosc(index, delta) {
+            koszyk[index].ilosc += delta;
+            if (koszyk[index].ilosc <= 0) {
+                koszyk.splice(index, 1);
+            }
+            zapiszIOdswiez();
+        }
+
+        // Zapis w pamięci i aktualizacja UI
+        function zapiszIOdswiez() {
+            localStorage.setItem('vapeowo_koszyk', JSON.stringify(koszyk));
+            odswiezKoszykUI();
+        }
+
+        function odswiezKoszykUI() {
+            const listaEl = document.getElementById('koszyk-lista');
+            const sumaEl = document.getElementById('koszyk-suma-kwota');
+            const pamiecBadge = document.getElementById('koszyk-pamiec');
+
+            if (!listaEl) return; // Zabezpieczenie przed brakiem HTML koszyka
+
+            listaEl.innerHTML = '';
+            let suma = 0;
+            let iloscLaczna = 0;
+
+            if (koszyk.length === 0) {
+                listaEl.innerHTML = '<div class="koszyk-pusty">Twój koszyk jest pusty.</div>';
+            } else {
+                koszyk.forEach((item, index) => {
+                    suma += item.cena * item.ilosc;
+                    iloscLaczna += item.ilosc;
+
+                    listaEl.innerHTML += `
+                        <div class="koszyk-item">
+                            <img src="${item.zdjecie}" alt="${item.nazwa}">
+                            <div class="koszyk-item-info">
+                                <div class="koszyk-item-nazwa">${item.nazwa}</div>
+                                ${item.wariant ? `<div class="koszyk-item-wariant">${item.wariant}</div>` : ''}
+                                <div class="koszyk-item-cena">${(item.cena * item.ilosc).toFixed(2)} zł</div>
+                            </div>
+                            <div class="koszyk-item-ilosc">
+                                <button class="koszyk-btn-ilosc" onclick="zmienIlosc(${index}, -1)">-</button>
+                                <span>${item.ilosc}</span>
+                                <button class="koszyk-btn-ilosc" onclick="zmienIlosc(${index}, 1)">+</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            if (sumaEl) sumaEl.innerText = suma.toFixed(2) + ' zł';
+            if (pamiecBadge) pamiecBadge.innerText = iloscLaczna;
+        }
+
+        function realizujZamowienie() {
+            if (koszyk.length === 0) {
+                alert('Koszyk jest pusty!');
+                return;
+            }
+            alert('Przekierowanie do realizacji...');
+        }
+
+        // Odświeżenie wskaźnika przy ładowaniu strony
+        odswiezKoszykUI();
+
     </script>
 </body>
 </html>
