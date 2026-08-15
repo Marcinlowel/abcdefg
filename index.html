@@ -1335,17 +1335,6 @@
         }
 
         wczytajProdukty();
-        // Modyfikacja wczytywania: przeliczamy koszyk od razu po pobraniu danych z API
-        async function wczytajProdukty() {
-            try {
-                const response = await fetch(SHEET_URL);
-                produktyData = await response.json();
-                przeliczCenyWKoszyku(); // Aktualizacja cen po pobraniu bazy
-                zapiszIOdswiez();
-            } catch (error) {
-                console.error('Nie udało się wczytać danych produktów:', error);
-            }
-        }
 
         // Dodawanie do koszyka z przeliczeniem progu dla wszystkich wariantów
         function dodajDoKoszyka(id) {
@@ -1379,6 +1368,17 @@
             openCart();
         }
 
+        function wybierzWariant(wariant, element) {
+            // Przypisanie wariantu do globalnej zmiennej
+            wybranyWariant = wariant;
+            
+            // Zresetowanie zaznaczenia – usunięcie klasy 'wybrany' ze wszystkich opcji
+            const wszystkieWarianty = document.querySelectorAll('.wariant-item');
+            wszystkieWarianty.forEach(el => el.classList.remove('wybrany'));
+            
+            // Dodanie klasy 'wybrany' do klikniętego elementu (aby zaktualizować wygląd CSS)
+            element.classList.add('wybrany');
+        }
         // Zmiana ilości i usuwanie
         function zmienIlosc(index, delta) {
             koszyk[index].ilosc += delta;
@@ -1406,6 +1406,19 @@
             }
             
             return aktualnaCena;
+        }
+
+        function przeliczCenyWKoszyku() {
+            koszyk.forEach(item => {
+                const produkt = produktyData[item.id];
+                if (produkt) {
+                    // Pobieramy łączną ilość tego produktu w koszyku (niezależnie od wariantu)
+                    const lacznaIlosc = pobierzLacznaIloscProduktu(item.id);
+                    
+                    // Ustalamy cenę na podstawie zdefiniowanych progów
+                    item.cena = znajdzCeneDlaIlosci(produkt, lacznaIlosc);
+                }
+            });
         }
 
         function zapiszIOdswiez() {
