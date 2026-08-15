@@ -939,9 +939,18 @@
     <div class="odstep-header"></div>
 
     <!-- Koniec kodu headera-->
-    
 
-    <!-- panel koszyka -->
+    <!-- Kod Banera-->
+    <div class="odstep-footer"></div>
+
+    <div class="baner" id="baner">
+        <div class="baner-img baner-img-1" style="background-image: url('https://i.postimg.cc/SR1jmZnQ/baner.png');"></div>
+        <div class="baner-img baner-img-2" style="background-image: url('https://i.postimg.cc/SR1jmZnQ/baner.png');"></div>
+    </div>
+
+    <!-- Koniec kodu banera-->
+
+        <!-- panel koszyka -->
 
     <div id="koszyk-overlay" class="koszyk-overlay" onclick="closeCart()"></div>
 
@@ -965,15 +974,6 @@
     </div>
 
     <!-- panel koszyka koniec -->
-    <!-- Kod Banera-->
-    <div class="odstep-footer"></div>
-
-    <div class="baner" id="baner">
-        <div class="baner-img baner-img-1" style="background-image: url('https://i.postimg.cc/SR1jmZnQ/baner.png');"></div>
-        <div class="baner-img baner-img-2" style="background-image: url('https://i.postimg.cc/SR1jmZnQ/baner.png');"></div>
-    </div>
-
-    <!-- Koniec kodu banera-->
 
     <!-- Początek kodu katalogu-->
     <div class="vw-catalog">
@@ -1270,6 +1270,13 @@
             document.getElementById('baner').style.display = 'none';
 
         }  
+        // Podpinamy dodawanie do koszyka pod przycisk
+            const buyBtn = document.getElementById('podstrona-buy-btn');
+            buyBtn.innerText = "Dodaj do koszyka";
+            buyBtn.onclick = function(e) {
+                e.preventDefault();
+                dodajDoKoszyka(idstr);
+            };
         // Funkcja zamykająca podstronę
         function closeProduct() {
             document.getElementById('podstrona').classList.remove('active');
