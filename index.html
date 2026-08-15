@@ -1330,7 +1330,6 @@
             }
 
             const mialWariant = wybranyWariant || 'Standard';
-            const numCena = parseFloat(String(produkt.cena).replace(',', '.'));
 
             const cenaZaSztuke = znajdzCeneDlaIlosci(produkt, 1)
 
@@ -1369,16 +1368,25 @@
         }
 
         function znajdzCeneDlaIlosci(produkt, ilosc) {
-            // Sortujemy progi rosnąco po "od", na wypadek gdyby w JSON-ie były w innej kolejności
+            // 1. Zabezpieczenie: konwersja podstawowej ceny produktu na liczbę
+            const domyslnaCena = parseFloat(String(produkt.cena || 0).replace(',', '.'));
+
+            // 2. Jeśli produkt nie ma tablicy 'progi' lub jest ona pusta, zwracamy cenę domyślną
+            if (!produkt.progi || !Array.isArray(produkt.progi) || produkt.progi.length === 0) {
+                return domyslnaCena;
+            }
+
+            // 3. Sortujemy progi rosnąco po "od"
             const progiSorted = [...produkt.progi].sort((a, b) => a.od - b.od);
 
-            // Szukamy ostatniego progu, którego "od" jest <= zamówionej ilości
-            let aktualnaCena = progiSorted[0].cena;
+            // 4. Szukamy właściwego progu cenowego
+            let aktualnaCena = domyslnaCena;
             for (const prog of progiSorted) {
                 if (ilosc >= prog.od) {
-                    aktualnaCena = prog.cena;
+                    aktualnaCena = parseFloat(String(prog.cena).replace(',', '.'));
                 }
             }
+            
             return aktualnaCena;
         }
 
