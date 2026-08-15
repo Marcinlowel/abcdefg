@@ -1317,11 +1317,6 @@
         let koszyk = JSON.parse(localStorage.getItem('vapeowo_koszyk')) || [];
         let wybranyWariant = null;
 
-        // Pomocnicza funkcja licząca SUMĘ wszystkich sztuk danego ID (niezależnie od wariantu)
-        function pobierzLacznaIloscProduktu(id) {
-            return koszyk.reduce((suma, item) => item.id === id ? suma + item.ilosc : suma, 0);
-        }
-
         // Przelicza ceny we wszystkich pozycjach w koszyku na podstawie łącznych ilości
         async function wczytajProdukty() {
             try {
@@ -1389,16 +1384,37 @@
             zapiszIOdswiez();
         }
 
+        // 1. Zaktualizowana funkcja pobierania ilości (odporna na różnice między liczbami a tekstem)
+        function pobierzLacznaIloscProduktu(id) {
+            return koszyk.reduce((suma, item) => String(item.id) === String(id) ? suma + item.ilosc : suma, 0);
+        }
+
+        // 2. Zaktualizowana funkcja szukania ceny z uwzględnieniem danych tekstowych z arkusza
         function znajdzCeneDlaIlosci(produkt, ilosc) {
             const domyslnaCena = parseFloat(String(produkt.cena || 0).replace(',', '.'));
+            let progi = produkt.progi;
 
-            if (!produkt.progi || !Array.isArray(produkt.progi) || produkt.progi.length === 0) {
+            // Jeżeli progi przychodzą z arkusza jako zwykły tekst, zamieniamy je na prawdziwą tablicę
+            if (typeof progi === 'string') {
+                try {
+                    progi = JSON.parse(progi);
+                } catch (e) {
+                    console.error('Błąd parsowania progów dla produktu:', produkt.nazwa, e);
+                    return domyslnaCena;
+                }
+            }
+
+            // Sprawdzamy, czy po przetworzeniu mamy poprawną tablicę z progami
+            if (!progi || !Array.isArray(progi) || progi.length === 0) {
                 return domyslnaCena;
             }
 
-            const progiSorted = [...produkt.progi].sort((a, b) => a.od - b.od);
+            // Sortujemy rosnąco według ilości (od), żeby pętla działała prawidłowo
+            const progiSorted = [...progi].sort((a, b) => a.od - b.od);
 
             let aktualnaCena = domyslnaCena;
+            
+            // Nadpisujemy cenę, jeśli ilość w koszyku łapie się na próg
             for (const prog of progiSorted) {
                 if (ilosc >= prog.od) {
                     aktualnaCena = parseFloat(String(prog.cena).replace(',', '.'));
