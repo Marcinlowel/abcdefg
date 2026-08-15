@@ -768,13 +768,32 @@
             font-weight: 600;
         }
 
-        .podstrona-stock li {
-            cursor: pointer;
+        .podstrona-stock ul { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 8px; 
         }
-
         .wariant-item {
-            border: 1px solid transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: #1e1e1e;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
         }
+        .wariant-item:hover { 
+            border-color: #a855f7; 
+        }
+        .wariant-item.wybrany {
+            border-color: #a855f7;
+            background: #a855f7;
+            color: #fff;
+            font-weight: bold;
+        } 
 
         .vw-see-btn {
             display: block;
@@ -1236,19 +1255,6 @@
         // arkusza za każdym razem, gdy ktoś kliknie "Zobacz produkt"
         let produktyData = {};
 
-        // Wczytywanie danych produktów z arkusza (CSV)
-        async function wczytajProdukty() {
-            try {
-                const response = await fetch(SHEET_URL);
-                produktyData = await response.json();
-            } catch (error) {
-                console.error('Nie udało się wczytać danych produktów:', error);
-            }
-        }
-
-        // Wywołujemy wczytywanie od razu przy starcie strony
-        wczytajProdukty();
-
         function openProduct(id) {
             wybranyWariant = null; // Resetujemy wybrany wariant przy otwieraniu nowego produktu
             const idstr = String(id);
@@ -1298,6 +1304,16 @@
 
         //koszyk 
 
+        function openCart() {
+            document.getElementById('koszyk-overlay').classList.add('active');
+            document.getElementById('koszyk-sidebar').classList.add('active');
+        }
+
+        function closeCart() {
+            document.getElementById('koszyk-overlay').classList.remove('active');
+            document.getElementById('koszyk-sidebar').classList.remove('active');
+        }
+
         let koszyk = JSON.parse(localStorage.getItem('vapeowo_koszyk')) || [];
         let wybranyWariant = null;
 
@@ -1307,16 +1323,18 @@
         }
 
         // Przelicza ceny we wszystkich pozycjach w koszyku na podstawie łącznych ilości
-        function przeliczCenyWKoszyku() {
-            koszyk.forEach(item => {
-                const produkt = produktyData[item.id];
-                if (produkt) {
-                    const lacznaIlosc = pobierzLacznaIloscProduktu(item.id);
-                    item.cena = znajdzCeneDlaIlosci(produkt, lacznaIlosc);
-                }
-            });
+        async function wczytajProdukty() {
+            try {
+                const response = await fetch(SHEET_URL);
+                produktyData = await response.json();
+                przeliczCenyWKoszyku();
+                zapiszIOdswiez();
+            } catch (error) {
+                console.error('Nie udało się wczytać danych produktów:', error);
+            }
         }
 
+        wczytajProdukty();
         // Modyfikacja wczytywania: przeliczamy koszyk od razu po pobraniu danych z API
         async function wczytajProdukty() {
             try {
