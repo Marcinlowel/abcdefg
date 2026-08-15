@@ -1273,7 +1273,7 @@
               } else {
                   warianty.innerHTML = '<div class="stock-title">Dostępność:</div><p>Brak wariantów</p>';
               }
-              
+
             const buyBtn = document.getElementById('podstrona-buy-btn');
                         buyBtn.innerText = "Dodaj do koszyka";
                         buyBtn.onclick = function(e) {
@@ -1332,15 +1332,18 @@
             const mialWariant = wybranyWariant || 'Standard';
             const numCena = parseFloat(String(produkt.cena).replace(',', '.'));
 
+            const cenaZaSztuke = znajdzCeneDlaIlosci(produkt, 1)
+
             const idx = koszyk.findIndex(item => item.id === id && item.wariant === mialWariant);
 
             if (idx > -1) {
                 koszyk[idx].ilosc += 1;
+                koszyk[idx].cena = znajdzCeneDlaIlosci(produkt, koszyk[idx].ilosc);
             } else {
                 koszyk.push({
                     id: id,
                     nazwa: produkt.nazwa,
-                    cena: numCena,
+                    cena: znajdzCeneDlaIlosci(produkt, 1),
                     zdjecie: produkt.zdjecie,
                     wariant: mialWariant,
                     ilosc: 1
@@ -1357,8 +1360,26 @@
             koszyk[index].ilosc += delta;
             if (koszyk[index].ilosc <= 0) {
                 koszyk.splice(index, 1);
+            } else {
+                // Przeliczamy cenę za sztukę na podstawie nowej ilości
+                const produkt = produktyData[koszyk[index].id];
+                koszyk[index].cena = znajdzCeneDlaIlosci(produkt, koszyk[index].ilosc);
             }
             zapiszIOdswiez();
+        }
+
+        function znajdzCeneDlaIlosci(produkt, ilosc) {
+            // Sortujemy progi rosnąco po "od", na wypadek gdyby w JSON-ie były w innej kolejności
+            const progiSorted = [...produkt.progi].sort((a, b) => a.od - b.od);
+
+            // Szukamy ostatniego progu, którego "od" jest <= zamówionej ilości
+            let aktualnaCena = progiSorted[0].cena;
+            for (const prog of progiSorted) {
+                if (ilosc >= prog.od) {
+                    aktualnaCena = prog.cena;
+                }
+            }
+            return aktualnaCena;
         }
 
         // Zapis w pamięci i aktualizacja UI
