@@ -768,6 +768,14 @@
             font-weight: 600;
         }
 
+        .podstrona-stock li {
+            cursor: pointer;
+        }
+
+        .wariant-item {
+            border: 1px solid transparent;
+        }
+
         .vw-see-btn {
             display: block;
             text-align: center;
@@ -1242,6 +1250,7 @@
         wczytajProdukty();
 
         function openProduct(id) {
+            wybranyWariant = null; // Resetujemy wybrany wariant przy otwieraniu nowego produktu
             const idstr = String(id);
             const produkt = produktyData[idstr];
 
@@ -1258,7 +1267,7 @@
             const warianty = document.getElementById('podstrona-stock');
             if (produkt.warianty) {
               const wariantyArr = produkt.warianty.split(','); // z przecinków na tablicę
-              const listaHTML = wariantyArr.map(w => `<li><div>${w.trim()}</div></li>`).join(''); // map robi liste, trim usuwa spacje
+              const listaHTML = wariantyArr.map(w => `<li class="wariant-item" onclick="wybierzWariant('${w.trim()}', this)"><div>${w.trim()}</div></li>`).join(''); // map robi liste, trim usuwa spacje
 
               warianty.innerHTML = '<div class="stock-title">Dostępność:</div><ul>' + listaHTML + '</ul>';
               } else {
