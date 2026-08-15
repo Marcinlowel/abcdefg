@@ -1273,6 +1273,13 @@
               } else {
                   warianty.innerHTML = '<div class="stock-title">Dostępność:</div><p>Brak wariantów</p>';
               }
+              
+            const buyBtn = document.getElementById('podstrona-buy-btn');
+                        buyBtn.innerText = "Dodaj do koszyka";
+                        buyBtn.onclick = function(e) {
+                            e.preventDefault();
+                            dodajDoKoszyka(idstr);
+                        };
 
             document.getElementById('page-katalog').style.display = 'none';
             document.getElementById('podstrona').classList.add('active');
@@ -1280,12 +1287,7 @@
 
         }  
         // Podpinamy dodawanie do koszyka pod przycisk
-            const buyBtn = document.getElementById('podstrona-buy-btn');
-            buyBtn.innerText = "Dodaj do koszyka";
-            buyBtn.onclick = function(e) {
-                e.preventDefault();
-                dodajDoKoszyka(idstr);
-            };
+            
         // Funkcja zamykająca podstronę
         function closeProduct() {
             document.getElementById('podstrona').classList.remove('active');
