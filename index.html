@@ -451,7 +451,10 @@
         .baner-img-1 {
             opacity: 1; /* pierwsze zdjęcie widoczne na start */
         }
-
+        
+        .baner-img-2 {
+            opacity: 0; /* drugie zdjęcie niewidoczne na start */
+        }
 
         /* Baner koniec*/
 
@@ -1510,6 +1513,27 @@
         // Inicjalizacja przy starcie
         odswiezKoszykUI();
 
+        // skrypt banera
+        let currentBanerIndex = 1;
+        const totalImages = 2; // Liczba Twoich zdjęć w banerze
+
+        function zmienBaner() {
+            // Ukrywamy wszystkie zdjęcia
+            const images = document.querySelectorAll('.baner-img');
+            images.forEach(img => img.style.opacity = 0);
+
+            // Zwiększamy licznik
+            currentBanerIndex++;
+            if (currentBanerIndex > totalImages) {
+                currentBanerIndex = 1;
+            }
+
+            // Pokazujemy kolejne zdjęcie
+            document.querySelector(`.baner-img-${currentBanerIndex}`).style.opacity = 1;
+        }
+
+        // Uruchamiamy funkcję co 5000ms (5 sekund)
+        setInterval(zmienBaner, 5000);
     </script>
 </body>
 </html>
