@@ -248,6 +248,23 @@
             border-radius: 6px;
             padding: 2px 6px;
         }
+        .koszyk-input-ilosc {
+            width: 32px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
+
+        .koszyk-input-ilosc::-webkit-outer-spin-button,
+        .koszyk-input-ilosc::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
         .koszyk-item-cena-jednostka {
             color: #888;
@@ -1290,6 +1307,7 @@
                     // Dzielimy każdy wariant po dwukropku
                     const [nazwa, ilosc] = w.split(':');
                     const czystaNazwa = nazwa.trim();
+                    const iloscLiczba = ilosc ? parseInt(ilosc.trim(), 10) : Infinity; // brak liczby = brak limitu
                     
                     // Jeśli po dwukropku podano ilość, tworzymy dla niej dodatkowy tag <span>, w przeciwnym razie pusty ciąg
                     const wyswietlanaIlosc = ilosc 
@@ -1343,6 +1361,16 @@
 
         let koszyk = JSON.parse(localStorage.getItem('vapeowo_koszyk')) || [];
         let wybranyWariant = null;
+        let wybranyWariantMax = Infinity; // nowa zmienna
+
+        function wybierzWariant(wariant, max, element) {
+            wybranyWariant = wariant;
+            wybranyWariantMax = max;
+
+            const wszystkieWarianty = document.querySelectorAll('.wariant-item');
+            wszystkieWarianty.forEach(el => el.classList.remove('wybrany'));
+            element.classList.add('wybrany');
+        }
 
         // Przelicza ceny we wszystkich pozycjach w koszyku na podstawie łącznych ilości
         async function wczytajProdukty() {
@@ -1370,22 +1398,32 @@
             }
 
             const mialWariant = wybranyWariant || 'Standard';
+            const maxDostepne = produkt.warianty ? wybranyWariantMax : Infinity;
             const idx = koszyk.findIndex(item => item.id === id && item.wariant === mialWariant);
 
             if (idx > -1) {
-                koszyk[idx].ilosc += 1;
+               if (koszyk[idx].ilosc + 1 > maxDostepne) {
+                    alert(`Dostępnych jest tylko ${maxDostepne} szt. tego wariantu.`);
+                    return;
+                }
             } else {
+                 if (maxDostepne < 1) {
+                    alert('Ten wariant jest niedostępny.');
+                    return;
+                }
                 koszyk.push({
                     id: id,
                     nazwa: produkt.nazwa,
                     cena: 0, // Zostanie przeliczona poniżej
                     zdjecie: produkt.zdjecie,
                     wariant: mialWariant,
-                    ilosc: 1
+                    ilosc: 1,
+                    maxIlosc: maxDostepne // Dodajemy maxIlosc do obiektu koszyka
                 });
             }
 
             wybranyWariant = null;
+            wybierzWariantMax= Infinity; 
             przeliczCenyWKoszyku(); // Przeliczamy próg cenowy dla tego ID
             zapiszIOdswiez();
             openCart();
@@ -1404,11 +1442,35 @@
         }
         // Zmiana ilości i usuwanie
         function zmienIlosc(index, delta) {
-            koszyk[index].ilosc += delta;
+            const nowaIlosc = koszyk[index].ilosc + delta;
+
+            if (nowaIlosc > koszyk[index].maxIlosc) {
+                alert(`Dostępnych jest tylko ${koszyk[index].maxIlosc} szt. tego wariantu.`);
+                return;
+            }
+
+            koszyk[index].ilosc = nowaIlosc;
             if (koszyk[index].ilosc <= 0) {
                 koszyk.splice(index, 1);
             }
-            przeliczCenyWKoszyku(); // Przeliczamy ceny po zmianie ilości
+            przeliczCenyWKoszyku();
+            zapiszIOdswiez();
+        }
+
+        function zmienIloscManual(index, wartosc) {
+            let nowaIlosc = parseInt(wartosc, 10);
+
+            if (isNaN(nowaIlosc) || nowaIlosc < 1) {
+                nowaIlosc = 1;
+            }
+
+            if (nowaIlosc > koszyk[index].maxIlosc) {
+                nowaIlosc = koszyk[index].maxIlosc;
+                alert(`Dostępnych jest tylko ${koszyk[index].maxIlosc} szt. tego wariantu.`);
+            }
+
+            koszyk[index].ilosc = nowaIlosc;
+            przeliczCenyWKoszyku();
             zapiszIOdswiez();
         }
 
@@ -1498,7 +1560,13 @@
                             </div>
                             <div class="koszyk-item-ilosc">
                                 <button class="koszyk-btn-ilosc" onclick="zmienIlosc(${index}, -1)">-</button>
-                                <span>${item.ilosc}</span>
+                                <input 
+                                    type="number" 
+                                    class="koszyk-input-ilosc" 
+                                    value="${item.ilosc}" 
+                                    min="1" 
+                                    max="${item.maxIlosc === Infinity ? '' : item.maxIlosc}"
+                                    onchange="zmienIloscManual(${index}, this.value)">
                                 <button class="koszyk-btn-ilosc" onclick="zmienIlosc(${index}, 1)">+</button>
                             </div>
                         </div>
