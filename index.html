@@ -448,7 +448,7 @@
         
         /* Baner początek*/
 
-        .baner {
+        #baner .baner {
             position: relative;
             width: 100%;
             max-width: 1320px;
@@ -458,7 +458,7 @@
             overflow: hidden;
         }
 
-        .baner-img {
+        #baner .baner-img {
             position: absolute;
             top: 0;
             left: 0;
@@ -689,6 +689,11 @@
             gap: 8px;
             transition: background 0.15s ease, transform 0.2s ease;
         }
+        .vw-add-btn:hover {
+            background: #1a1a1a;
+            border-color: rgba(168,85,247,0.4);
+            transform: translateY(-2px);
+        }
 
         @media (max-width: 1100px) {
             .vw-grid { grid-template-columns: repeat(3, 1fr); }
@@ -816,7 +821,12 @@
             color: #fff;
             font-weight: bold;
         } 
-
+        .wariant-item.wyczerpany {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
+            text-decoration: line-through;
+        }
         .wariant-ilosc {
             font-size: 11px;
             color: #a855f7;
@@ -998,10 +1008,7 @@
     <!-- Kod Banera-->
     <div class="odstep-footer"></div>
 
-    <div class="baner" id="baner">
-        <div class="baner-img active" style="background-image: url('https://i.postimg.cc/J0PBdZq3/baner1.png');"></div>
-        <div class="baner-img " style="background-image: url('https://i.postimg.cc/sgtG8VpK/baner2.jpg');"></div>
-    </div>
+    <div class="baner" id="baner"></div>
 
     <!-- Koniec kodu banera-->
 
@@ -1300,6 +1307,7 @@
             // Zamieniamy "Mango:15, Cola:5, Mięta:0" na listę <li>
             const warianty = document.getElementById('podstrona-stock');
             
+            const etykieta = produkt.etykietaWariantow || 'Dostępne warianty';
             if (produkt.warianty) {
                 const wariantyArr = produkt.warianty.split(','); // z przecinków na tablicę
                 
@@ -1308,21 +1316,28 @@
                     const [nazwa, ilosc] = w.split(':');
                     const czystaNazwa = nazwa.trim();
                     const iloscLiczba = ilosc ? parseInt(ilosc.trim(), 10) : Infinity; // brak liczby = brak limitu
+                    const wyczerpany = iloscLiczba === 0;
                     
                     // Jeśli po dwukropku podano ilość, tworzymy dla niej dodatkowy tag <span>, w przeciwnym razie pusty ciąg
                     const wyswietlanaIlosc = ilosc 
-                        ? ` <span style="wariant-ilosc">(${ilosc.trim()} szt.)</span>` 
+                        ? ` <span class="wariant-ilosc">(${ilosc.trim()} szt.)</span>` 
                         : '';
-                        
+                    const klasy = wyczerpany ? 'wariant-item wyczerpany' : 'wariant-item';
+                    const onclickAttr = wyczerpany 
+                        ? '' 
+                        : `onclick="wybierzWariant('${czystaNazwa}', ${iloscLiczba}, this)"`;
+                                        
                     // Generujemy HTML wariantu (funkcja wybierzWariant wciąż przyjmuje samą czystą nazwę)
-                    return `<li class="wariant-item" onclick="wybierzWariant('${czystaNazwa}', this)">
+                    return `<li class="${klasy}" ${onclickAttr}>
                                 <div>${czystaNazwa}${wyswietlanaIlosc}</div>
                             </li>`;
                 }).join(''); 
 
-                warianty.innerHTML = '<div class="stock-title">Dostępność:</div><ul>' + listaHTML + '</ul>';
+                
+
+                warianty.innerHTML = '<div class="stock-title">${etykieta}</div><ul>' + listaHTML + '</ul>';
             } else {
-                warianty.innerHTML = '<div class="stock-title">Dostępność:</div><p>Brak wariantów</p>';
+                warianty.innerHTML = '<div class="stock-title">${etykieta}</div><p>Brak wariantów</p>';
             }
 
             const buyBtn = document.getElementById('podstrona-buy-btn');
@@ -1377,6 +1392,11 @@
             try {
                 const response = await fetch(SHEET_URL);
                 produktyData = await response.json();
+
+                if (produktyData.banery) {
+                    zbudujBaner(produktyData.banery);
+                }
+
                 przeliczCenyWKoszyku();
                 zapiszIOdswiez();
             } catch (error) {
@@ -1423,22 +1443,10 @@
             }
 
             wybranyWariant = null;
-            wybierzWariantMax= Infinity; 
+            wybranyWariantMax= Infinity; 
             przeliczCenyWKoszyku(); // Przeliczamy próg cenowy dla tego ID
             zapiszIOdswiez();
             openCart();
-        }
-
-        function wybierzWariant(wariant, element) {
-            // Przypisanie wariantu do globalnej zmiennej
-            wybranyWariant = wariant;
-            
-            // Zresetowanie zaznaczenia – usunięcie klasy 'wybrany' ze wszystkich opcji
-            const wszystkieWarianty = document.querySelectorAll('.wariant-item');
-            wszystkieWarianty.forEach(el => el.classList.remove('wybrany'));
-            
-            // Dodanie klasy 'wybrany' do klikniętego elementu (aby zaktualizować wygląd CSS)
-            element.classList.add('wybrany');
         }
         // Zmiana ilości i usuwanie
         function zmienIlosc(index, delta) {
@@ -1556,7 +1564,7 @@
                             <div class="koszyk-item-info">
                                 <div class="koszyk-item-nazwa">${item.nazwa}</div>
                                 ${item.wariant ? `<div class="koszyk-item-wariant">${item.wariant}</div>` : ''}
-                                <div class="koszyk-item-cena">${kosztPozycji.toFixed(2)} zł <small style="koszyk-item-cena-jednostka">(${item.cena.toFixed(2)} zł/szt)</small></div>
+                                <div class="koszyk-item-cena">${kosztPozycji.toFixed(2)} zł <small class="koszyk-item-cena-jednostka">(${item.cena.toFixed(2)} zł/szt)</small></div>
                             </div>
                             <div class="koszyk-item-ilosc">
                                 <button class="koszyk-btn-ilosc" onclick="zmienIlosc(${index}, -1)">-</button>
@@ -1588,21 +1596,18 @@
 
         // Inicjalizacja przy starcie
         odswiezKoszykUI();
-        
-        function inicjalizujBaner() {
-            const obrazki = document.querySelectorAll('#baner .baner-img');
-            if (obrazki.length < 2) return;
 
-            let aktualny = 0;
+        function zbudujBaner(listaUrl) {
+            const kontener = document.getElementById('baner');
+            if (!listaUrl || listaUrl.length === 0) return;
 
-            setInterval(() => {
-                obrazki[aktualny].classList.remove('active');
-                aktualny = (aktualny + 1) % obrazki.length;
-                obrazki[aktualny].classList.add('active');
-            }, 7000); // zmiana co 7 sekund - możesz dostosować
-        }
+            kontener.innerHTML = listaUrl.map((url, i) => 
+                `<div class="baner-img ${i === 0 ? 'active' : ''}" style="background-image: url('${url}');"></div>`
+            ).join('');
 
         inicjalizujBaner();
+
+        }
     </script>
 </body>
 </html>
