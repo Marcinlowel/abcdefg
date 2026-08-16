@@ -1597,6 +1597,19 @@
         // Inicjalizacja przy starcie
         odswiezKoszykUI();
 
+        function inicjalizujBaner() {
+            const obrazki = document.querySelectorAll('#baner .baner-img');
+            if (obrazki.length < 2) return;
+
+            let aktualny = 0;
+
+            setInterval(() => {
+                obrazki[aktualny].classList.remove('active');
+                aktualny = (aktualny + 1) % obrazki.length;
+                obrazki[aktualny].classList.add('active');
+            }, 7000);
+        }
+
         function zbudujBaner(listaUrl) {
             const kontener = document.getElementById('baner');
             if (!listaUrl || listaUrl.length === 0) return;
