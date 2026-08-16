@@ -1269,16 +1269,32 @@
             document.getElementById('podstrona-price').innerText = produkt.cena ? produkt.cena + ' zł' : '';
             document.getElementById('podstrona-img').src = produkt.zdjecie;
 
-            // Zamieniamy "Mango,Cola,Mięta" na listę <li>
+            // Zamieniamy "Mango:15, Cola:5, Mięta:0" na listę <li>
             const warianty = document.getElementById('podstrona-stock');
+            
             if (produkt.warianty) {
-              const wariantyArr = produkt.warianty.split(','); // z przecinków na tablicę
-              const listaHTML = wariantyArr.map(w => `<li class="wariant-item" onclick="wybierzWariant('${w.trim()}', this)"><div>${w.trim()}</div></li>`).join(''); // map robi liste, trim usuwa spacje
+                const wariantyArr = produkt.warianty.split(','); // z przecinków na tablicę
+                
+                const listaHTML = wariantyArr.map(w => {
+                    // Dzielimy każdy wariant po dwukropku
+                    const [nazwa, ilosc] = w.split(':');
+                    const czystaNazwa = nazwa.trim();
+                    
+                    // Jeśli po dwukropku podano ilość, tworzymy dla niej dodatkowy tag <span>, w przeciwnym razie pusty ciąg
+                    const wyswietlanaIlosc = ilosc 
+                        ? ` <span style="font-size: 11px; color: #a855f7; margin-left: 4px;">(${ilosc.trim()} szt.)</span>` 
+                        : '';
+                        
+                    // Generujemy HTML wariantu (funkcja wybierzWariant wciąż przyjmuje samą czystą nazwę)
+                    return `<li class="wariant-item" onclick="wybierzWariant('${czystaNazwa}', this)">
+                                <div>${czystaNazwa}${wyswietlanaIlosc}</div>
+                            </li>`;
+                }).join(''); 
 
-              warianty.innerHTML = '<div class="stock-title">Dostępność:</div><ul>' + listaHTML + '</ul>';
-              } else {
-                  warianty.innerHTML = '<div class="stock-title">Dostępność:</div><p>Brak wariantów</p>';
-              }
+                warianty.innerHTML = '<div class="stock-title">Dostępność:</div><ul>' + listaHTML + '</ul>';
+            } else {
+                warianty.innerHTML = '<div class="stock-title">Dostępność:</div><p>Brak wariantów</p>';
+            }
 
             const buyBtn = document.getElementById('podstrona-buy-btn');
                         buyBtn.innerText = "Dodaj do koszyka";
