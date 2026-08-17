@@ -1325,7 +1325,7 @@
             }
 
             document.getElementById('podstrona-title').innerText = produkt.nazwa;
-            document.getElementById('podstrona-price').innerText = produkt.cena ? produkt.cena + ' zł' : '';
+            document.getElementById('podstrona-price').innerText =  pobierzBazowaCene(produkt).toFixed(2) + ' zł';
             renderujProgi(produkt);
             document.getElementById('podstrona-img').src = produkt.zdjecie;
 
@@ -1446,6 +1446,17 @@
             return [...progi].sort((a, b) => a.od - b.od);
         }
 
+        function pobierzBazowaCene(produkt) {
+            if (produkt.cena !== undefined && produkt.cena !== null && produkt.cena !== '') {
+                return parseFloat(String(produkt.cena).replace(',', '.'));
+            }
+            const progiSorted = parsujProgi(produkt);
+            if (progiSorted.length > 0) {
+                return parseFloat(String(progiSorted[0].cena).replace(',', '.'));
+            }
+            return 0;
+        }
+
         function renderujProgi(produkt) {
             const kontener = document.getElementById('podstrona-progi');
             if (!kontener) return;
@@ -1456,7 +1467,7 @@
                 return;
             }
 
-            const domyslnaCena = parseFloat(String(produkt.cena || 0).replace(',', '.'));
+            const domyslnaCena =  pobierzBazowaCene(produkt);
             const pelnaLista = progiSorted[0].od <= 1
                 ? progiSorted
                 : [{ od: 1, cena: domyslnaCena }, ...progiSorted];
@@ -1556,7 +1567,7 @@
 
         // 2. Zaktualizowana funkcja szukania ceny z uwzględnieniem danych tekstowych z arkusza
         function znajdzCeneDlaIlosci(produkt, ilosc) {
-            const domyslnaCena = parseFloat(String(produkt.cena || 0).replace(',', '.'));
+            const domyslnaCena =  pobierzBazowaCene(produkt);
             const progiSorted = parsujProgi(produkt)
 
             // Jeżeli progi przychodzą z arkusza jako zwykły tekst, zamieniamy je na prawdziwą tablicę
@@ -1618,7 +1629,7 @@
                             <img src="${item.zdjecie}" alt="${item.nazwa}">
                             <div class="koszyk-item-info">
                                 <div class="koszyk-item-nazwa">${item.nazwa}</div>
-                                ${item.wariant ? `<div class="koszyk-item-wariant">${item.wariant}</div>` : ''}
+                                ${item.wariant ? `<div cla  ss="koszyk-item-wariant">${item.wariant}</div>` : ''}
                                 <div class="koszyk-item-cena">${kosztPozycji.toFixed(2)} zł <small class="koszyk-item-cena-jednostka">(${item.cena.toFixed(2)} zł/szt)</small></div>
                             </div>
                             <div class="koszyk-item-ilosc">
