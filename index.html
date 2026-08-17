@@ -808,6 +808,32 @@
             flex-wrap: wrap; 
             gap: 8px; 
         }
+        .podstrona-progi {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .prog-wiersz {
+            display: flex;
+            justify-content: space-between;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .prog-zakres {
+            color: #ccc;
+        }
+
+        .prog-cena {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: #34d399;
+        }
         .wariant-item {
             border: 1px solid rgba(255,255,255,0.15);
             background: #1e1e1e;
@@ -1248,7 +1274,7 @@
             <div id="podstrona-stock" class="podstrona-stock"> <div class="stock-title">Dostępność:</div>
             </div>  
             <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-see-btn">Zamów teraz</a>
-            
+            <div id="podstrona-progi" class="podstrona-progi"></div>
         </div>
         </div>
     </div>
@@ -1300,6 +1326,7 @@
 
             document.getElementById('podstrona-title').innerText = produkt.nazwa;
             document.getElementById('podstrona-price').innerText = produkt.cena ? produkt.cena + ' zł' : '';
+            renderujProgi(produkt);
             document.getElementById('podstrona-img').src = produkt.zdjecie;
 
             // Zamieniamy "Mango:15, Cola:5, Mięta:0" na listę <li>
@@ -1405,7 +1432,48 @@
 
         wczytajProdukty();
        
+        function parsujProgi(produkt) {
+            let progi = produkt.progi;
+            if (typeof progi === 'string') {
+                try {
+                    progi = JSON.parse(progi);
+                } catch (e) {
+                    console.error('Błąd parsowania progów dla produktu:', produkt.nazwa, e);
+                    return [];
+                }
+            }
+            if (!progi || !Array.isArray(progi)) return [];
+            return [...progi].sort((a, b) => a.od - b.od);
+        }
 
+        function renderujProgi(produkt) {
+            const kontener = document.getElementById('podstrona-progi');
+            if (!kontener) return;
+
+            const progiSorted = parsujProgi(produkt);
+            if (progiSorted.length === 0) {
+                kontener.innerHTML = '';
+                return;
+            }
+
+            const domyslnaCena = parseFloat(String(produkt.cena || 0).replace(',', '.'));
+            const pelnaLista = progiSorted[0].od <= 1
+                ? progiSorted
+                : [{ od: 1, cena: domyslnaCena }, ...progiSorted];
+
+            const wierszeHTML = pelnaLista.map((prog, i) => {
+                const cenaNum = parseFloat(String(prog.cena).replace(',', '.'));
+                const nastepny = pelnaLista[i + 1];
+                const zakres = nastepny ? `${prog.od}–${nastepny.od - 1} szt.` : `${prog.od}+ szt.`;
+                return `
+                    <div class="prog-wiersz">
+                        <span class="prog-zakres">${zakres}</span>
+                        <span class="prog-cena">${cenaNum.toFixed(2)} zł/szt</span>
+                    </div>`;
+            }).join('');
+
+            kontener.innerHTML = `<div class="stock-title">Rabaty ilościowe</div>${wierszeHTML}`;
+        }
         // Dodawanie do koszyka z przeliczeniem progu dla wszystkich wariantów
         function dodajDoKoszyka(id) {
             const produkt = produktyData[id];
@@ -1489,37 +1557,25 @@
         // 2. Zaktualizowana funkcja szukania ceny z uwzględnieniem danych tekstowych z arkusza
         function znajdzCeneDlaIlosci(produkt, ilosc) {
             const domyslnaCena = parseFloat(String(produkt.cena || 0).replace(',', '.'));
-            let progi = produkt.progi;
+            const progiSorted = parsujProgi(produkt)
 
             // Jeżeli progi przychodzą z arkusza jako zwykły tekst, zamieniamy je na prawdziwą tablicę
-            if (typeof progi === 'string') {
-                try {
-                    progi = JSON.parse(progi);
-                } catch (e) {
-                    console.error('Błąd parsowania progów dla produktu:', produkt.nazwa, e);
+                if (progiSorted.length === 0) {
                     return domyslnaCena;
                 }
-            }
 
-            // Sprawdzamy, czy po przetworzeniu mamy poprawną tablicę z progami
-            if (!progi || !Array.isArray(progi) || progi.length === 0) {
-                return domyslnaCena;
-            }
+                let aktualnaCena = domyslnaCena;
 
-            // Sortujemy rosnąco według ilości (od), żeby pętla działała prawidłowo
-            const progiSorted = [...progi].sort((a, b) => a.od - b.od);
-
-            let aktualnaCena = domyslnaCena;
-            
-            // Nadpisujemy cenę, jeśli ilość w koszyku łapie się na próg
-            for (const prog of progiSorted) {
-                if (ilosc >= prog.od) {
-                    aktualnaCena = parseFloat(String(prog.cena).replace(',', '.'));
+                // Nadpisujemy cenę, jeśli ilość w koszyku łapie się na próg
+                for (const prog of progiSorted) {
+                    if (ilosc >= prog.od) {
+                        aktualnaCena = parseFloat(String(prog.cena).replace(',', '.'));
+                    }
                 }
-            }
-            
-            return aktualnaCena;
-        }
+
+                return aktualnaCena;
+                }
+
         function przeliczCenyWKoszyku() {
             koszyk.forEach(item => {
                 const produkt = produktyData[item.id];
