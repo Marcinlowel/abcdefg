@@ -15,7 +15,7 @@
         html::-webkit-scrollbar {
             display: none;
         }
-        
+
         body {
             min-height: 100vh;
             display: flex;
@@ -756,8 +756,6 @@
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 4px;
-            border: 1px solid rgba(168,85,247,0.4);
-            border-radius: 8px;
         }
 
         .vw-close-btn {
@@ -836,16 +834,16 @@
         }
         .wariant-ilosc {
             font-size: 11px;
-            color: #a855f7;
+            color: #2a881d;
             margin-left: 4px;
         }
 
         .vw-see-btn {
             display: block;
             text-align: center;
-            background: #fff;
+            background: #a855f7;
             color: #000;
-            padding: 12px;
+            padding: 12px;  
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
@@ -1248,14 +1246,6 @@
             <h2 id="podstrona-title"></h2>
             <div id="podstrona-price" class="vw-price"></div>
             <div id="podstrona-stock" class="podstrona-stock"> <div class="stock-title">Dostępność:</div>
-                <ul>
-                    <li><div>a</div></li>
-                    <li><div>b</div></li>
-                    <li><div>c</div></li>
-                    <li><div>d</div></li>
-                    <li><div>e</div></li>
-                    <li><div>f</div></li>
-                </ul>
             </div>  
             <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-see-btn">Zamów teraz</a>
             
@@ -1328,7 +1318,7 @@
                     
                     // Jeśli po dwukropku podano ilość, tworzymy dla niej dodatkowy tag <span>, w przeciwnym razie pusty ciąg
                     const wyswietlanaIlosc = ilosc 
-                        ? ` <span class="wariant-ilosc">(${ilosc.trim()} szt.)</span>` 
+                        ? ` <span class="wariant-ilosc">${ilosc.trim()} szt.</span>` 
                         : '';
                     const klasy = wyczerpany ? 'wariant-item wyczerpany' : 'wariant-item';
                     const onclickAttr = wyczerpany 
@@ -1402,18 +1392,13 @@
                 if (!response.ok) throw new Error('HTTP status ' + response.status);
                 produktyData = await response.json();
 
-                 console.log('Dane wczytane, banery:', produktyData.banery);
-
                if (produktyData.banery && produktyData.banery.length > 0) {
                     zbudujBaner(produktyData.banery);
-                } else {
-                    console.warn('Brak danych banery w odpowiedzi API');
                 }
 
                 przeliczCenyWKoszyku();
                 zapiszIOdswiez();
             } catch (error) {
-                console.error('Nie udało się wczytać danych produktów:', error);
                 document.getElementById('baner').style.display = 'none';
             }
         }
