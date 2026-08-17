@@ -470,12 +470,8 @@
 
         .baner {
             position: relative;
-            width: 100%;
             max-width: 1320px;
             margin: 0 auto 40px;
-            height: 300px;
-            border-radius: 32px;
-            overflow: hidden;
         }
 
         #baner .baner-img {
@@ -494,6 +490,32 @@
         #baner .baner-img.active {
             opacity: 1;
         }
+
+        .baner-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.4);
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 5;
+            transition: background 0.2s ease;
+        }
+
+        .baner-nav:hover {
+             background: rgba(0,0,0,0.7); 
+            }
+        .baner-nav-lewo {
+             left: 16px; 
+            }
+        .baner-nav-prawo { 
+            right: 16px;
+         }
 
         /* Baner koniec*/
 
@@ -797,7 +819,7 @@
         #podstrona-price {
             text-align: center;
         }
-        
+
         @media (max-width: 600px) {
         .vw-podstrona-body {
              grid-template-columns: 1fr; 
@@ -1059,7 +1081,11 @@
     <!-- Kod Banera-->
     <div class="odstep-footer"></div>
 
-    <div class="baner" id="baner"></div>
+    <div class="baner-warpper" id="baner-warpper">
+        <div class="baner" id="baner"></div>
+        <button class="baner-nav baner-nav-lewo" onclick="zmienSlajd(-1)">&#10094;</button>
+        <button class="baner-nav baner-nav-prawo" onclick="zmienSlajd(1)">&#10095;</button>
+    </div>
 
     <!-- Koniec kodu banera-->
 
@@ -1686,17 +1712,35 @@
         // Inicjalizacja przy starcie
         odswiezKoszykUI();
 
+        let banerObrazki = [];
+        let banerAktualny = 0;
+        let banerInterval = null;
+
         function inicjalizujBaner() {
-            const obrazki = document.querySelectorAll('#baner .baner-img');
-            if (obrazki.length < 2) return;
+            banerObrazki = document.querySelectorAll('#baner .baner-img');
+            if (banerObrazki.length < 2) return;
 
-            let aktualny = 0;
+            banerAktualny = 0;
+            uruchomAutoBaner();
+        }
 
-            setInterval(() => {
-                obrazki[aktualny].classList.remove('active');
-                aktualny = (aktualny + 1) % obrazki.length;
-                obrazki[aktualny].classList.add('active');
+        function uruchomAutoBaner() {
+            if (banerInterval) clearInterval(banerInterval);
+            banerInterval = setInterval(() => {
+                pokazSlajd(banerAktualny + 1);
             }, 7000);
+        }
+
+        function pokazSlajd(nowyIndex) {
+            if (banerObrazki.length === 0) return;
+            banerObrazki[banerAktualny].classList.remove('active');
+            banerAktualny = (nowyIndex + banerObrazki.length) % banerObrazki.length;
+            banerObrazki[banerAktualny].classList.add('active');
+        }
+
+        function zmienSlajd(delta) {
+            pokazSlajd(banerAktualny + delta);
+            uruchomAutoBaner();
         }
 
         function zbudujBaner(listaUrl) {
