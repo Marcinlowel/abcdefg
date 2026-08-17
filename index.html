@@ -313,7 +313,7 @@
         }
         
         #koszyk-suma-dostawa {
-            color: #85BB65;
+            color: #34d399;
             font-weight: 500;
             margin-left: 4px;
             font-size: small;
@@ -793,6 +793,11 @@
             gap: 24px;
         }
 
+        #podstrona-title,
+        #podstrona-price {
+            text-align: center;
+        }
+        
         @media (max-width: 600px) {
         .vw-podstrona-body {
              grid-template-columns: 1fr; 
@@ -1350,7 +1355,7 @@
             // Zamieniamy "Mango:15, Cola:5, Mięta:0" na listę <li>
             const warianty = document.getElementById('podstrona-stock');
             
-            const etykieta = produkt.etykietaWariantow || 'Dostępne warianty';
+            const etykieta = produkt.etykietaWariantu || 'Dostępne warianty';
             if (produkt.warianty) {
                 const wariantyArr = produkt.warianty.split(','); // z przecinków na tablicę
                 
