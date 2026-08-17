@@ -825,8 +825,10 @@
         }
 
         #podstrona-title,
+        #stock-title,
         #podstrona-price {
             text-align: center;
+            margin-bottom: 12px;
         }
 
         @media (max-width: 600px) {
@@ -1329,9 +1331,10 @@
             <h2 id="podstrona-title"></h2>
             <div id="podstrona-price" class="vw-price"></div>
             <div id="podstrona-stock" class="podstrona-stock"> <div class="stock-title">Dostępność:</div>
+            <div id="podstrona-progi" class="podstrona-progi"></div>
             </div>  
             <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-see-btn">Zamów teraz</a>
-            <div id="podstrona-progi" class="podstrona-progi"></div>
+            
         </div>
         </div>
     </div>
@@ -1433,7 +1436,9 @@
             document.getElementById('page-katalog').style.display = 'none';
             document.getElementById('podstrona').classList.add('active');
             document.getElementById('baner').style.display = 'none';
-
+            document.getElementById('baner-nav').style.display = 'none';
+            document.getElementById('baner-nav-lewo').style.display = 'none';
+            document.getElementById('baner-nav-prawo').style.display = 'none';
         }  
         // Podpinamy dodawanie do koszyka pod przycisk
             
@@ -1541,7 +1546,7 @@
                     </div>`;
             }).join('');
 
-            kontener.innerHTML = `<div class="stock-title">Rabaty ilościowe</div>${wierszeHTML}`;
+            kontener.innerHTML = `<div class="stock-title">Cena Hurtowa</div>${wierszeHTML}`;
         }
         // Dodawanie do koszyka z przeliczeniem progu dla wszystkich wariantów
         function dodajDoKoszyka(id) {
