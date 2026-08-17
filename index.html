@@ -306,6 +306,11 @@
             font-family: 'JetBrains Mono', monospace;
             color: #34d399;
         }
+        .koszyk-suma-prawo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
         
         #koszyk-suma-dostawa {
             color: #85BB65;
@@ -749,6 +754,7 @@
             border-radius: 16px;
             padding: 24px;
             color: #fff;
+            text-align: left;
         }
 
         .podstrona-info {
@@ -1070,7 +1076,7 @@
             <div class="koszyk-suma">
                 <span>Suma:</span>
                 <span id="koszyk-suma-kwota">0.00 zł</span>
-                <span id="koszyk-suma-dostawa">+ Darmowa dostawa!</span>
+                <span id="koszyk-suma-dostawa">Darmowa dostawa!</span>
             </div>
             <button class="koszyk-checkout-btn" onclick="realizujZamowienie()">Przejdź do zamówienia</button>
         </div>
@@ -1325,6 +1331,7 @@
 
         function openProduct(id) {
             wybranyWariant = null; // Resetujemy wybrany wariant przy otwieraniu nowego produktu
+            wybranyWariantMax = Infinity; // Resetujemy maksymalną ilość przy otwieraniu nowego produktu
             const idstr = String(id);
             const produkt = produktyData[idstr];
 
@@ -1638,7 +1645,7 @@
                             <img src="${item.zdjecie}" alt="${item.nazwa}">
                             <div class="koszyk-item-info">
                                 <div class="koszyk-item-nazwa">${item.nazwa}</div>
-                                ${item.wariant ? `<div cla  ss="koszyk-item-wariant">${item.wariant}</div>` : ''}
+                                ${item.wariant ? `<div class="koszyk-item-wariant">${item.wariant}</div>` : ''}
                                 <div class="koszyk-item-cena">${kosztPozycji.toFixed(2)} zł <small class="koszyk-item-cena-jednostka">(${item.cena.toFixed(2)} zł/szt)</small></div>
                             </div>
                             <div class="koszyk-item-ilosc">
