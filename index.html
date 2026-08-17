@@ -306,6 +306,14 @@
             font-family: 'JetBrains Mono', monospace;
             color: #34d399;
         }
+        
+        #koszyk-suma-dostawa {
+            color: #85BB65;
+            font-weight: 500;
+            margin-left: 4px;
+            font-size: small;
+        }
+
         .koszyk-checkout-btn {
             width: 100%;
             background: #a855f7;
@@ -766,7 +774,7 @@
             cursor: pointer;
             margin-bottom: 20px;
             transition: color 0.2s;
-            text-align: left;
+            justify-content: left;
         }
 
         .vw-close-btn:hover { 
@@ -933,7 +941,7 @@
         }
 
         .info3 {
-            margin-top: 8px;
+            margin-top: 10px;
             margin-left: 12px;
             font-size: 12px;
             font-weight: 800;
@@ -1062,6 +1070,7 @@
             <div class="koszyk-suma">
                 <span>Suma:</span>
                 <span id="koszyk-suma-kwota">0.00 zł</span>
+                <span id="koszyk-suma-dostawa">+ Darmowa dostawa!</span>
             </div>
             <button class="koszyk-checkout-btn" onclick="realizujZamowienie()">Przejdź do zamówienia</button>
         </div>
@@ -1648,7 +1657,7 @@
                 });
             }
 
-            if (sumaEl) sumaEl.innerText = suma.toFixed(2) + ' zł';
+            if (sumaEl) sumaEl.innerText = suma.toFixed(2) + ' zł + ';
             if (pamiecBadge) pamiecBadge.innerText = iloscLaczna;
         }
 
