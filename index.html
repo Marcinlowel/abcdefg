@@ -976,15 +976,6 @@
         }
 
         .info2 {
-            margin-top: 8px;
-            margin-left: 12px;
-            font-size: 12px;
-            font-weight: 800;
-            color: rgba(136, 136, 136, 0.8);
-            text-decoration: none;
-        }
-
-        .info3 {
             margin-top: 10px;
             margin-left: 12px;
             font-size: 12px;
@@ -1331,8 +1322,8 @@
             <h2 id="podstrona-title"></h2>
             <div id="podstrona-price" class="vw-price"></div>
             <div id="podstrona-stock" class="podstrona-stock"> <div class="stock-title">Dostępność:</div>
-            <div id="podstrona-progi" class="podstrona-progi"></div>
-            </div>  
+            </div>
+            <div id="podstrona-progi" class="podstrona-progi"></div> 
             <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-see-btn">Zamów teraz</a>
             
         </div>
@@ -1352,10 +1343,7 @@
         <p class="info1">Vapeowo to twój najlepszy jak i najtańszy wybór!</p>
     </div>
     <div>
-        <a href="polityka-prywatnosci.html" class="info2">Polityka prywatności</a>
-    </div>
-    <div>
-        <p class="info3">Wszystkie produkty oferowane na tej stronie są przeznaczone wyłącznie dla osób pełnoletnich. Upewnij się, że masz ukończone 18 lat przed dokonaniem zakupu.</p>
+        <p class="info2">Wszystkie produkty oferowane na tej stronie są przeznaczone wyłącznie dla osób pełnoletnich. Upewnij się, że masz ukończone 18 lat przed dokonaniem zakupu.</p>
     </div>
     <div class="linia"></div>
     <div>
@@ -1435,10 +1423,7 @@
 
             document.getElementById('page-katalog').style.display = 'none';
             document.getElementById('podstrona').classList.add('active');
-            document.getElementById('baner').style.display = 'none';
-            document.getElementById('baner-nav').style.display = 'none';
-            document.getElementById('baner-nav-lewo').style.display = 'none';
-            document.getElementById('baner-nav-prawo').style.display = 'none';
+            document.getElementById('baner-wrapper').style.display = 'none';
         }  
         // Podpinamy dodawanie do koszyka pod przycisk
             
@@ -1446,7 +1431,7 @@
         function closeProduct() {
             document.getElementById('podstrona').classList.remove('active');
             document.getElementById('page-katalog').style.display = '';
-            document.getElementById('baner').style.display = '';
+            document.getElementById('baner-wrapper').style.display = '';
         }
          
 
