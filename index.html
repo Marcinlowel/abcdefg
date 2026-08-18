@@ -776,8 +776,7 @@
             height: 100%;
             max-width: 1320px;
             margin: 0px auto;
-            background: #141414;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: #1a1a1a;
             border-radius: 16px;
             padding: 24px;
             color: #fff;
@@ -821,8 +820,14 @@
             gap: 24px;
         }
 
-        #podstrona-title,
+        #podstrona-title {
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
         #podstrona-price {
+            font-size: 30px;
             text-align: center;
             margin-bottom: 12px;
         }
@@ -1529,7 +1534,7 @@
                     </div>`;
             }).join('');
 
-            kontener.innerHTML = `<div class="stock-title">Cena Hurtowa</div>${wierszeHTML}`;
+            kontener.innerHTML = `<div class="stock-title">Cennik hurtowy:</div>${wierszeHTML}`;
         }
         // Dodawanie do koszyka z przeliczeniem progu dla wszystkich wariantów
         function dodajDoKoszyka(id) {
