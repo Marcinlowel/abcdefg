@@ -737,7 +737,7 @@
             transition: background 0.15s ease, transform 0.2s ease;
         }
         .vw-add-btn:hover {
-            background: rgba(168,85,247,0.6);
+            background: #7C3AED;
             transform: scale(1.02); 
         }
 
@@ -795,7 +795,7 @@
         .stock-title {
             font-size: 14px;
             font-weight: 600;
-            margin-top: 4px 0px 4px 0px;
+            margin-top: 10px 0px 10px 0px;
             text-align: center;
         }
 
@@ -830,6 +830,7 @@
             font-size: 30px;
             text-align: center;
             margin-bottom: 12px;
+            color: #2a881d;
         }
 
         @media (max-width: 600px) {
@@ -913,15 +914,15 @@
         }
         .wariant-ilosc {
             font-size: 11px;
-            color: #2a881d;
+            color: #b163fa;
             margin-left: 4px;
         }
 
         .vw-koszyk-btn {
             display: block;
             text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            color: rgba(0, 0, 0, 1);
+            background: rgba(168, 85, 247, 0.8);
+            color: rgba(255, 255, 255, 0.8);
             padding: 12px;  
             border-radius: 8px;
             text-decoration: none;
@@ -1151,7 +1152,7 @@
     <div class="vw-grid">
         
         <!-- ===== JEDNORAZÓWKI (3 pozycje) ===== -->
-        <div class="vw-card cat-jednorazowki">
+        <div class="vw-card cat-jednorazowki" data-id="1">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/7Y7vFXGX/6.png" alt="Aroma King 700">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1165,7 +1166,7 @@
         </div>
         </div>
 
-        <div class="vw-card cat-jednorazowki">
+        <div class="vw-card cat-jednorazowki" data-id="2">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/RZNtC6mW/7.png" alt="MerryMi Blade 30k">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1179,7 +1180,7 @@
         </div>
         </div>
 
-        <div class="vw-card cat-jednorazowki">
+        <div class="vw-card cat-jednorazowki" data-id="3">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/QtyG3yJp/8.png" alt="Crystal WGA 35k">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1194,7 +1195,7 @@
         </div>
 
         <!-- ===== LIQUIDY (2 pozycje) ===== -->
-        <div class="vw-card cat-liquidy">
+        <div class="vw-card cat-liquidy" data-id="4">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/LX0v5d7g/4.png" alt="MerryMi 30ml">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1208,7 +1209,7 @@
         </div>
         </div>
 
-        <div class="vw-card cat-liquidy">
+        <div class="vw-card cat-liquidy" data-id="5">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/7hFV13qy/5.png" alt="Vapen 10ml">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1223,7 +1224,7 @@
         </div>
 
         <!-- ===== URZĄDZENIA (3 pozycje) ===== -->
-        <div class="vw-card cat-urzadzenia">
+        <div class="vw-card cat-urzadzenia" data-id="6">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/vH4kWhLf/1.png" alt="Cartridge XLIM">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1237,7 +1238,7 @@
         </div>
         </div>
 
-        <div class="vw-card cat-urzadzenia">
+        <div class="vw-card cat-urzadzenia" data-id="7">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/tTg29RBF/2.png" alt="OXVA XLIM Go 2">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1251,7 +1252,7 @@
         </div>
         </div>
 
-        <div class="vw-card cat-urzadzenia">
+        <div class="vw-card cat-urzadzenia" data-id="8">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/mDr8TZm0/3.png" alt="OXVA NeXLIM">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1267,7 +1268,7 @@
 
         <!-- Zestawy (3 pozycje)-->
 
-        <div class="vw-card cat-zestawy">
+        <div class="vw-card cat-zestawy" data-id="9">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/520jHQQh/9.png" alt="OXVA XLIM Go 2 + Cartridge">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1281,7 +1282,7 @@
         </div>
         </div>
 
-        <div class="vw-card cat-zestawy">
+        <div class="vw-card cat-zestawy" data-id="10">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/gJ90BMSf/10.png" alt="OXVA XLIM Go 2 + MerryMi 30ml">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1295,7 +1296,7 @@
         </div>
         </div>
 
-        <div class="vw-card cat-zestawy">
+        <div class="vw-card cat-zestawy" data-id="11">
         <div class="vw-card-media">
             <img src="https://i.postimg.cc/rwj7nb1P/11.jpg" alt="OXVA XLIM Go 2 + Cartridge + MerryMi 30ml">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
@@ -1326,6 +1327,7 @@
             <div id="podstrona-price" class="vw-price"></div>
             <div id="podstrona-stock" class="podstrona-stock"> <div class="stock-title">Dostępność:</div>
             </div>
+            <div id="podstrona-grupy"></div>
             <div id="podstrona-progi" class="podstrona-progi"></div> 
             <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-koszyk-btn">Zamów teraz</a>
             
@@ -1366,8 +1368,10 @@
         let produktyData = {};
 
         function openProduct(id) {
-            wybranyWariant = null; // Resetujemy wybrany wariant przy otwieraniu nowego produktu
-            wybranyWariantMax = Infinity; // Resetujemy maksymalną ilość przy otwieraniu nowego produktu
+            wybranyWariant = null;
+            wybranyWariantMax = Infinity;
+            wybranySmak = null;
+            wybranySmakMax = Infinity;
             const idstr = String(id);
             const produkt = produktyData[idstr];
 
@@ -1383,7 +1387,6 @@
 
             // Zamieniamy "Mango:15, Cola:5, Mięta:0" na listę <li>
             const warianty = document.getElementById('podstrona-stock');
-            
             const etykieta = produkt.etykietaWariantu || 'Dostępne warianty';
             if (produkt.warianty) {
                 const wariantyArr = produkt.warianty.split(','); // z przecinków na tablicę
@@ -1402,7 +1405,7 @@
                     const klasy = wyczerpany ? 'wariant-item wyczerpany' : 'wariant-item';
                     const onclickAttr = wyczerpany 
                         ? '' 
-                        : `onclick="wybierzWariant('${czystaNazwa}', ${iloscLiczba}, this)"`;
+                        : `onclick="wybierzWariant('${czystaNazwa}', ${iloscLiczba}, this, 'wariant')"`;
                                         
                     // Generujemy HTML wariantu (funkcja wybierzWariant wciąż przyjmuje samą czystą nazwę)
                     return `<li class="${klasy}" ${onclickAttr}>
@@ -1416,6 +1419,27 @@
             } else {
                 warianty.innerHTML = `<div class="stock-title">${etykieta}</div><p>Brak wariantów</p>`;
             }
+
+            const smakiKontener = document.getElementById('podstrona-smaki');
+                if (produkt.smaki) {
+                    const etykietaSmak = produkt.etykietaSmakow || 'Dostępne smaki';
+                    const smakiArr = produkt.smaki.split(',');
+
+                    const smakiHTML = smakiArr.map(w => {
+                        const [nazwa, ilosc] = w.split(':');
+                        const czystaNazwa = nazwa.trim();
+                        const iloscLiczba = ilosc ? parseInt(ilosc.trim(), 10) : Infinity;
+                        const wyczerpany = iloscLiczba === 0;
+                        const wyswietlanaIlosc = ilosc ? ` <span class="wariant-ilosc">${ilosc.trim()} szt.</span>` : '';
+                        const klasy = wyczerpany ? 'wariant-item wyczerpany' : 'wariant-item';
+                        const onclickAttr = wyczerpany ? '' : `onclick="wybierzWariant('${czystaNazwa}', ${iloscLiczba}, this, 'smak')"`;
+                        return `<li class="${klasy}" ${onclickAttr}><div>${czystaNazwa}${wyswietlanaIlosc}</div></li>`;
+                    }).join('');
+
+                    smakiKontener.innerHTML = `<div class="stock-title">${etykietaSmak}</div><ul>${smakiHTML}</ul>`;
+                } else {
+                    smakiKontener.innerHTML = '';
+                }
 
             const buyBtn = document.getElementById('podstrona-buy-btn');
                         buyBtn.innerText = "Dodaj do koszyka";
@@ -1452,14 +1476,21 @@
 
         let koszyk = JSON.parse(localStorage.getItem('vapeowo_koszyk')) || [];
         let wybranyWariant = null;
-        let wybranyWariantMax = Infinity; // nowa zmienna
+        let wybranyWariantMax = Infinity; 
+        let wybranySmak = null;
+        let wybranySmakMax = Infinity;
 
-        function wybierzWariant(wariant, max, element) {
-            wybranyWariant = wariant;
-            wybranyWariantMax = max;
+        function wybierzWariant(wariant, max, element, grupa) {
+            if (grupa === 'smak') {
+                wybranySmak = wariant;
+                wybranySmakMax = max;
+            } else {
+                wybranyWariant = wariant;
+                wybranyWariantMax = max;
+            }
 
-            const wszystkieWarianty = document.querySelectorAll('.wariant-item');
-            wszystkieWarianty.forEach(el => el.classList.remove('wybrany'));
+            const kontener = element.closest('.podstrona-stock');
+            kontener.querySelectorAll('.wariant-item').forEach(el => el.classList.remove('wybrany'));
             element.classList.add('wybrany');
         }
 
@@ -1475,6 +1506,7 @@
                 }
 
                 przeliczCenyWKoszyku();
+                aktualizujStanKart();
                 zapiszIOdswiez();
             } catch (error) {
                 document.getElementById('baner').style.display = 'none';
@@ -1482,7 +1514,40 @@
         }
 
         wczytajProdukty();
-       
+
+        function pobierzStanProduktu(produkt) {
+            const grupy = parsujGrupy(produkt);
+            if (grupy.length === 0) return { wyczerpany: false };
+
+            const jakasGrupaPusta = grupy.some(grupa => {
+                const opcje = grupa.opcje.split(',');
+                let suma = 0;
+                let maUnlimited = false;
+                opcje.forEach(w => {
+                    const [, ilosc] = w.split(':');
+                    if (ilosc === undefined || ilosc.trim() === '') maUnlimited = true;
+                    else suma += parseInt(ilosc.trim(), 10) || 0;
+                });
+                return !maUnlimited && suma === 0;
+            });
+
+            return { wyczerpany: jakasGrupaPusta };
+        }
+
+        function aktualizujStanKart() {
+            document.querySelectorAll('.vw-card[data-id]').forEach(karta => {
+                const produkt = produktyData[karta.dataset.id];
+                if (!produkt) return;
+
+                const { wyczerpany } = pobierzStanProduktu(produkt);
+                const stockEl = karta.querySelector('.vw-card-stock');
+                if (!stockEl) return;
+
+                stockEl.classList.toggle('sold-out', wyczerpany);
+                stockEl.innerHTML = `<span class="dot"></span>${wyczerpany ? 'Wyczerpane' : 'Dostępne'}`;
+            });
+        }
+        
         function parsujProgi(produkt) {
             let progi = produkt.progi;
             if (typeof progi === 'string') {
@@ -1495,6 +1560,53 @@
             }
             if (!progi || !Array.isArray(progi)) return [];
             return [...progi].sort((a, b) => a.od - b.od);
+        }
+
+        function parsujGrupy(produkt) {
+            let grupy = produkt.grupy;
+            if (typeof grupy === 'string') {
+                try {
+                    grupy = JSON.parse(grupy);
+                } catch (e) {
+                    console.error('Błąd parsowania grup dla produktu:', produkt.nazwa, e);
+                    return [];
+                }
+            }
+            return Array.isArray(grupy) ? grupy : [];
+        }
+
+        wybraneGrupy = {}; // reset przy każdym otwarciu produktu
+
+        const grupyKontener = document.getElementById('podstrona-grupy');
+        const grupy = parsujGrupy(produkt);
+
+        grupyKontener.innerHTML = grupy.map(grupa => {
+            const opcjeArr = grupa.opcje.split(',');
+            const opcjeHTML = opcjeArr.map(w => {
+                const [nazwa, ilosc] = w.split(':');
+                const czystaNazwa = nazwa.trim();
+                const iloscLiczba = ilosc ? parseInt(ilosc.trim(), 10) : Infinity;
+                const wyczerpany = iloscLiczba === 0;
+                const wyswietlanaIlosc = ilosc ? ` <span class="wariant-ilosc">${ilosc.trim()} szt.</span>` : '';
+                const klasy = wyczerpany ? 'wariant-item wyczerpany' : 'wariant-item';
+                const onclickAttr = wyczerpany
+                    ? ''
+                    : `onclick="wybierzOpcje('${grupa.nazwa}', '${czystaNazwa}', ${iloscLiczba}, this)"`;
+                return `<li class="${klasy}" ${onclickAttr}><div>${czystaNazwa}${wyswietlanaIlosc}</div></li>`;
+            }).join('');
+
+            return `<div class="podstrona-stock" data-grupa="${grupa.nazwa}">
+                        <div class="stock-title">${grupa.etykieta || grupa.nazwa}</div>
+                        <ul>${opcjeHTML}</ul>
+                    </div>`;
+        }).join('');
+
+        function wybierzOpcje(nazwaGrupy, wartosc, max, element) {
+            wybraneGrupy[nazwaGrupy] = { wartosc, max };
+
+            const kontener = element.closest('[data-grupa]');
+            kontener.querySelectorAll('.wariant-item').forEach(el => el.classList.remove('wybrany'));
+            element.classList.add('wybrany');
         }
 
         function pobierzBazowaCene(produkt) {
@@ -1511,6 +1623,11 @@
         function renderujProgi(produkt) {
             const kontener = document.getElementById('podstrona-progi');
             if (!kontener) return;
+
+            if (produkt.cennikHurtowy === false) {
+                kontener.innerHTML = '';
+                return;
+            }
 
             const progiSorted = parsujProgi(produkt);
             if (progiSorted.length === 0) {
@@ -1541,13 +1658,22 @@
             const produkt = produktyData[id];
             if (!produkt) return;
 
-            if (produkt.warianty && !wybranyWariant) {
-                alert('Proszę wybrać wariant przed dodaniem do koszyka!');
+            const grupy = parsujGrupy(produkt);
+
+            const brakujaca = grupy.find(g => !wybraneGrupy[g.nazwa]);
+            if (brakujaca) {
+                alert(`Proszę wybrać: ${brakujaca.etykieta || brakujaca.nazwa}`);
                 return;
             }
 
-            const mialWariant = wybranyWariant || 'Standard';
-            const maxDostepne = produkt.warianty ? wybranyWariantMax : Infinity;
+            const mialWariant = grupy.length > 0
+                ? grupy.map(g => wybraneGrupy[g.nazwa].wartosc).join(' / ')
+                : 'Standard';
+
+            const maxDostepne = grupy.length > 0
+                ? Math.min(...grupy.map(g => wybraneGrupy[g.nazwa].max))
+                : Infinity;
+
             const idx = koszyk.findIndex(item => item.id === id && item.wariant === mialWariant);
 
             if (idx > -1) {
@@ -1571,8 +1697,7 @@
                 });
             }
 
-            wybranyWariant = null;
-            wybranyWariantMax= Infinity; 
+            wybraneGrupy = {};
             przeliczCenyWKoszyku(); // Przeliczamy próg cenowy dla tego ID
             zapiszIOdswiez();
             openCart();
