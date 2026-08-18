@@ -338,14 +338,6 @@
 
         /* Koszyk overlay */
 
-        .odstep-header {
-            height: 132px;
-        }
-
-        .odstep-footer {
-            height: 66px;
-        }
-
         .tg {
             position: relative;
             display: inline-flex;
@@ -480,7 +472,7 @@
             position: relative;
             max-width: 1320px;
             width: 100%;
-            margin: 0 auto 40px;
+            margin: 120px auto 40px auto;
         }
 
         #baner .baner-img {
@@ -536,7 +528,7 @@
             color: #fff;
             width: 100%;
             max-width: 1320px;
-            margin: 0 auto;
+            margin: 0 auto 40px auto;
             box-sizing: border-box;
             text-align: center;
             flex: 1 0 auto;
@@ -741,8 +733,7 @@
             transition: background 0.15s ease, transform 0.2s ease;
         }
         .vw-add-btn:hover {
-            background: #1a1a1a;
-            border-color: rgba(168,85,247,0.6);
+            background: rgba(168,85,247,0.6);
             transform: scale(1.02); 
         }
 
@@ -751,7 +742,7 @@
         }
 
         @media (max-width: 800px) {
-            .vw-catalog { padding: 24px 16px 60px; }
+            .vw-catalog { padding: 0px 16px; }
             .vw-title { font-size: 30px; }
             .vw-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
         }
@@ -916,16 +907,20 @@
             margin-left: 4px;
         }
 
-        .vw-see-btn {
+        .vw-koszyk-btn {
             display: block;
             text-align: center;
             background: #a855f7;
-            color: #000;
+            color: rgba(255, 255, 255, 0.8);
             padding: 12px;  
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
             margin-top: 20px;
+        }
+        .vw-koszyk-btn:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s ease;
         }
 
         /* Koniec kodu podstrony */
@@ -1008,7 +1003,7 @@
         }
 
         @media (max-width: 800px) {
-            .vw-catalog { padding: 24px 16px 60px; }
+            .vw-catalog { padding: 0px 16px; }
             .vw-title { font-size: 30px; }
             .vw-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
         }
@@ -1076,12 +1071,10 @@
             </div>
         </div>
     </div>
-    <div class="odstep-header"></div>
 
     <!-- Koniec kodu headera-->
 
     <!-- Kod Banera-->
-    <div class="odstep-footer"></div>
 
     <div class="baner-wrapper" id="baner-wrapper">
         <div class="baner" id="baner"></div>
@@ -1324,7 +1317,7 @@
             <div id="podstrona-stock" class="podstrona-stock"> <div class="stock-title">Dostępność:</div>
             </div>
             <div id="podstrona-progi" class="podstrona-progi"></div> 
-            <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-see-btn">Zamów teraz</a>
+            <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-koszyk-btn">Zamów teraz</a>
             
         </div>
         </div>
@@ -1334,7 +1327,6 @@
     <!-- Koniec kodu katalogu-->
     <!-- Początek kodu footera-->
 
-    <div class="odstep-footer"></div>
     <div class="footer">
     <div class="footer-logo">
         <img src="https://i.postimg.cc/Y0CP27SF/vaowo.png" alt="Vapeowo" class="logo-img" onclick="window.location.reload()">
@@ -1343,7 +1335,7 @@
         <p class="info1">Vapeowo to twój najlepszy jak i najtańszy wybór!</p>
     </div>
     <div>
-        <p class="info2">Wszystkie produkty oferowane na tej stronie są przeznaczone wyłącznie dla osób pełnoletnich. Upewnij się, że masz ukończone 18 lat przed dokonaniem zakupu.</p>
+        <p class="info2">Wszystkie produkty oferowane na tej stronie są przeznaczone wyłącznie dla osób pełnoletnich. Nikotyna jest szkodliwa dla zdrowia, nie zaleca się jej użycia przez osoby niepełnoletnie.</p>
     </div>
     <div class="linia"></div>
     <div>
