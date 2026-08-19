@@ -1368,10 +1368,7 @@
         let produktyData = {};
 
         function openProduct(id) {
-            wybranyWariant = null;
-            wybranyWariantMax = Infinity;
-            wybranySmak = null;
-            wybranySmakMax = Infinity;
+            wybraneGrupy = {}; 
             const idstr = String(id);
             const produkt = produktyData[idstr];
 
@@ -1385,73 +1382,41 @@
             renderujProgi(produkt);
             document.getElementById('podstrona-img').src = produkt.zdjecie;
 
-            // Zamieniamy "Mango:15, Cola:5, Mięta:0" na listę <li>
-            const warianty = document.getElementById('podstrona-stock');
-            const etykieta = produkt.etykietaWariantu || 'Dostępne warianty';
-            if (produkt.warianty) {
-                const wariantyArr = produkt.warianty.split(','); // z przecinków na tablicę
-                
-                const listaHTML = wariantyArr.map(w => {
-                    // Dzielimy każdy wariant po dwukropku
+            const grupyKontener = document.getElementById('podstrona-grupy');
+            const grupy = parsujGrupy(produkt);
+
+            grupyKontener.innerHTML = grupy.map(grupa => {
+                const opcjeArr = grupa.opcje.split(',');
+                const opcjeHTML = opcjeArr.map(w => {
                     const [nazwa, ilosc] = w.split(':');
                     const czystaNazwa = nazwa.trim();
-                    const iloscLiczba = ilosc ? parseInt(ilosc.trim(), 10) : Infinity; // brak liczby = brak limitu
+                    const iloscLiczba = ilosc ? parseInt(ilosc.trim(), 10) : Infinity;
                     const wyczerpany = iloscLiczba === 0;
-                    
-                    // Jeśli po dwukropku podano ilość, tworzymy dla niej dodatkowy tag <span>, w przeciwnym razie pusty ciąg
-                    const wyswietlanaIlosc = ilosc 
-                        ? ` <span class="wariant-ilosc">${ilosc.trim()} szt.</span>` 
-                        : '';
+                    const wyswietlanaIlosc = ilosc ? ` <span class="wariant-ilosc">${ilosc.trim()} szt.</span>` : '';
                     const klasy = wyczerpany ? 'wariant-item wyczerpany' : 'wariant-item';
-                    const onclickAttr = wyczerpany 
-                        ? '' 
-                        : `onclick="wybierzWariant('${czystaNazwa}', ${iloscLiczba}, this, 'wariant')"`;
-                                        
-                    // Generujemy HTML wariantu (funkcja wybierzWariant wciąż przyjmuje samą czystą nazwę)
-                    return `<li class="${klasy}" ${onclickAttr}>
-                                <div>${czystaNazwa}${wyswietlanaIlosc}</div>
-                            </li>`;
-                }).join(''); 
+                    const onclickAttr = wyczerpany
+                        ? ''
+                        : `onclick="wybierzOpcje('${grupa.nazwa}', '${czystaNazwa}', ${iloscLiczba}, this)"`;
+                    return `<li class="${klasy}" ${onclickAttr}><div>${czystaNazwa}${wyswietlanaIlosc}</div></li>`;
+                }).join('');
 
-                
-
-                warianty.innerHTML = `<div class="stock-title">${etykieta}</div><ul>` + listaHTML + `</ul>`;
-            } else {
-                warianty.innerHTML = `<div class="stock-title">${etykieta}</div><p>Brak wariantów</p>`;
-            }
-
-            const smakiKontener = document.getElementById('podstrona-smaki');
-                if (produkt.smaki) {
-                    const etykietaSmak = produkt.etykietaSmakow || 'Dostępne smaki';
-                    const smakiArr = produkt.smaki.split(',');
-
-                    const smakiHTML = smakiArr.map(w => {
-                        const [nazwa, ilosc] = w.split(':');
-                        const czystaNazwa = nazwa.trim();
-                        const iloscLiczba = ilosc ? parseInt(ilosc.trim(), 10) : Infinity;
-                        const wyczerpany = iloscLiczba === 0;
-                        const wyswietlanaIlosc = ilosc ? ` <span class="wariant-ilosc">${ilosc.trim()} szt.</span>` : '';
-                        const klasy = wyczerpany ? 'wariant-item wyczerpany' : 'wariant-item';
-                        const onclickAttr = wyczerpany ? '' : `onclick="wybierzWariant('${czystaNazwa}', ${iloscLiczba}, this, 'smak')"`;
-                        return `<li class="${klasy}" ${onclickAttr}><div>${czystaNazwa}${wyswietlanaIlosc}</div></li>`;
-                    }).join('');
-
-                    smakiKontener.innerHTML = `<div class="stock-title">${etykietaSmak}</div><ul>${smakiHTML}</ul>`;
-                } else {
-                    smakiKontener.innerHTML = '';
-                }
+                return `<div class="podstrona-stock" data-grupa="${grupa.nazwa}">
+                            <div class="stock-title">${grupa.etykieta || grupa.nazwa}</div>
+                            <ul>${opcjeHTML}</ul>
+                        </div>`;
+            }).join('');
 
             const buyBtn = document.getElementById('podstrona-buy-btn');
-                        buyBtn.innerText = "Dodaj do koszyka";
-                        buyBtn.onclick = function(e) {
-                            e.preventDefault();
-                            dodajDoKoszyka(idstr);
-                        };
+            buyBtn.innerText = "Dodaj do koszyka";
+            buyBtn.onclick = function(e) {
+                e.preventDefault();
+                dodajDoKoszyka(idstr);
+            };
 
             document.getElementById('page-katalog').style.display = 'none';
             document.getElementById('podstrona').classList.add('active');
             document.getElementById('baner-wrapper').style.display = 'none';
-        }  
+        }
         // Podpinamy dodawanie do koszyka pod przycisk
             
         // Funkcja zamykająca podstronę
@@ -1574,32 +1539,6 @@
             }
             return Array.isArray(grupy) ? grupy : [];
         }
-
-        wybraneGrupy = {}; // reset przy każdym otwarciu produktu
-
-        const grupyKontener = document.getElementById('podstrona-grupy');
-        const grupy = parsujGrupy(produkt);
-
-        grupyKontener.innerHTML = grupy.map(grupa => {
-            const opcjeArr = grupa.opcje.split(',');
-            const opcjeHTML = opcjeArr.map(w => {
-                const [nazwa, ilosc] = w.split(':');
-                const czystaNazwa = nazwa.trim();
-                const iloscLiczba = ilosc ? parseInt(ilosc.trim(), 10) : Infinity;
-                const wyczerpany = iloscLiczba === 0;
-                const wyswietlanaIlosc = ilosc ? ` <span class="wariant-ilosc">${ilosc.trim()} szt.</span>` : '';
-                const klasy = wyczerpany ? 'wariant-item wyczerpany' : 'wariant-item';
-                const onclickAttr = wyczerpany
-                    ? ''
-                    : `onclick="wybierzOpcje('${grupa.nazwa}', '${czystaNazwa}', ${iloscLiczba}, this)"`;
-                return `<li class="${klasy}" ${onclickAttr}><div>${czystaNazwa}${wyswietlanaIlosc}</div></li>`;
-            }).join('');
-
-            return `<div class="podstrona-stock" data-grupa="${grupa.nazwa}">
-                        <div class="stock-title">${grupa.etykieta || grupa.nazwa}</div>
-                        <ul>${opcjeHTML}</ul>
-                    </div>`;
-        }).join('');
 
         function wybierzOpcje(nazwaGrupy, wartosc, max, element) {
             wybraneGrupy[nazwaGrupy] = { wartosc, max };
