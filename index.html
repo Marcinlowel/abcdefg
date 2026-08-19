@@ -199,6 +199,7 @@
         .koszyk-lista {
             flex: 1;
             overflow-y: auto;
+            min-height: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -789,7 +790,6 @@
             gap: 12px;
             text-align: left;
             margin-left: 12px;
-            max-height: 100px;
 
         }
 
@@ -1021,6 +1021,18 @@
             .vw-catalog { padding: 24px 16px 60px; }
             .vw-title { font-size: 30px; }
             .vw-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        }
+
+        @media (max-width: 768px) {
+            .baner-wrapper { margin: 100px auto 30px auto; }
+            .vw-podstrona { margin: 100px 0px 0px 0px; }
+        }
+
+        @media (max-width: 600px) {
+            .vw-podstrona-body { grid-template-columns: 1fr; }
+            .podstrona-title { font-size: 26px; }
+            .podstrona-price { font-size: 22px; }
+            .vw-podstrona-content { padding: 16px;}
         }
 
         @media (max-width: 480px) {
@@ -1326,7 +1338,7 @@
         <div class="vw-podstrona-img-wrapper">
             <img id="podstrona-img" src="" alt="Zdjęcie produktu">
         </div>
-        <div class="vw-podstrona-info">
+        <div class="podstrona-info">
             <h2 id="podstrona-title"></h2>
             <div id="podstrona-price" class="vw-price"></div>
             </div>
@@ -1362,7 +1374,7 @@
     <!-- Koniec kodu footera-->
     <!-- JS podstrony-->
 
-    <script>
+<script>
         // Adres CSV z opublikowanego arkusza (wklej swój link)
         const SHEET_URL = 'https://api.npoint.io/ef3e2c6ce47d718ef427';
 
