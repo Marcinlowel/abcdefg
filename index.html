@@ -497,32 +497,6 @@
             opacity: 1;
         }
 
-        .baner-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.4);
-            border: none;
-            color: #fff;
-            font-size: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 5;
-            transition: background 0.2s ease;
-        }
-
-        .baner-nav:hover {
-             background: rgba(0,0,0,0.7); 
-            }
-        .baner-nav-lewo {
-             left: 16px; 
-            }
-        .baner-nav-prawo { 
-            right: 16px;
-         }
-
         /* Baner koniec*/
 
         /* Cały kod katalogu */
@@ -790,6 +764,7 @@
             gap: 12px;
             text-align: left;
             margin-left: 12px;
+            max-height: 100px;
 
         }
 
@@ -1105,8 +1080,6 @@
 
     <div class="baner-wrapper" id="baner-wrapper">
         <div class="baner" id="baner"></div>
-        <button class="baner-nav baner-nav-lewo" onclick="zmienSlajd(-1)">&#10094;</button>
-        <button class="baner-nav baner-nav-prawo" onclick="zmienSlajd(1)">&#10095;</button>
     </div>
 
     <!-- Koniec kodu banera-->
@@ -1818,11 +1791,6 @@
             banerObrazki[banerAktualny].classList.remove('active');
             banerAktualny = (nowyIndex + banerObrazki.length) % banerObrazki.length;
             banerObrazki[banerAktualny].classList.add('active');
-        }
-
-        function zmienSlajd(delta) {
-            pokazSlajd(banerAktualny + delta);
-            uruchomAutoBaner();
         }
 
         function zbudujBaner(listaUrl) {
