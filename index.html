@@ -1791,16 +1791,23 @@
             banerObrazki[banerAktualny].classList.add('active');
         }
 
-        function zbudujBaner(listaUrl) {
+        function zbudujBaner(listaBanerow) {
             const kontener = document.getElementById('baner');
-            if (!listaUrl || listaUrl.length === 0) return;
+            if (!listaBanerow || listaBanerow.length === 0) return;
 
-            kontener.innerHTML = listaUrl.map((url, i) => 
-                `<div class="baner-img ${i === 0 ? 'active' : ''}" style="background-image: url('${url}');"></div>`
+            kontener.innerHTML = listaBanerow.map((baner, i) => 
+                `<div class="baner-img ${i === 0 ? 'active' : ''}" data-produkt="${baner.produkt}" style="background-image: url('${baner.zdjecie}');"></div>`
             ).join('');
 
-        inicjalizujBaner();
+            kontener.style.cursor = 'pointer';
+            kontener.onclick = function () {
+                const aktywny = kontener.querySelector('.baner-img.active');
+                if (aktywny && aktywny.dataset.produkt) {
+                    openProduct(aktywny.dataset.produkt);
+                }
+            };
 
+            inicjalizujBaner();
         }
     </script>
 </body>
