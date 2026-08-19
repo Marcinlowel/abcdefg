@@ -789,6 +789,7 @@
             gap: 12px;
             text-align: left;
             margin-left: 12px;
+            max-height: 100px;
 
         }
 
@@ -830,7 +831,7 @@
             font-size: 30px;
             text-align: center;
             margin-bottom: 12px;
-            color: #2a881d;
+            color: #fff;
         }
 
         @media (max-width: 600px) {
@@ -888,7 +889,7 @@
         .prog-cena {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            color: #34d399;
+            color: #2a881d;
         }
         .wariant-item {
             border: 1px solid rgba(255,255,255,0.15);
@@ -1104,7 +1105,7 @@
 
     <div id="koszyk-sidebar" class="koszyk-sidebar">
         <div class="koszyk-header">
-            <h2>Twój przedmioty</h2>
+            <h2>Twoje przedmioty</h2>
             <button class="koszyk-close" onclick="closeCart()">&times;</button>
         </div>
 
@@ -1319,7 +1320,7 @@
 
     <div id="podstrona" class="vw-podstrona">
     <div class="vw-podstrona-content">
-        <button class="vw-close-btn" onclick="closeProduct()">&times; Powrót do katalogu</button>
+        <button class="vw-close-btn" onclick="closeProduct()">&larr; Powrót do katalogu</button>
         
         <div class="vw-podstrona-body">
         <div class="vw-podstrona-img-wrapper">
@@ -1512,7 +1513,7 @@
                 if (!stockEl) return;
 
                 stockEl.classList.toggle('sold-out', wyczerpany);
-                stockEl.innerHTML = `<span class="dot"></span>${wyczerpany ? 'Wyczerpane' : 'Dostępne'}`;
+                stockEl.innerHTML = `<span class="dot"></span>${wyczerpany ? 'Wyprzedane' : 'Dostępne'}`;
             });
         }
         
