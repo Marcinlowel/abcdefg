@@ -756,6 +756,7 @@
             padding: 24px;
             color: #fff;
             text-align: left;
+            box-sizing: border-box;
         }
 
         .podstrona-info {
@@ -1004,9 +1005,19 @@
 
         @media (max-width: 600px) {
             .vw-podstrona-body { grid-template-columns: 1fr; }
-            .podstrona-title { font-size: 26px; }
-            .podstrona-price { font-size: 22px; }
+            #podstrona-title { font-size: 26px; text-align: left; }
+            #podstrona-price { font-size: 22px; text-align: left;}
             .vw-podstrona-content { padding: 16px;}
+            .vw-podstrona-img-wrapper img {
+                width: 85%;
+                margin: 0 auto;
+                display: block;
+            }
+            .vw-close-btn {
+                display: block;
+                margin: 0 auto 20px auto;
+                text-align: center;
+            }
         }
 
         @media (max-width: 480px) {
