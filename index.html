@@ -37,6 +37,9 @@
             color: #fff;
             border-bottom: 1px solid rgba(255,255,255,0.08);
             overflow: hidden;
+            transform: translateZ(0);           
+            -webkit-transform: translateZ(0);   
+            will-change: transform; 
         }
         .header-podzial {
             max-width: 1320px;
@@ -441,6 +444,7 @@
             .tg .label { 
             display: none;
             }
+            
         }
 
         
