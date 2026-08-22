@@ -134,6 +134,42 @@
             border: 2px solid #0a0a0a;
         }
 
+        /* Powiadomienie */
+        .powiadomienie-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .powiadomienie-overlay.active {
+            display: flex;
+        }
+        .powiadomienie-box {
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 24px;
+            max-width: 320px;
+            text-align: center;
+            color: #fff;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+        .powiadomienie-ok-btn {
+            margin-top: 16px;
+            background: #a855f7;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
         /* Koszyk overlay */
 
         /* Overlay (przyciemnienie tła) */
@@ -1110,8 +1146,16 @@
     </div>
 
     <!-- Koniec kodu banera-->
+    <!-- Powiadomienie -->
 
-        <!-- panel koszyka -->
+    <div id="powiadomienie-overlay" class="powiadomienie-overlay">
+        <div class="powiadomienie-box">
+            <p id="powiadomienie-tekst"></p>
+            <button class="powiadomienie-ok-btn" onclick="zamknijPowiadomienie()">OK</button>
+        </div>
+    </div>
+
+    <!-- panel koszyka -->
 
     <div id="koszyk-overlay" class="koszyk-overlay" onclick="closeCart()"></div>
 
@@ -1343,7 +1387,7 @@
             <div id="podstrona-price" class="vw-price"></div>
             <div id="podstrona-grupy"></div>
             <div id="podstrona-progi" class="podstrona-progi"></div> 
-            <a id="podstrona-buy-btn" href="#" target="_blank" class="vw-koszyk-btn">Zamów teraz</a>
+            <a id="podstrona-buy-btn" class="vw-koszyk-btn">Zamów teraz</a>
         </div>    
         </div>
         </div>
@@ -1616,7 +1660,7 @@
 
             const brakujaca = grupy.find(g => !wybraneGrupy[g.nazwa]);
             if (brakujaca) {
-                alert(`Proszę wybrać: ${brakujaca.etykieta || brakujaca.nazwa}`);
+                pokazPowiadomienie(`Proszę wybrać: ${brakujaca.etykieta || brakujaca.nazwa}`);
                 return;
             }
 
@@ -1632,12 +1676,12 @@
 
             if (idx > -1) {
                if (koszyk[idx].ilosc + 1 > maxDostepne) {
-                    alert(`Dostępnych jest tylko ${maxDostepne} szt. tego wariantu.`);
+                    pokazPowiadomienie(`Dostępnych jest tylko ${maxDostepne} szt. tego wariantu.`);
                     return;
                 }
             } else {
                  if (maxDostepne < 1) {
-                    alert('Ten wariant jest niedostępny.');
+                    pokazPowiadomienie('Ten wariant jest niedostępny.');
                     return;
                 }
                 koszyk.push({
@@ -1661,7 +1705,7 @@
             const nowaIlosc = koszyk[index].ilosc + delta;
 
             if (nowaIlosc > koszyk[index].maxIlosc) {
-                alert(`Dostępnych jest tylko ${koszyk[index].maxIlosc} szt. tego wariantu.`);
+                pokazPowiadomienie(`Dostępnych jest tylko ${koszyk[index].maxIlosc} szt. tego wariantu.`);
                 return;
             }
 
@@ -1682,7 +1726,7 @@
 
             if (nowaIlosc > koszyk[index].maxIlosc) {
                 nowaIlosc = koszyk[index].maxIlosc;
-                alert(`Dostępnych jest tylko ${koszyk[index].maxIlosc} szt. tego wariantu.`);
+                pokazPowiadomienie(`Dostępnych jest tylko ${koszyk[index].maxIlosc} szt. tego wariantu.`);
             }
 
             koszyk[index].ilosc = nowaIlosc;
@@ -1784,10 +1828,18 @@
 
         function realizujZamowienie() {
             if (koszyk.length === 0) {
-                alert('Koszyk jest pusty!');
+                pokazPowiadomienie('Koszyk jest pusty!');
                 return;
             }
-            alert('Przekierowanie do realizacji...');
+            window.location.href = 'checkout.html';
+        }
+
+        function pokazPowiadomienie(tekst) {
+            document.getElementById('powiadomienie-tekst').innerText = tekst;
+            document.getElementById('powiadomienie-overlay').classList.add('active');
+        }
+        function zamknijPowiadomienie() {
+            document.getElementById('powiadomienie-overlay').classList.remove('active');
         }
 
         // Inicjalizacja przy starcie
