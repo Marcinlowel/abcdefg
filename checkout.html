@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizacja zamówienia — Vaowo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap');
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #0a0a0a;
+            color: #fff;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+
+        .checkout-wrapper {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 24px;
+        }
+
+        .checkout-card {
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .checkout-card h2 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .podsumowanie-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
+        }
+
+        .podsumowanie-suma {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            font-size: 16px;
+            margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #34d399;
+        }
+
+        .checkout-form label {
+            display: block;
+            font-size: 13px;
+            color: #ccc;
+            margin: 12px 0 6px;
+        }
+
+        .checkout-form input,
+        .checkout-form textarea {
+            width: 100%;
+            box-sizing: border-box;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .checkout-submit-btn {
+            width: 100%;
+            margin-top: 20px;
+            background: #a855f7;
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .checkout-submit-btn:hover { background: #9333ea; }
+
+        /* Sekcja wyniku - pokazywana po wygenerowaniu kodu */
+        .wynik-sekcja {
+            display: none;
+            text-align: center;
+        }
+        .wynik-kod {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 800;
+            color: #a855f7;
+            background: #1a1a1a;
+            padding: 16px;
+            border-radius: 10px;
+            margin: 16px 0;
+            letter-spacing: 2px;
+        }
+        .tg-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-wrapper">
+
+        <!-- Sekcja 1: podsumowanie koszyka -->
+        <div class="checkout-card">
+            <h2>Twoje zamówienie</h2>
+            <div id="checkout-podsumowanie"></div>
+            <div class="podsumowanie-suma">
+                <span>Suma:</span>
+                <span id="checkout-suma">0.00 zł</span>
+            </div>
+        </div>
+
+        <!-- Sekcja 2: formularz danych -->
+        <div class="checkout-card" id="checkout-form-card">
+            <h2>Dane do zamówienia</h2>
+            <form class="checkout-form" id="checkout-form">
+                <label for="imie">Imię i nazwisko *</label>
+                <input type="text" id="imie" required>
+
+                <label for="telefon">Telefon *</label>
+                <input type="tel" id="telefon" required>
+
+                <label for="adres">Adres dostawy *</label>
+                <input type="text" id="adres" required>
+
+                <label for="uwagi">Uwagi do zamówienia (opcjonalnie)</label>
+                <textarea id="uwagi" rows="3"></textarea>
+
+                <button type="submit" class="checkout-submit-btn">Generuj kod zamówienia</button>
+            </form>
+        </div>
+
+        <!-- Sekcja 3: wynik (kod + link do telegrama) -->
+        <div class="checkout-card wynik-sekcja" id="wynik-sekcja">
+            <h2>Zamówienie zapisane!</h2>
+            <p>Wyślij poniższy kod na Telegramie, aby uzyskać dalsze informacje o postępie zamówienia:</p>
+            <div class="wynik-kod" id="wynik-kod"></div>
+            <a id="wynik-tg-link" href="#" target="_blank" class="tg-btn">Wyślij na Telegramie</a>
+        </div>
+
+    </div>
+
+    <script>
+        // Wczytujemy koszyk z localStorage - dokładnie ten sam klucz co na stronie głównej
+        let koszyk = JSON.parse(localStorage.getItem('vapeowo_koszyk')) || [];
+
+        function renderujPodsumowanie() {
+            const kontener = document.getElementById('checkout-podsumowanie');
+            const sumaEl = document.getElementById('checkout-suma');
+
+            if (koszyk.length === 0) {
+                kontener.innerHTML = '<p>Twój koszyk jest pusty.</p>';
+                // Blokujemy formularz jeśli nie ma czego zamawiać
+                document.getElementById('checkout-form-card').style.display = 'none';
+                return;
+            }
+
+            let suma = 0;
+            kontener.innerHTML = koszyk.map(item => {
+                const kosztPozycji = item.cena * item.ilosc;
+                suma += kosztPozycji;
+                return `
+                    <div class="podsumowanie-item">
+                        <span>${item.ilosc}x ${item.nazwa}${item.wariant ? ' (' + item.wariant + ')' : ''}</span>
+                        <span>${kosztPozycji.toFixed(2)} zł</span>
+                    </div>
+                `;
+            }).join('');
+
+            sumaEl.innerText = suma.toFixed(2) + ' zł';
+        }
+
+        renderujPodsumowanie();
+
+        function generujKodZamowienia() {
+            // Pomijamy znaki, które łatwo pomylić: 0/O, 1/I
+            const znaki = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let kod = 'VAO-';
+            for (let i = 0; i < 6; i++) {
+                kod += znaki[Math.floor(Math.random() * znaki.length)];
+            }
+            return kod;
+        }
+
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+        e.preventDefault(); // zatrzymujemy domyślne przeładowanie strony przez formularz
+
+        const imie = document.getElementById('imie').value.trim();
+        const telefon = document.getElementById('telefon').value.trim();
+        const adres = document.getElementById('adres').value.trim();
+        const uwagi = document.getElementById('uwagi').value.trim();
+
+        if (!imie || !telefon || !adres) {
+            alert('Uzupełnij wszystkie wymagane pola.');
+            return;
+        }
+
+        if (koszyk.length === 0) {
+            alert('Koszyk jest pusty.');
+            return;
+        }
+
+        const kod = generujKodZamowienia();
+
+        // Budujemy czytelne podsumowanie produktów do wiadomości
+        const podsumowanieProduktow = koszyk
+            .map(item => `${item.ilosc}x ${item.nazwa}${item.wariant ? ' (' + item.wariant + ')' : ''}`)
+            .join(', ');
+
+        const suma = koszyk.reduce((s, item) => s + item.cena * item.ilosc, 0);
+
+        // Treść wiadomości, którą klient wyśle na Telegramie
+        const wiadomosc =
+            `Zamówienie ${kod}\n` +
+            `Produkty: ${podsumowanieProduktow}\n` +
+            `Suma: ${suma.toFixed(2)} zł\n` +
+            `Dane: ${imie}, ${telefon}, ${adres}` +
+            (uwagi ? `\nUwagi: ${uwagi}` : '');
+
+        // WAŻNE: podmień "twoj_kontakt" na swój prawdziwy username Telegramowy (bez @)
+        const telegramLink = `https://t.me/twoj_kontakt?text=${encodeURIComponent(wiadomosc)}`;
+
+        // Opcjonalnie: zapisujemy historię zamówień lokalnie w przeglądarce klienta
+        const historia = JSON.parse(localStorage.getItem('vapeowo_zamowienia')) || [];
+        historia.push({ kod, data: new Date().toISOString(), koszyk, imie, telefon, adres, uwagi, suma });
+        localStorage.setItem('vapeowo_zamowienia', JSON.stringify(historia));
+
+        // Czyścimy koszyk, bo zamówienie zostało "złożone"
+        localStorage.removeItem('vapeowo_koszyk');
+
+        pokazWynik(kod, telegramLink);
+    });
+
+    function pokazWynik(kod, telegramLink) {
+        document.getElementById('checkout-form-card').style.display = 'none';
+        document.querySelector('.checkout-card:first-child').style.display = 'none'; // ukrywamy podsumowanie koszyka
+        document.getElementById('wynik-kod').innerText = kod;
+        document.getElementById('wynik-tg-link').href = telegramLink;
+        document.getElementById('wynik-sekcja').style.display = 'block';
+    }
+
+    </script>
+</body>
+</html>
