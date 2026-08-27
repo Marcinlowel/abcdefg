@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strona</title>
+    <title>Vapeowo  -  e-papierosy, liquidy, sprzęty</title>
     <style>
          @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap'); /* czcionka import*/
         html{
@@ -22,6 +22,7 @@
             display: flex;
             flex-direction: column;
             margin: 0;
+            background-color: #1a1a1a;
         }
          /* Header plus dostawa free zintegrowane- */
         .header {
@@ -712,6 +713,10 @@
             background: #ef4444;
         }
 
+        .vw-card-stock.low-stock .dot {
+            background: #f97316; /* pomarańczowy */
+        }
+
         .vw-card-body {
             padding: 16px 16px 18px;
             display: flex;
@@ -788,7 +793,7 @@
 
         .vw-podstrona {
             display: none; 
-            margin: 160px 0px 0px 0px;
+            margin: 120px 0px 0px 0px;
         }
 
         /* Klasa włączana przez JS po kliknięciu */
@@ -869,6 +874,7 @@
             width: 100%;
             border-radius: 12px;
             object-fit: cover;
+            border: 1px solid rgba(168, 85, 247, 0.9);
         }
 
         .podstrona-stock {
@@ -930,7 +936,7 @@
         }
         .wariant-item.wybrany {
             border-color: #a855f7;
-            background: #a855f7;
+            background: rgba(168, 85, 247, 0.3);
             color: #fff;
             font-weight: bold;
         } 
@@ -942,7 +948,7 @@
         }
         .wariant-ilosc {
             font-size: 11px;
-            color: #b163fa;
+            color: #c48cf8;
             margin-left: 4px;
         }
 
@@ -1419,8 +1425,7 @@
 
 <script>
         // Adres CSV z opublikowanego arkusza (wklej swój link)
-        const SHEET_URL = 'https://api.npoint.io/ef3e2c6ce47d718ef427';
-
+            const SHEET_URL = 'https://vapeowo.pl/api/produkty'
         // Tu będziemy trzymać dane produktów po pobraniu, żeby nie odpytywać
         // arkusza za każdym razem, gdy ktoś kliknie "Zobacz produkt"
         let produktyData = {};
@@ -1533,6 +1538,7 @@
                 aktualizujStanKart();
                 zapiszIOdswiez();
             } catch (error) {
+                console.error('Błąd wczytywania produktów:', error);
                 document.getElementById('baner').style.display = 'none';
             }
         }
@@ -1540,36 +1546,57 @@
         wczytajProdukty();
 
         function pobierzStanProduktu(produkt) {
-            const grupy = parsujGrupy(produkt);
-            if (grupy.length === 0) return { wyczerpany: false };
+        const grupy = parsujGrupy(produkt);
+        if (grupy.length === 0) return { wyczerpany: false, ilosc: Infinity };
 
-            const jakasGrupaPusta = grupy.some(grupa => {
-                const opcje = grupa.opcje.split(',');
-                let suma = 0;
-                let maUnlimited = false;
-                opcje.forEach(w => {
-                    const [, ilosc] = w.split(':');
-                    if (ilosc === undefined || ilosc.trim() === '') maUnlimited = true;
-                    else suma += parseInt(ilosc.trim(), 10) || 0;
-                });
-                return !maUnlimited && suma === 0;
+        let minIlosc = Infinity;
+        let jakasGrupaPusta = false;
+
+        grupy.forEach(grupa => {
+            const opcje = grupa.opcje.split(',');
+            let suma = 0;
+            let maUnlimited = false;
+            opcje.forEach(w => {
+                const [, ilosc] = w.split(':');
+                if (ilosc === undefined || ilosc.trim() === '') maUnlimited = true;
+                else suma += parseInt(ilosc.trim(), 10) || 0;
             });
+            if (!maUnlimited) {
+                if (suma === 0) jakasGrupaPusta = true;
+                if (suma < minIlosc) minIlosc = suma;
+            }
+        });
 
-            return { wyczerpany: jakasGrupaPusta };
+        return { wyczerpany: jakasGrupaPusta, ilosc: minIlosc };
+        }
+
+        function opisIlosci(ilosc) {
+            if (ilosc === 1) return 'Ostatnia sztuka';
+            if (ilosc >= 2 && ilosc <= 4) return `Ostatnie ${ilosc} sztuki`;
+            return `Ostatnie ${ilosc} sztuk`;
         }
 
         function aktualizujStanKart() {
-            document.querySelectorAll('.vw-card[data-id]').forEach(karta => {
-                const produkt = produktyData[karta.dataset.id];
-                if (!produkt) return;
+        document.querySelectorAll('.vw-card[data-id]').forEach(karta => {
+            const produkt = produktyData[karta.dataset.id];
+            if (!produkt) return;
 
-                const { wyczerpany } = pobierzStanProduktu(produkt);
-                const stockEl = karta.querySelector('.vw-card-stock');
-                if (!stockEl) return;
+            const { wyczerpany, ilosc } = pobierzStanProduktu(produkt);
+            const stockEl = karta.querySelector('.vw-card-stock');
+            if (!stockEl) return;
 
-                stockEl.classList.toggle('sold-out', wyczerpany);
-                stockEl.innerHTML = `<span class="dot"></span>${wyczerpany ? 'Wyprzedane' : 'Dostępne'}`;
-            });
+            stockEl.classList.remove('sold-out', 'low-stock');
+
+            if (wyczerpany) {
+                stockEl.classList.add('sold-out');
+                stockEl.innerHTML = `<span class="dot"></span>Wyprzedane`;
+            } else if (ilosc < 10) {
+                stockEl.classList.add('low-stock');
+                stockEl.innerHTML = `<span class="dot"></span>${opisIlosci(ilosc)}`;
+            } else {
+                stockEl.innerHTML = `<span class="dot"></span>Dostępne`;
+            }
+        });
         }
         
         function parsujProgi(produkt) {
