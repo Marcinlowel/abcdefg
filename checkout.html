@@ -4,21 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finalizacja zamówienia — Vaowo</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap');
 
         body {
             margin: 0;
             min-height: 100vh;
-            background: #0a0a0a;
+            background: rgba(26, 26, 26);
             color: #fff;
             font-family: 'Inter', Arial, sans-serif;
+        }
+
+        input,
+        textarea {
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 0 1px #a855f7;
         }
 
         .checkout-wrapper {
             max-width: 1100px;
             margin: 60px auto;
             padding: 24px;
+        }
+
+        .header {
+            width: 100%;
+            margin-bottom: 24px;
+            box-sizing: border-box;
         }
 
         .checkout-grid {
@@ -38,6 +57,7 @@
             display: flex;
             flex-direction: column;
             gap: 24px; 
+            margin-bottom: 0px;
         }
 
         .checkout-card {
@@ -45,7 +65,7 @@
             border: 1px solid rgba(255,255,255,0.06);
             border-radius: 14px;
             padding: 24px;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
         }
 
         .checkout-card h2 {
@@ -101,17 +121,94 @@
             margin-top: 12px;
             font-family: 'JetBrains Mono', monospace;
             color: #34d399;
+        }   
+        .podsumowanie-dostawa {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #34d399;
+            margin-top: 4px;
+        }
+
+        .input-z-ikona {
+            position: relative;
+        }
+
+        .input-z-ikona i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            line-height: 1;
+            color: #666;
+            pointer-events: none;
+        }
+
+        .input-z-ikona input {
+            padding-left: 44px;
+        }
+
+        .input-z-ikona input:focus + i,
+        .input-z-ikona:focus-within i {
+            color: #a855f7;
+        }
+
+        .kod-rabatowy-sekcja {
+            margin-top: 16px;
+        }
+
+        .kod-rabatowy-sekcja label {
+            display: block;
+            font-size: 13px;
+            color: #ccc;
+            margin-bottom: 8px;
+        }
+
+        .kod-rabatowy-input-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .kod-rabatowy-input-wrapper input {
+            flex: 1;
+            box-sizing: border-box;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .zastosuj-kod-btn {
+            background: #a855f7;
+            color: #fff;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .zastosuj-kod-btn:hover {
+            background: #9333ea;
         }
 
         .paczkomat-sekcja {
             margin-top: 16px;
         }
+
         .paczkomat-sekcja label {
             display: block;
             font-size: 13px;
             color: #ccc;
             margin-bottom: 6px;
         }
+
         .paczkomat-sekcja input {
             width: 100%;
             box-sizing: border-box;
@@ -121,20 +218,24 @@
             padding: 10px 12px;
             border-radius: 8px;
         }
+
         .paczkomat-podpowiedz {
             font-size: 11px;
             color: #888;
             margin-top: 6px;
         }
+
         .platnosc-sekcja {
             margin-top: 16px;
         }
+
         .platnosc-sekcja label {
             display: block;
             font-size: 13px;
             color: #ccc;
             margin-bottom: 8px;
         }
+
         .sposob-platnosci {
             list-style: none;
             padding: 0px 20px 0px 20px;
@@ -144,19 +245,22 @@
             gap: 8px;
             justify-content: space-between;
         }
+
         .platnosc-opcja {
             border: 1px solid rgba(255,255,255,0.15);
             background: #1e1e1e;
             color: #fff;
-            padding: 8px 20px;
+            padding: 20px 35px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 13px;
             transition: all 0.2s ease;
         }
+
         .platnosc-opcja:hover {
             border-color: #a855f7;
         }
+
         .platnosc-opcja.wybrany {
             border-color: #a855f7;
             background: #a855f7;
@@ -267,6 +371,21 @@
             cursor: pointer;
         }
 
+        .powrot-btn {
+            display: inline-block;
+            color: #a855f7;
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            margin: 20px 0 20px 20px;
+            transition: color 0.2s ease;
+        }
+        .powrot-btn:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
     </style>
 </head>
 <body>
@@ -280,9 +399,16 @@
 
     <div class="checkout-wrapper">
 
+        <div class="header">
+                <h1> Dane zamówienia </h1>
+                <p> W celu złożenia zamówienia, wypełnij formularz.</p>
+            <a href="index.html" class="powrot-btn">&larr; Powrót do strony głównej</a>
+        </div>    
+
     <div class="checkout-grid">
         
         <div class="checkout-lewa-kolumna">
+
             <!-- Sekcja 1: podsumowanie koszyka -->
             <div class="checkout-card">
                 <h2>Twoje zamówienie</h2>
@@ -291,15 +417,27 @@
                     <span>Suma:</span>
                     <span id="checkout-suma">0.00 zł</span>
                 </div>
+                <div class="podsumowanie-dostawa">
+                    <span>Dostawa:</span>
+                    <span>0.00 zł</span>
+                </div>
+                <div class="kod-rabatowy-sekcja">
+                <label for="kod-rabatowy">Kod rabatowy</label>
+                <div class="kod-rabatowy-input-wrapper">
+                    <input type="text" id="kod-rabatowy" placeholder="Wpisz kod">
+                    <button type="button" id="zastosuj-kod-btn" class="zastosuj-kod-btn">Zastosuj</button>
+                </div>
+                <p id="kod-rabatowy-komunikat" style="font-size:12px; margin-top:6px;"></p>
+            </div>
             </div>
             <!-- Sekcja 2: sposoby platnosci -->
         <div class="checkout-card">
                 <div class="platnosc-sekcja">
                     <h2>Metoda płatności </h2>
                     <ul class="sposob-platnosci">
-                        <li class="platnosc-opcja" onclick="wybierzPlatnosc('Za pobraniem', this)"> BLIK</li>
-                        <li class="platnosc-opcja" onclick="wybierzPlatnosc('Przelew', this)"> Krypto </li>
-                        <li class="platnosc-opcja" onclick="wybierzPlatnosc('BLIK', this)"> PaySafeCard <span class="procent"> +10% </span></li>
+                        <li class="platnosc-opcja" onclick="wybierzPlatnosc('BLIK', this)"> BLIK</li>
+                        <li class="platnosc-opcja" onclick="wybierzPlatnosc('Krypto', this)"> Krypto </li>
+                        <li class="platnosc-opcja" onclick="wybierzPlatnosc('Paysafecard', this)"> PaySafeCard <span class="procent"> +10% </span></li>
                     </ul>
                 </div>
         </div> 
@@ -309,15 +447,24 @@
         <div class="checkout-card" id="checkout-form-card">
             <h2>Dane do zamówienia</h2>
             <form class="checkout-form" id="checkout-form">
-                <label for="nick">Nick Telegram *</label>
-                <input type="text" id="nick" required>
+                <label for="nick"> Nick Telegram *</label>
+                <div class="input-z-ikona">
+                    <i class="ph ph-at"></i>
+                    <input type="text" id="nick" placeholder="     | np. @janek_vape" required>
+                </div>
 
-                <label for="telefon">Numer telefonu *</label>
-                <input type="tel" id="telefon" required>
+                <label for="telefon"> Numer telefonu *</label>
+                <div class="input-z-ikona">
+                    <i class="ph ph-phone"></i>
+                    <input type="text" id="telefon" placeholder="     | np. 530 530 320" required>
+                </div>
 
                 <div class="paczkomat-sekcja">
-                    <label for="numer-paczkomatu">Numer paczkomatu InPost *</label>
-                    <input type="text" id="numer-paczkomatu" placeholder="np. KRA01M" required>
+                    <label for="numer-paczkomatu"> Numer paczkomatu InPost *</label>
+                    <div class="input-z-ikona">
+                        <i class="ph ph-package"></i>
+                        <input type="text" id="numer-paczkomatu" placeholder="     | np. KRA01M" required>
+                    </div>
                     <p class="paczkomat-podpowiedz">Numer paczkomatu znajdziesz w aplikacji InPost Mobile lub na inpost.pl, wyszukując punkt najbliżej Ciebie.</p>
                 </div>
 
@@ -344,6 +491,7 @@
     <script>
         // Wczytujemy koszyk z localStorage - dokładnie ten sam klucz co na stronie głównej
         let koszyk = JSON.parse(localStorage.getItem('vapeowo_koszyk')) || [];
+        let aktywnyRabat = 0;
 
         function renderujPodsumowanie() {
         const kontener = document.getElementById('checkout-podsumowanie');
@@ -354,19 +502,37 @@
             return;
         }
 
-        kontener.innerHTML = koszyk.map(item => {
-            const kosztPozycji = item.cena * item.ilosc;
-            return `
-                <div class="podsumowanie-item">
-                    <img src="${item.zdjecie}" alt="${item.nazwa}">
-                    <div class="podsumowanie-item-info">
-                        <div class="podsumowanie-item-nazwa">${item.ilosc}x ${item.nazwa}</div>
-                        ${item.wariant ? `<div class="podsumowanie-item-wariant">${item.wariant}</div>` : ''}
-                    </div>
-                    <div class="podsumowanie-item-cena">${kosztPozycji.toFixed(2)} zł</div>
+        // Grupujemy pozycje koszyka po id produktu, żeby różne smaki
+        // tego samego produktu wylądowały w jednej karcie
+        const grupy = {};
+        koszyk.forEach(item => {
+            if (!grupy[item.id]) {
+                grupy[item.id] = {
+                    nazwa: item.nazwa,
+                    zdjecie: item.zdjecie,
+                    ilosc: 0,
+                    koszt: 0,
+                    warianty: []
+                };
+            }
+            grupy[item.id].ilosc += item.ilosc;
+            grupy[item.id].koszt += item.cena * item.ilosc;
+            if (item.wariant) {
+                grupy[item.id].warianty.push(`${item.wariant} x${item.ilosc}`);
+            }
+        });
+
+        kontener.innerHTML = Object.values(grupy).map(grupa => `
+            <div class="podsumowanie-item">
+                <img src="${grupa.zdjecie}" alt="${grupa.nazwa}">
+                <div class="podsumowanie-item-info">
+                    <div class="podsumowanie-item-nazwa">${grupa.ilosc}x ${grupa.nazwa}</div>
+                    ${grupa.warianty.length ? `<div class="podsumowanie-item-wariant">${grupa.warianty.join(', ')}</div>` : ''}
                 </div>
-            `;
-        }).join('');
+                <div class="podsumowanie-item-cena">${grupa.koszt.toFixed(2)} zł</div>
+            </div>
+        `).join('');
+    }
 
             const pscProc = 0.10; // 10%
 
@@ -381,7 +547,7 @@
 
                 // 3. Narzut za pobranie - liczony od sumy PO rabacie
                 let doplata = 0;
-                if (wybranaPlatnosc === 'Za pobraniem') {
+                if (wybranaPlatnosc === 'Paysafecard') {
                     doplata = suma * pscProc;
                     suma += doplata;
                 }
@@ -391,10 +557,8 @@
                     (doplata > 0 ? ` (+${(pscProc*100).toFixed(0)}% za pobranie)` : '');
             }
 
-       
-}
-
         renderujPodsumowanie();
+        przeliczSume();
 
         let wybranaPlatnosc = null;
 
@@ -405,18 +569,43 @@
             document.querySelectorAll('.platnosc-opcja').forEach(el => el.classList.remove('wybrany'));
             element.classList.add('wybrany');
             
-            przeliczSume();
+           
         }
 
-        function generujKodZamowienia() {
-            // Pomijamy znaki, które łatwo pomylić: 0/O, 1/I
-            const znaki = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let kod = 'VAO-';
-            for (let i = 0; i < 6; i++) {
-                kod += znaki[Math.floor(Math.random() * znaki.length)];
+        let aktywnyKodRabatowy = null; // wysyłany do /api/orders przy finalizacji
+
+        document.getElementById('zastosuj-kod-btn').addEventListener('click', async () => {
+            const kodInput = document.getElementById('kod-rabatowy');
+            const komunikat = document.getElementById('kod-rabatowy-komunikat');
+            const kod = kodInput.value.trim();
+
+            if (!kod) return;
+
+            try {
+                const odpowiedz = await fetch('https://vapeowo.pl/api/discount/validate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: kod })
+                });
+                const dane = await odpowiedz.json();
+
+                if (!dane.valid) {
+                    aktywnyRabat = 0;
+                    aktywnyKodRabatowy = null;
+                    komunikat.style.color = '#f87171';
+                    komunikat.innerText = dane.powod || 'Kod nieprawidłowy.';
+                } else {
+                    aktywnyRabat = dane.percent / 100;
+                    aktywnyKodRabatowy = kod.toUpperCase();
+                    komunikat.style.color = '#34d399';
+                    komunikat.innerText = `Zastosowano rabat -${dane.percent}%`;
+                }
+                przeliczSume(); // odświeża widoczną sumę z uwzględnieniem rabatu
+            } catch (err) {
+                komunikat.style.color = '#f87171';
+                komunikat.innerText = 'Nie udało się połączyć z serwerem.';
             }
-            return kod;
-        }
+        });
 
         function obliczFinalnaSume() {
             let suma = koszyk.reduce((s, item) => s + item.cena * item.ilosc, 0);
@@ -427,61 +616,47 @@
             return suma;
         }
 
-        document.getElementById('checkout-form').addEventListener('submit', function(e) {
-        e.preventDefault(); // zatrzymujemy domyślne przeładowanie strony przez formularz
+        document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
 
         const nick = document.getElementById('nick').value.trim();
         const telefon = document.getElementById('telefon').value.trim();
         const numerPaczkomatu = document.getElementById('numer-paczkomatu').value.trim();
         const uwagi = document.getElementById('uwagi').value.trim();
 
-        if (!nick || !telefon || !paczkomat) {
+        if (!nick || !telefon || !numerPaczkomatu) {
             pokazPowiadomienie('Uzupełnij wszystkie wymagane pola.');
             return;
         }
-
         if (!wybranaPlatnosc) {
             pokazPowiadomienie('Wybierz metodę płatności.');
             return;
         }
 
-        if (koszyk.length === 0) {
-            pokazPowiadomienie('Koszyk jest pusty.');
+        try {
+            const odpowiedz = await fetch('https://vapeowo.pl/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                koszyk, wybranaPlatnosc, kodRabatowy: aktywnyKodRabatowy,
+                nick, telefon, numerPaczkomatu, uwagi
+            })
+            });
+
+            const dane = await odpowiedz.json();
+
+            if (!odpowiedz.ok) {
+            pokazPowiadomienie(dane.error || 'Wystąpił błąd.');
             return;
+            }
+
+            localStorage.removeItem('vapeowo_koszyk');
+            pokazWynik(dane.kod, dane.telegramLink);
+
+        } catch (err) {
+            pokazPowiadomienie('Nie udało się połączyć z serwerem. Spróbuj ponownie.');
         }
-
-        const kod = generujKodZamowienia();
-
-        // Budujemy czytelne podsumowanie produktów do wiadomości
-        const podsumowanieProduktow = koszyk
-            .map(item => `${item.ilosc}x ${item.nazwa}${item.wariant ? ' (' + item.wariant + ')' : ''}`)
-            .join(', ');
-
-        const sumaFinalna = obliczFinalnaSume();
-
-        // Treść wiadomości, którą klient wyśle na Telegramie
-        const wiadomosc =
-            `Zamówienie ${kod}\n` +
-            `Produkty: ${podsumowanieProduktow}\n` +
-            `Suma: ${sumaFinalna.toFixed(2)} zł\n` +
-            `Płatność: ${wybranaPlatnosc}\n` +
-            `Paczkomat: ${numerPaczkomatu}\n` +
-            `Dane: ${nick}, ${telefon}, ${paczkomat}` +
-            (uwagi ? `\nUwagi: ${uwagi}` : '');
-
-        // WAŻNE: podmień "twoj_kontakt" na swój prawdziwy username Telegramowy (bez @)
-        const telegramLink = `https://t.me/twoj_kontakt?text=${encodeURIComponent(wiadomosc)}`;
-
-        // Opcjonalnie: zapisujemy historię zamówień lokalnie w przeglądarce klienta
-        const historia = JSON.parse(localStorage.getItem('vapeowo_zamowienia')) || [];
-        historia.push({ kod, data: new Date().toISOString(), koszyk, nick, telefon, paczkomat, uwagi, suma });
-        localStorage.setItem('vapeowo_zamowienia', JSON.stringify(historia));
-
-        // Czyścimy koszyk, bo zamówienie zostało "złożone"
-        localStorage.removeItem('vapeowo_koszyk');
-
-        pokazWynik(kod, telegramLink);
-    });
+        });
 
     function pokazWynik(kod, telegramLink) {
         document.getElementById('checkout-form-card').style.display = 'none';
