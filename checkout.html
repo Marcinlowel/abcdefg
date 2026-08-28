@@ -492,6 +492,8 @@
         // Wczytujemy koszyk z localStorage - dokładnie ten sam klucz co na stronie głównej
         let koszyk = JSON.parse(localStorage.getItem('vapeowo_koszyk')) || [];
         let aktywnyRabat = 0;
+        let wybranaPlatnosc = null;
+        let aktywnyKodRabatowy = null;
 
         function renderujPodsumowanie() {
         const kontener = document.getElementById('checkout-podsumowanie');
@@ -560,8 +562,6 @@
         renderujPodsumowanie();
         przeliczSume();
 
-        let wybranaPlatnosc = null;
-
         function wybierzPlatnosc(metoda, element) {
             wybranaPlatnosc = metoda;
 
@@ -571,8 +571,6 @@
             
            
         }
-
-        let aktywnyKodRabatowy = null; // wysyłany do /api/orders przy finalizacji
 
         document.getElementById('zastosuj-kod-btn').addEventListener('click', async () => {
             const kodInput = document.getElementById('kod-rabatowy');
