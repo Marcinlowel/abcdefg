@@ -23,7 +23,7 @@
             display: flex;
             flex-direction: column;
             margin: 0;
-            background-color: #1a1a1a;
+            background-color: #0F0E0EFF;
         }
          /* Header plus dostawa free zintegrowane- */
         .header {
@@ -970,6 +970,9 @@
             transition: transform 0.2s ease;
         }
 
+        .podpowiedz {
+            font-size: 12px;
+        }
         /* Koniec kodu podstrony */
 
         /* Początek kodu footera*/
@@ -1112,7 +1115,7 @@
     <div class="header">
         <div class="efekt-glow"></div>
         <div class="pasek">
-        <i class="ph ph-truck"></i>
+        <img src="https://vapeowo.pl/zdjecia/dostawa.png">
         <span>Darmowa dostawa niezależnie od wartości zamówienia</span>
         </div>
         
@@ -1127,7 +1130,7 @@
             </div>
 
             <div class="logo-wrap logo-animacja">
-            <img src="https://i.postimg.cc/Y0CP27SF/vaowo.png" alt="Vapeowo" class="logo-img" onclick="window.location.reload()">
+            <img src="https://vapeowo.pl/zdjecia/vaowo.png" alt="Vapeowo" class="logo-img" onclick="window.location.reload()">
             </div>
 
             <div class="prawo">
@@ -1378,7 +1381,7 @@
 
     <div id="podstrona" class="vw-podstrona">
     <div class="vw-podstrona-content">
-        <button class="vw-close-btn" onclick="closeProduct()">&larr; Powrót do katalogu</button>
+        <button class="vw-close-btn" onclick="closeProduct()"><i class="ph ph-arrow-left"></i> Powrót do katalogu</button>
         
         <div class="vw-podstrona-body">
         <div class="vw-podstrona-img-wrapper">
@@ -1390,6 +1393,7 @@
             <div id="podstrona-grupy"></div>
             <div id="podstrona-progi" class="podstrona-progi"></div> 
             <a id="podstrona-buy-btn" class="vw-koszyk-btn">Zamów teraz</a>
+            <p class="podpowiedz"> Ceny hurtowe naliczane są automatycznie w koszyku </p>
         </div>    
         </div>
         </div>
