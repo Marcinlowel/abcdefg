@@ -355,13 +355,6 @@
             flex-direction: column;
             align-items: flex-end;
         }
-        
-        #koszyk-suma-dostawa {
-            color: #34d399;
-            font-weight: 500;
-            margin-left: 4px;
-            font-size: small;
-        }
 
         .koszyk-checkout-btn {
             width: 100%;
@@ -510,8 +503,6 @@
             height: 20px;
             flex-shrink: 0;
         }
-
-
 
         /* Header koniec- */
         
@@ -972,6 +963,7 @@
 
         .podpowiedz {
             font-size: 12px;
+            text-align: center;
         }
         /* Koniec kodu podstrony */
 
@@ -1130,7 +1122,7 @@
             </div>
 
             <div class="logo-wrap logo-animacja">
-            <img src="https://vapeowo.pl/zdjecia/logo.png" alt="Vapeowo" class="logo-img" onclick="window.location.reload()">
+            <img src="https://vapeowo.pl/zdjecia/vaowo.png" alt="Vapeowo" class="logo-img" onclick="window.location.reload()">
             </div>
 
             <div class="prawo">
@@ -1179,7 +1171,6 @@
                 <span>Suma:</span>
                 <div class="koszyk-suma-prawo">
                 <span id="koszyk-suma-kwota">0.00 zł</span>
-                <span id="koszyk-suma-dostawa">Darmowa dostawa!</span>
                 </div>
             </div>
             <button class="koszyk-checkout-btn" onclick="realizujZamowienie()">Przejdź do zamówienia</button>
@@ -1393,7 +1384,7 @@
             <div id="podstrona-grupy"></div>
             <div id="podstrona-progi" class="podstrona-progi"></div> 
             <a id="podstrona-buy-btn" class="vw-koszyk-btn">Zamów teraz</a>
-            <p class="podpowiedz"> Ceny hurtowe naliczane są automatycznie w koszyku </p>
+            <p id="podpowiedz" class="podpowiedz"> Ceny hurtowe naliczane są automatycznie w koszyku </p>
         </div>    
         </div>
         </div>
@@ -1431,6 +1422,12 @@
         let produktyData = {};
         let wybraneGrupy = {}; 
 
+        function jestZestawem(id) {
+            const przycisk = document.querySelector(`.vw-add-btn[onclick*="openProduct(${id})"]`);
+            const karta = przycisk ? przycisk.closest('.vw-card') : null;
+            return !!(karta && karta.classList.contains('cat-zestawy'));
+        }
+
         function openProduct(id) {
             wybraneGrupy = {}; 
             const idstr = String(id);
@@ -1443,7 +1440,13 @@
 
             document.getElementById('podstrona-title').innerText = produkt.nazwa;
             document.getElementById('podstrona-price').innerText =  pobierzBazowaCene(produkt).toFixed(2) + ' zł';
-            renderujProgi(produkt);
+            if (jestZestawem(idstr)) {
+                document.getElementById('podstrona-progi').innerHTML = '';
+                document.getElementById('podpowiedz').style.display = 'none';
+            } else {
+                renderujProgi(produkt);
+                document.getElementById('podpowiedz').style.display = '';
+            }
             document.getElementById('podstrona-img').src = produkt.zdjecie;
 
             const grupyKontener = document.getElementById('podstrona-grupy');
@@ -1831,7 +1834,7 @@
                 });
             }
 
-            if (sumaEl) sumaEl.innerText = suma.toFixed(2) + ' zł + ';
+            if (sumaEl) sumaEl.innerText = suma.toFixed(2) + ' zł ';
             if (pamiecBadge) pamiecBadge.innerText = iloscLaczna;
         }
 
