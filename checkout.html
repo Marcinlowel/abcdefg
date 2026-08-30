@@ -86,11 +86,11 @@
             height: 46px;
             object-fit: cover;
             border-radius: 8px;
-            flex-shrink: 0; /* zdjęcie nie ściska się, gdy nazwa jest długa */
+            flex-shrink: 0; 
         }
 
         .podsumowanie-item-info {
-            flex: 1; /* zajmuje resztę dostępnej przestrzeni */
+            flex: 1; 
             display: flex;
             flex-direction: column;
             gap: 2px;
@@ -103,7 +103,7 @@
 
         .podsumowanie-item-wariant {
             font-size: 11px;
-            color: #a855f7; /* ten sam fiolet co warianty w koszyku głównym */
+            color: #a855f7; 
         }
 
         .podsumowanie-item-cena {
@@ -313,7 +313,6 @@
         }
         .checkout-submit-btn:hover { background: #9333ea; }
 
-        /* Sekcja wyniku - pokazywana po wygenerowaniu kodu */
         .wynik-sekcja {
             display: none;
             text-align: center;
@@ -412,7 +411,6 @@
         
         <div class="checkout-lewa-kolumna">
 
-            <!-- Sekcja 1: podsumowanie koszyka -->
             <div class="checkout-card">
                 <h2>Twoje zamówienie</h2>
                 <div id="checkout-podsumowanie"></div>
@@ -433,9 +431,8 @@
                 <p id="kod-rabatowy-komunikat" style="font-size:12px; margin-top:6px;"></p>
             </div>
             </div>
-            <!-- Sekcja 2: sposoby platnosci -->
-        <div class="checkout-card">
-                <div id="platnosc-sekcja" class="platnosc-sekcja">
+        <div  id="platnosc-card" class="checkout-card">
+                <div class="platnosc-sekcja">
                     <h2>Metoda płatności </h2>
                     <ul class="sposob-platnosci">
                         <li class="platnosc-opcja" onclick="wybierzPlatnosc('BLIK', this)"><img class="platnosc-zdjecie" src="https://vapeowo.pl/zdjecia/blik.png"> BLIK</li>
@@ -446,7 +443,6 @@
         </div> 
 
         </div>
-        <!-- Sekcja 3: formularz danych -->
         <div class="checkout-card" id="checkout-form-card">
             <h2>Dane do zamówienia</h2>
             <form class="checkout-form" id="checkout-form">
@@ -479,9 +475,6 @@
         </div>
     </div>
         
-
-        
-        <!-- Sekcja 4: wynik (kod + link do telegrama) -->
         <div class="checkout-card wynik-sekcja" id="wynik-sekcja">
             <h2>Zamówienie zapisane!</h2>
             <p>Wyślij poniższy kod na Telegramie, aby dokonać płatności i uzyskać dalsze informacje o postępie zamówienia:</p>
@@ -492,7 +485,6 @@
     </div>
 
     <script>
-        // Wczytujemy koszyk z localStorage - dokładnie ten sam klucz co na stronie głównej
         let koszyk = JSON.parse(localStorage.getItem('vapeowo_koszyk')) || [];
         let aktywnyRabat = 0;
         let wybranaPlatnosc = null;
@@ -507,8 +499,6 @@
             return;
         }
 
-        // Grupujemy pozycje koszyka po id produktu, żeby różne smaki
-        // tego samego produktu wylądowały w jednej karcie
         const grupy = {};
         koszyk.forEach(item => {
             if (!grupy[item.id]) {
@@ -539,18 +529,15 @@
         `).join('');
     }
 
-        const pscProc = 0.10; // 10%
+        const pscProc = 0.10; 
 
         function przeliczSume() {
             const sumaEl = document.getElementById('checkout-suma');
 
-            // 1. Suma bazowa z koszyka
             let suma = koszyk.reduce((s, item) => s + item.cena * item.ilosc, 0);
 
-            // 2. Rabat (jeśli zastosowany)
             suma = suma * (1 - aktywnyRabat);
 
-            // 3. Narzut za pobranie - liczony od sumy PO rabacie
             let doplata = 0;
             if (wybranaPlatnosc === 'Paysafecard') {
                 doplata = suma * pscProc;
@@ -598,7 +585,7 @@
                     komunikat.style.color = '#34d399';
                     komunikat.innerText = `Zastosowano rabat -${dane.percent}%`;
                 }
-                przeliczSume(); // odświeża widoczną sumę z uwzględnieniem rabatu
+                przeliczSume();
             } catch (err) {
                 komunikat.style.color = '#f87171';
                 komunikat.innerText = 'Nie udało się połączyć z serwerem.';
@@ -658,8 +645,8 @@
 
     function pokazWynik(kod, telegramLink) {
         document.getElementById('checkout-form-card').style.display = 'none';
-        document.querySelector('.checkout-card:first-child').style.display = 'none'; // ukrywamy podsumowanie koszyka
-        document.getElementById('platnosc-sekcja').style.display = 'none'
+        document.querySelector('.checkout-card:first-child').style.display = 'none';
+        document.getElementById('platnosc-card').style.display = 'none'
         document.getElementById('wynik-kod').innerText = kod;
         document.getElementById('wynik-tg-link').href = telegramLink;
         document.getElementById('wynik-sekcja').style.display = 'block';
