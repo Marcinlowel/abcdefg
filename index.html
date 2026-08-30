@@ -6,7 +6,7 @@
     <title>Vapeowo  -  e-papierosy, liquidy, sprzęty</title>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
-         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap'); /* czcionka import*/
+         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap');
         html{
             overflow-x: hidden;
             scrollbar-width: none;
@@ -25,7 +25,6 @@
             margin: 0;
             background-color: #0F0E0EFF;
         }
-         /* Header plus dostawa free zintegrowane- */
         .header {
             position: fixed;
             top: 0;
@@ -136,7 +135,6 @@
             border: 2px solid #0a0a0a;
         }
 
-        /* Powiadomienie */
         .powiadomienie-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -172,9 +170,6 @@
             cursor: pointer;
         }
 
-        /* Koszyk overlay */
-
-        /* Overlay (przyciemnienie tła) */
         .koszyk-overlay {
             position: fixed;
             top: 0;
@@ -193,7 +188,6 @@
             opacity: 1;
         }
 
-        /* Wysuwany Sidebar */
         .koszyk-sidebar {
             position: fixed;
             top: 0;
@@ -237,7 +231,6 @@
         }
         .koszyk-close:hover { color: #fff; }
 
-        /* Lista produktów */
         .koszyk-lista {
             flex: 1;
             overflow-y: auto;
@@ -290,7 +283,6 @@
             font-weight: 700;
         }
 
-        /* Licznik ilości w koszyku */
         .koszyk-item-ilosc {
             display: flex;
             align-items: center;
@@ -333,7 +325,6 @@
         }
         .koszyk-btn-ilosc:hover { color: #a855f7; }
 
-        /* Podsumowanie dolne */
         .koszyk-footer {
             padding: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -372,8 +363,6 @@
             background: #9333ea;
             transform: translateY(-2px);
         }
-
-        /* Koszyk overlay */
 
         .odstep-footer {
             height: 60px;
@@ -504,10 +493,6 @@
             flex-shrink: 0;
         }
 
-        /* Header koniec- */
-        
-        /* Baner początek*/
-
         .baner {
             position: relative;
             width: 100%;
@@ -540,11 +525,6 @@
             opacity: 1;
         }
 
-        /* Baner koniec*/
-
-        /* Cały kod katalogu */
-        
- 
         .vw-catalog {
             font-family: 'Inter', Arial, sans-serif;
             color: #fff;
@@ -555,9 +535,6 @@
             text-align: center;
             flex: 1 0 auto;
         }
-        /*
-        tutaj zaczyna się logika częściowo podkatalogów, czyli podstron produktów, które są ukryte i wyświetlane po kliknięciu w przycisk "Zobacz produkt" na karcie produktu. Każdy produkt ma swoje unikalne radio, które przełącza widok na odpowiednią podstronę produktu.
-        */
 
         .vw-radio{
             position: absolute;
@@ -706,7 +683,7 @@
         }
 
         .vw-card-stock.low-stock .dot {
-            background: #f97316; /* pomarańczowy */
+            background: #f97316; 
         }
 
         .vw-card-body {
@@ -779,16 +756,11 @@
             .vw-price { font-size: 17px; }
         }
 
-        /* Koniec kodu katalogu*/
-
-        /* Początek kodu podstrony */
-
         .vw-podstrona {
             display: none; 
             margin: 110px 0px 0px 0px;
         }
 
-        /* Klasa włączana przez JS po kliknięciu */
         .vw-podstrona.active {
             display: block;
         }
@@ -965,9 +937,6 @@
             font-size: 12px;
             text-align: center;
         }
-        /* Koniec kodu podstrony */
-
-        /* Początek kodu footera*/
 
         .footer {
             position: relative;
@@ -1030,7 +999,6 @@
             color: rgba(136, 136, 136, 0.8);
         }
 
-        /* Media headera */
         @media (max-width: 480px) {
             .pasek {
             font-size: 12px;
@@ -1040,8 +1008,6 @@
                 margin-top: 60px;
             }
         }
-
-        /* Media katalogu */
 
         @media (max-width: 1100px) {
             .vw-grid { grid-template-columns: repeat(3, 1fr); }
@@ -1084,8 +1050,6 @@
             .vw-price { font-size: 20px; }
         }
         
-        /* Media footera */
-        
         @media (max-width: 768px) {
             .footer {
             background: #0a0a0a;
@@ -1102,11 +1066,10 @@
             opacity: 1; 
             }
         }
-    /*Koniec kodu footera*/
+
     </style>
 </head>
 <body>
-    <!-- Tutaj zaczyna się kod headera-->
     <div class="header">
         <div class="efekt-glow"></div>
         <div class="pasek">
@@ -1137,16 +1100,9 @@
         </div>
     </div>
 
-    <!-- Koniec kodu headera-->
-
-    <!-- Kod Banera-->
-
     <div class="baner-wrapper" id="baner-wrapper">
         <div class="baner" id="baner"></div>
     </div>
-
-    <!-- Koniec kodu banera-->
-    <!-- Powiadomienie -->
 
     <div id="powiadomienie-overlay" class="powiadomienie-overlay">
         <div class="powiadomienie-box">
@@ -1154,8 +1110,6 @@
             <button class="powiadomienie-ok-btn" onclick="zamknijPowiadomienie()">OK</button>
         </div>
     </div>
-
-    <!-- panel koszyka -->
 
     <div id="koszyk-overlay" class="koszyk-overlay" onclick="closeCart()"></div>
 
@@ -1166,7 +1120,6 @@
         </div>
 
         <div id="koszyk-lista" class="koszyk-lista">
-            <!-- Tutaj JS wyrenderuje dodane produkty -->
         </div>
 
         <div class="koszyk-footer">
@@ -1179,10 +1132,6 @@
             <button class="koszyk-checkout-btn" onclick="realizujZamowienie()">Przejdź do zamówienia</button>
         </div>
     </div>
-
-    <!-- panel koszyka koniec -->
-
-    <!-- Początek kodu katalogu-->
     <div class="vw-catalog">
 
     <div id="page-katalog">
@@ -1210,7 +1159,6 @@
 
     <div class="vw-grid">
         
-        <!-- ===== JEDNORAZÓWKI (3 pozycje) ===== -->
         <div class="vw-card cat-jednorazowki" data-id="1">
         <div class="vw-card-media">
             <img src="https://vapeowo.pl/zdjecia/produkt_1.png" alt="Aroma King 700">
@@ -1253,7 +1201,6 @@
         </div>
         </div>
 
-        <!-- ===== LIQUIDY (2 pozycje) ===== -->
         <div class="vw-card cat-liquidy" data-id="4">
         <div class="vw-card-media">
             <img src="https://vapeowo.pl/zdjecia/produkt_4.png" alt="MerryMi 30ml">
@@ -1282,7 +1229,6 @@
         </div>
         </div>
 
-        <!-- ===== URZĄDZENIA (3 pozycje) ===== -->
         <div class="vw-card cat-urzadzenia" data-id="6">
         <div class="vw-card-media">
             <img src="https://vapeowo.pl/zdjecia/produkt_6.png" alt="Cartridge XLIM">
@@ -1325,7 +1271,6 @@
         </div>
         </div>
 
-        <!-- Zestawy (3 pozycje)-->
 
         <div class="vw-card cat-zestawy" data-id="9">
         <div class="vw-card-media">
@@ -1371,8 +1316,6 @@
     </div>
     </div>
 
-    <!-- Widok podstron kod-->
-
     <div id="podstrona" class="vw-podstrona">
     <div class="vw-podstrona-content">
         <button class="vw-close-btn" onclick="closeProduct()"><i class="ph ph-arrow-left"></i> Powrót do katalogu</button>
@@ -1394,9 +1337,6 @@
     </div>
     </div>
 
-    <!-- Koniec kodu katalogu-->
-    <!-- Początek kodu footera-->
-
     <div class="odstep-footer"></div>
     <div class="footer">
     <div class="footer-logo">
@@ -1413,9 +1353,6 @@
         <p class="copyright">© 2026 Vapeowo. Wszelkie prawa zastrzeżone.</p>
     </div>
     </div>
-
-    <!-- Koniec kodu footera-->
-    <!-- JS podstrony-->
 
 <script>
         // Adres CSV z opublikowanego arkusza (wklej swój link)
