@@ -44,7 +44,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-            align-items: start;
+            align-items: stretch;
         }
 
         @media (max-width: 800px) {
@@ -103,7 +103,14 @@
 
         .podsumowanie-item-wariant {
             font-size: 11px;
-            color: #a855f7; 
+        }
+
+        .podsumowanie-item-wariant .wariant-ilosc {
+            color: #fff;
+        }
+
+        .podsumowanie-item-wariant .wariant-nazwa {
+            color: #a855f7;
         }
 
         .podsumowanie-item-cena {
@@ -227,6 +234,10 @@
 
         .platnosc-sekcja {
             margin-top: 16px;
+        }   
+
+        .platnosc-title {
+            margin-bottom: 24px;
         }
 
         .platnosc-sekcja label {
@@ -383,7 +394,7 @@
             font-size: 14px;
             font-weight: 600;
             text-decoration: none;
-            margin: 20px 0 20px 20px;
+            margin: 20px 0 20px 0px;
             transition: color 0.2s ease;
         }
         .powrot-btn:hover {
@@ -426,13 +437,13 @@
             <div class="checkout-card">
                 <h2>Twoje zamówienie</h2>
                 <div id="checkout-podsumowanie"></div>
-                <div class="podsumowanie-suma">
-                    <span>Suma:</span>
-                    <span id="checkout-suma">0.00 zł</span>
-                </div>
                 <div class="podsumowanie-dostawa">
                     <span>Dostawa:</span>
                     <span>0.00 zł</span>
+                </div>
+                <div class="podsumowanie-suma">
+                    <span>Suma:</span>
+                    <span id="checkout-suma">0.00 zł</span>
                 </div>
                 <div class="kod-rabatowy-sekcja">
                 <label for="kod-rabatowy">Kod rabatowy</label>
@@ -445,7 +456,7 @@
             </div>
         <div  id="platnosc-card" class="checkout-card">
                 <div class="platnosc-sekcja">
-                    <h2>Metoda płatności </h2>
+                    <h2 class="platnosc-title">Metoda płatności </h2>
                     <ul class="sposob-platnosci">
                         <li class="platnosc-opcja" onclick="wybierzPlatnosc('BLIK', this)"><img class="platnosc-zdjecie" src="https://vapeowo.pl/zdjecia/blik.png"> BLIK</li>
                         <li class="platnosc-opcja" onclick="wybierzPlatnosc('Krypto', this)"><img class="platnosc-zdjecie" src="https://vapeowo.pl/zdjecia/krypto.png"> Krypto </li>
@@ -525,7 +536,7 @@
             grupy[item.id].ilosc += item.ilosc;
             grupy[item.id].koszt += item.cena * item.ilosc;
             if (item.wariant) {
-                grupy[item.id].warianty.push(`${item.wariant} x${item.ilosc}`);
+                 grupy[item.id].warianty.push(`<span class="wariant-ilosc">${item.ilosc}x</span> <span class="wariant-nazwa">${item.wariant}</span>`);
             }
         });
 
@@ -557,8 +568,8 @@
             }
 
             sumaEl.innerText = suma.toFixed(2) + ' zł' +
-                (aktywnyRabat > 0 ? ` (rabat -${(aktywnyRabat * 100).toFixed(0)}%)` : '') +
-                (doplata > 0 ? ` (+${(pscProc * 100).toFixed(0)}% za Paysafecard)` : '');
+                (aktywnyRabat > 0 ? ` (rabat -${(aktywnyRabat * 100).toFixed(0)}%)` : '');
+                // (doplata > 0 ? ` (+${(pscProc * 100).toFixed(0)}% za Paysafecard)` : '');
         }
 
         renderujPodsumowanie();
