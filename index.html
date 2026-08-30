@@ -938,6 +938,40 @@
             text-align: center;
         }
 
+        .wynik-kod {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 800;
+            color: #a855f7;
+            background: #1a1a1a;
+            padding: 16px;
+            border-radius: 10px;
+            margin: 16px 0;
+            letter-spacing: 2px;
+        }
+
+        .wynik-podpowiedz {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 800;
+            background-color: rgba(208, 255, 0, 0.4);
+            border: 1px solid rgba(208, 255, 0, 0.8);
+            padding: 16px;
+            border-radius: 10px;
+            margin: 16px 0;
+            letter-spacing: 2px;
+        }
+
+        .tg-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
         .footer {
             position: relative;
             width: 100vw;
@@ -1336,6 +1370,17 @@
         </div>
         </div>
     </div>
+    </div>
+
+    <div id="wynik-overlay" class="powiadomienie-overlay">
+        <div class="powiadomienie-box">
+            <h2>Zamówienie utworzone!</h2>
+            <p>Naciśnij przycisk <b> Wyślij na telegramie </b>, prześlij automatyczną wiadomość, opłać zamówienie i ciesz się przesyłka!</p>
+            <p class="wynik-podpowiedz">Zawartość zamówienia oraz kod wklejają się automatycznie, wyślij wygenerowaną wiadomość i opłać zamówienie, a my zajmiemy się resztą</p>
+            <div class="wynik-kod" id="wynik-kod"></div>
+            <a id="wynik-tg-link" href="#" target="_blank" class="tg-btn">Wyślij na Telegramie</a>
+            <button class="powiadomienie-ok-btn" onclick="document.getElementById('wynik-overlay').classList.remove('active')">Zamknij</button>
+        </div>
     </div>
 
     <div class="odstep-footer"></div>
@@ -1795,7 +1840,19 @@
             document.getElementById('powiadomienie-overlay').classList.remove('active');
         }
 
-        // Inicjalizacja przy starcie
+        function sprawdzWynikZamowienia() {
+            const zapis = localStorage.getItem('vapeowo_wynik');
+            if (!zapis) return;
+
+            const { kod, telegramLink } = JSON.parse(zapis);
+            document.getElementById('wynik-kod').innerText = kod;
+            document.getElementById('wynik-tg-link').href = telegramLink;
+            document.getElementById('wynik-overlay').classList.add('active');
+
+            localStorage.removeItem('vapeowo_wynik');
+        }
+
+        sprawdzWynikZamowienia();
         odswiezKoszykUI();
 
         let banerObrazki = [];
