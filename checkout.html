@@ -145,9 +145,9 @@
             pointer-events: none;
         }
 
-        .input-z-ikona input {
-            padding-left: 44px;
-        }
+        .checkout-form .input-z-ikona input {
+                 padding: 10px 0px 10px 40px;
+        }   
 
         .input-z-ikona input:focus + i,
         .input-z-ikona:focus-within i {
@@ -263,7 +263,7 @@
 
         .platnosc-opcja.wybrany {
             border-color: #a855f7;
-            background: #a855f7;
+            background: rgba(168, 85, 247, 0.4);
             font-weight: bold;
         }
 
@@ -290,7 +290,6 @@
             background: #1a1a1a;
             border: 1px solid rgba(255,255,255,0.1);
             color: #fff;
-            padding: 10px 12px;
             border-radius: 8px;
             font-family: inherit;
             font-size: 14px;
@@ -449,21 +448,21 @@
             <form class="checkout-form" id="checkout-form">
                 <label for="nick"> Nick Telegram *</label>
                 <div class="input-z-ikona">
-                    <i class="ph ph-at"></i>
-                    <input type="text" id="nick" placeholder="     | np. @janek_vape" required>
+                    <i class="ph ph-users"></i>
+                    <input type="text" id="nick" placeholder="| @janek_vape" required>
                 </div>
 
                 <label for="telefon"> Numer telefonu *</label>
                 <div class="input-z-ikona">
                     <i class="ph ph-phone"></i>
-                    <input type="text" id="telefon" placeholder="     | np. 530 530 320" required>
+                    <input type="text" id="telefon" placeholder="| 530 530 320" required>
                 </div>
 
                 <div class="paczkomat-sekcja">
                     <label for="numer-paczkomatu"> Numer paczkomatu InPost *</label>
                     <div class="input-z-ikona">
                         <i class="ph ph-package"></i>
-                        <input type="text" id="numer-paczkomatu" placeholder="     | np. KRA01M" required>
+                        <input type="text" id="numer-paczkomatu" placeholder="| KRA01M" required>
                     </div>
                     <p class="paczkomat-podpowiedz">Numer paczkomatu znajdziesz w aplikacji InPost Mobile lub na inpost.pl, wyszukując punkt najbliżej Ciebie.</p>
                 </div>
@@ -556,7 +555,7 @@
 
             sumaEl.innerText = suma.toFixed(2) + ' zł' +
                 (aktywnyRabat > 0 ? ` (rabat -${(aktywnyRabat * 100).toFixed(0)}%)` : '') +
-                (doplata > 0 ? ` (+${(pscProc * 100).toFixed(0)}% za pobranie)` : '');
+                (doplata > 0 ? ` (+${(pscProc * 100).toFixed(0)}% za Paysafecard)` : '');
         }
 
         renderujPodsumowanie();
