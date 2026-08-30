@@ -161,11 +161,9 @@
         }
         .powiadomienie-ok-btn {
             margin-top: 16px;
-            background: #a855f7;
             color: #fff;
             border: none;
             padding: 10px 24px;
-            border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
         }
@@ -933,9 +931,20 @@
             transition: transform 0.2s ease;
         }
 
+        .vw-koszyk-btn.niedostepny {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .podpowiedz {
             font-size: 12px;
             text-align: center;
+        }
+
+        .wynik-img {
+            width: 40px;
+            height: 40px;
         }
 
         .wynik-kod {
@@ -954,15 +963,33 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 10px;
             font-weight: 400;
-            background-color: rgba(208, 255, 0, 0.4);
-            border: 1px solid rgba(208, 255, 0, 0.8);
+            background-color: rgba(233, 255, 133, 0.4);
+            border: 1px solid rgba(220, 243, 120, 0.8);
             padding: 4px;
             border-radius: 10px;
-            margin: 4px 0;
+            margin: 10px 0;
+        }
+
+        .wynik-zamknij-btn {
+            margin-top: 16px;
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .wynik-zamknij-btn:hover {
+            color: #fff;
         }
 
         .tg-btn {
-            display: inline-block;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
             background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
             color: #fff;
             text-decoration: none;
@@ -1373,12 +1400,13 @@
 
     <div id="wynik-overlay" class="powiadomienie-overlay">
         <div class="powiadomienie-box">
-            <h2>Zamówienie utworzone!</h2>
-            <p>Naciśnij przycisk <b> Wyślij na telegramie </b>, prześlij automatyczną wiadomość, opłać zamówienie i ciesz się przesyłka!</p>
-            <p class="wynik-podpowiedz">Zawartość zamówienia oraz kod wklejają się automatycznie, wyślij wygenerowaną wiadomość i opłać zamówienie, a my zajmiemy się resztą</p>
+            <img class="wynik-img" src="https://vapeowo.pl/zdjecia/positive.png">
+            <h2>Zamówienie utworzone</h2>
+            <p>Naciśnij przycisk <b> Wyślij na telegramie </b>i prześlij automatyczną wiadomość</p>
             <div class="wynik-kod" id="wynik-kod"></div>
+            <p class="wynik-podpowiedz">Zawartość zamówienia oraz kod wklejają się automatycznie, wyślij wygenerowaną wiadomość i opłać zamówienie, a my zajmiemy się resztą</p>
             <a id="wynik-tg-link" href="#" target="_blank" class="tg-btn">Wyślij na Telegramie</a> <br>
-            <button class="powiadomienie-ok-btn" onclick="document.getElementById('wynik-overlay').classList.remove('active')">Zamknij</button>
+            <button class="wynik-zamknij-btn" onclick="document.getElementById('wynik-overlay').classList.remove('active')">Zamknij</button>
         </div>
     </div>
 
@@ -1458,27 +1486,30 @@
             }).join('');
 
             const buyBtn = document.getElementById('podstrona-buy-btn');
-            buyBtn.innerText = "Dodaj do koszyka";
-            buyBtn.onclick = function(e) {
-                e.preventDefault();
-                dodajDoKoszyka(idstr);
-            };
+            const stanProduktu = pobierzStanProduktu(produkt);
+
+            if (stanProduktu.wyczerpany) {
+                buyBtn.innerText = "Produkt niedostępny";
+                buyBtn.classList.add('niedostepny');
+                buyBtn.onclick = function(e) { e.preventDefault(); };
+            } else {
+                buyBtn.innerText = "Dodaj do koszyka";
+                buyBtn.classList.remove('niedostepny');
+                buyBtn.onclick = function(e) {
+                    e.preventDefault();
+                    dodajDoKoszyka(idstr);
+                };
+            }
 
             document.getElementById('page-katalog').style.display = 'none';
             document.getElementById('podstrona').classList.add('active');
             document.getElementById('baner-wrapper').style.display = 'none';
         }
-        // Podpinamy dodawanie do koszyka pod przycisk
-            
-        // Funkcja zamykająca podstronę
         function closeProduct() {
             document.getElementById('podstrona').classList.remove('active');
             document.getElementById('page-katalog').style.display = '';
             document.getElementById('baner-wrapper').style.display = '';
         }
-         
-
-        //koszyk 
 
         function openCart() {
             document.getElementById('koszyk-overlay').classList.add('active');
@@ -1510,7 +1541,6 @@
             element.classList.add('wybrany');
         }
 
-        // Przelicza ceny we wszystkich pozycjach w koszyku na podstawie łącznych ilości
         async function wczytajProdukty() {
             try {
                 const response = await fetch(SHEET_URL);
@@ -1599,12 +1629,32 @@
             return Array.isArray(grupy) ? grupy : [];
         }
 
+        function kombinacje(tablice) {
+            return tablice.reduce((acc, tablica) => {
+                const wynik = [];
+                acc.forEach(kombinacja => {
+                    tablica.forEach(element => {
+                        wynik.push([...kombinacja, element]);
+                    });
+                });
+                return wynik;
+            }, [[]]);
+        }
         function wybierzOpcje(nazwaGrupy, wartosc, max, element) {
-            wybraneGrupy[nazwaGrupy] = { wartosc, max };
+            if (!wybraneGrupy[nazwaGrupy]) {
+                wybraneGrupy[nazwaGrupy] = [];
+            }
 
-            const kontener = element.closest('[data-grupa]');
-            kontener.querySelectorAll('.wariant-item').forEach(el => el.classList.remove('wybrany'));
-            element.classList.add('wybrany');
+            const tablica = wybraneGrupy[nazwaGrupy];
+            const istniejacyIndex = tablica.findIndex(o => o.wartosc === wartosc);
+
+            if (istniejacyIndex > -1) {
+                tablica.splice(istniejacyIndex, 1);
+                element.classList.remove('wybrany');
+            } else {
+                tablica.push({ wartosc, max });
+                element.classList.add('wybrany');
+            }
         }
 
         function pobierzBazowaCene(produkt) {
@@ -1648,56 +1698,64 @@
 
             kontener.innerHTML = `<div class="stock-title">Cennik hurtowy:</div>${wierszeHTML}`;
         }
-        // Dodawanie do koszyka z przeliczeniem progu dla wszystkich wariantów
         function dodajDoKoszyka(id) {
             const produkt = produktyData[id];
             if (!produkt) return;
 
             const grupy = parsujGrupy(produkt);
 
-            const brakujaca = grupy.find(g => !wybraneGrupy[g.nazwa]);
+            const brakujaca = grupy.find(g => !wybraneGrupy[g.nazwa] || wybraneGrupy[g.nazwa].length === 0);
             if (brakujaca) {
-                pokazPowiadomienie(`Proszę wybrać: ${brakujaca.etykieta || brakujaca.nazwa}`);
+                pokazPowiadomienie(`Proszę wybrać przynajmniej jedną opcję: ${brakujaca.etykieta || brakujaca.nazwa}`);
                 return;
             }
 
-            const mialWariant = grupy.length > 0
-                ? grupy.map(g => wybraneGrupy[g.nazwa].wartosc).join(' / ')
-                : 'Standard';
+            const tablice = grupy.length > 0
+                ? grupy.map(g => wybraneGrupy[g.nazwa])
+                : [[{ wartosc: null, max: Infinity }]];
 
-            const maxDostepne = grupy.length > 0
-                ? Math.min(...grupy.map(g => wybraneGrupy[g.nazwa].max))
-                : Infinity;
+            const wszystkieKombinacje = kombinacje(tablice);
 
-            const idx = koszyk.findIndex(item => item.id === id && item.wariant === mialWariant);
+            wszystkieKombinacje.forEach(kombinacja => {
+                const mialWariant = grupy.length > 0
+                    ? kombinacja.map(k => k.wartosc).join(' / ')
+                    : 'Standard';
 
-            if (idx > -1) {
-               if (koszyk[idx].ilosc + 1 > maxDostepne) {
-                    pokazPowiadomienie(`Dostępnych jest tylko ${maxDostepne} szt. tego wariantu.`);
-                    return;
+                const maxDostepne = grupy.length > 0
+                    ? Math.min(...kombinacja.map(k => k.max))
+                    : Infinity;
+
+                const idx = koszyk.findIndex(item => item.id === id && item.wariant === mialWariant);
+
+                if (idx > -1) {
+                    if (koszyk[idx].ilosc + 1 > maxDostepne) {
+                        pokazPowiadomienie(`Dostępnych jest tylko ${maxDostepne} szt. wariantu: ${mialWariant}`);
+                        return;
+                    }
+                    koszyk[idx].ilosc += 1;
+                } else {
+                    if (maxDostepne < 1) {
+                        pokazPowiadomienie(`Wariant ${mialWariant} jest niedostępny.`);
+                        return;
+                    }
+                    koszyk.push({
+                        id: id,
+                        nazwa: produkt.nazwa,
+                        cena: 0,
+                        zdjecie: produkt.zdjecie,
+                        wariant: mialWariant,
+                        ilosc: 1,
+                        maxIlosc: maxDostepne
+                    });
                 }
-            } else {
-                 if (maxDostepne < 1) {
-                    pokazPowiadomienie('Ten wariant jest niedostępny.');
-                    return;
-                }
-                koszyk.push({
-                    id: id,
-                    nazwa: produkt.nazwa,
-                    cena: 0, // Zostanie przeliczona poniżej
-                    zdjecie: produkt.zdjecie,
-                    wariant: mialWariant,
-                    ilosc: 1,
-                    maxIlosc: maxDostepne // Dodajemy maxIlosc do obiektu koszyka
-                });
-            }
+            });
 
             wybraneGrupy = {};
-            przeliczCenyWKoszyku(); // Przeliczamy próg cenowy dla tego ID
+            document.querySelectorAll('.wariant-item').forEach(el => el.classList.remove('wybrany'));
+            przeliczCenyWKoszyku();
             zapiszIOdswiez();
             openCart();
         }
-        // Zmiana ilości i usuwanie
         function zmienIlosc(index, delta) {
             const nowaIlosc = koszyk[index].ilosc + delta;
 
@@ -1731,24 +1789,20 @@
             zapiszIOdswiez();
         }
 
-      // 1. Zaktualizowana funkcja pobierania ilości (odporna na różnice między liczbami a tekstem)
         function pobierzLacznaIloscProduktu(id) {
             return koszyk.reduce((suma, item) => String(item.id) === String(id) ? suma + item.ilosc : suma, 0);
         }
 
-        // 2. Zaktualizowana funkcja szukania ceny z uwzględnieniem danych tekstowych z arkusza
         function znajdzCeneDlaIlosci(produkt, ilosc) {
             const domyslnaCena =  pobierzBazowaCene(produkt);
             const progiSorted = parsujProgi(produkt)
 
-            // Jeżeli progi przychodzą z arkusza jako zwykły tekst, zamieniamy je na prawdziwą tablicę
                 if (progiSorted.length === 0) {
                     return domyslnaCena;
                 }
 
                 let aktualnaCena = domyslnaCena;
 
-                // Nadpisujemy cenę, jeśli ilość w koszyku łapie się na próg
                 for (const prog of progiSorted) {
                     if (ilosc >= prog.od) {
                         aktualnaCena = parseFloat(String(prog.cena).replace(',', '.'));
@@ -1762,10 +1816,10 @@
             koszyk.forEach(item => {
                 const produkt = produktyData[item.id];
                 if (produkt) {
-                    // Pobieramy łączną ilość tego produktu w koszyku (niezależnie od wariantu)
+
                     const lacznaIlosc = pobierzLacznaIloscProduktu(item.id);
                     
-                    // Ustalamy cenę na podstawie zdefiniowanych progów
+
                     item.cena = znajdzCeneDlaIlosci(produkt, lacznaIlosc);
                 }
             });
