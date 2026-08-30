@@ -632,6 +632,7 @@
         }
 
         try {
+            console.log('telefon:', JSON.stringify(telefon));
             const odpowiedz = await fetch('https://vapeowo.pl/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
