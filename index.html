@@ -1152,19 +1152,18 @@
                 display: inline-block;
                 margin: 0 auto 40px auto;
                 text-align: left;
-
             }
-            .podstrona-stock {
-                display: flex;
-                flex-direction: column;    
+            .podstrona-stock ul {
+                flex-direction: column;
+                align-items: stretch;
             }
-            
         }
 
         @media (max-width: 480px) {
             .vw-grid { grid-template-columns: 1fr 1fr; }
             .vw-card-title { font-size: 14px; }
             .vw-price { font-size: 20px; }
+            .wynik-box { max-width: 320px ;}
         }
         
         @media (max-width: 768px) {
