@@ -961,20 +961,20 @@
 
         .wynik-kod-etykieta {
             font-family: 'Inter', Arial, sans-serif;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 600;
             color: #888;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
             margin-bottom: 6px;
         }
 
         .wynik-podpowiedz {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 400;
-            background-color: rgba(231, 247, 163, 0.2);
-            border: 1px solid rgba(241, 247, 163, 0.3);
+            color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(168, 85, 247, 0.05);
+            border: 1px solid rgba(168, 85, 247, 0.3);
             padding: 4px;
             border-radius: 10px;
             margin: 16px 0;
@@ -1001,6 +1001,30 @@
         .wynik-title {
             margin: 16px 0;
         }
+
+        .wynik-kod-wiersz {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .wynik-kopiuj-ikona {
+            font-size: 20px;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .wynik-kopiuj-ikona:hover {
+            color: #fff;
+        }
+
+        .wynik-kopiuj-ikona.ph-check {
+            color: #34d399;
+        }
+
         .tg-btn {
             display: block;
             width: 100%;
@@ -1909,16 +1933,42 @@
             document.getElementById('powiadomienie-overlay').classList.remove('active');
         }
 
+        let aktualnyKodZamowienia = null;
+
         function sprawdzWynikZamowienia() {
             const zapis = localStorage.getItem('vapeowo_wynik');
             if (!zapis) return;
 
             const { kod, telegramLink } = JSON.parse(zapis);
-            document.getElementById('wynik-kod').innerHTML = `<div class="wynik-kod-etykieta">Twój kod zamówienia</div>${kod}`;
+            aktualnyKodZamowienia = kod;
+
+            document.getElementById('wynik-kod').innerHTML = `
+                <div class="wynik-kod-etykieta">Twój kod zamówienia</div>
+                <div class="wynik-kod-wiersz">
+                    <span onclick="kopiujKodZamowienia()">${kod}</span>
+                    <i class="ph ph-copy wynik-kopiuj-ikona" onclick="kopiujKodZamowienia()"></i>
+                </div>
+            `;
             document.getElementById('wynik-tg-link').href = telegramLink;
             document.getElementById('wynik-overlay').classList.add('active');
 
             localStorage.removeItem('vapeowo_wynik');
+        }
+
+        function kopiujKodZamowienia() {
+            if (!aktualnyKodZamowienia) return;
+
+            navigator.clipboard.writeText(aktualnyKodZamowienia).then(() => {
+                const ikona = document.querySelector('.wynik-kopiuj-ikona');
+                ikona.classList.remove('ph-copy');
+                ikona.classList.add('ph-check');
+                setTimeout(() => {
+                    ikona.classList.remove('ph-check');
+                    ikona.classList.add('ph-copy');
+                }, 1500);
+            }).catch(() => {
+                pokazPowiadomienie('Nie udało się skopiować kodu.');
+            });
         }
 
         sprawdzWynikZamowienia();
