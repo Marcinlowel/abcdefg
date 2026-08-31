@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona nie znaleziona — Vapeowo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap');
+
+        html {
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        html::-webkit-scrollbar { display: none; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0F0E0EFF;
+            color: #fff;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+
+        .not-found-wrapper {
+            max-width: 480px;
+            width: 100%;
+            margin: 24px;
+            text-align: center;
+        }
+
+        .not-found-kod {
+            position: relative;
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 96px;
+            font-weight: 800;
+            color: #a855f7;
+            line-height: 1;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .not-found-kod::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: -20%;
+            width: 30%;
+            height: 2px;
+        }
+
+        .not-found-tytul {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 20px 0 10px;
+        }
+
+        .not-found-opis {
+            font-size: 14px;
+            color: #999;
+            line-height: 1.6;
+            margin: 0 0 28px;
+        }
+
+        .not-found-btn {
+            display: inline-block;
+            background: #a855f7;
+            color: #fff;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+        .not-found-btn:hover {
+            background: #9333ea;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="not-found-wrapper">
+        <div class="not-found-kod">404</div>
+        <div class="not-found-tytul">Tej strony tu nie ma</div>
+        <p class="not-found-opis">
+            Sprawdź, czy adres jest poprawny, albo wróć do sklepu i znajdź to, czego szukasz.
+        </p>
+        <a href="/" class="not-found-btn">Wróć do strony głównej</a>
+    </div>
+
+</body>
+</html>
