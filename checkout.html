@@ -8,9 +8,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap');
 
+        html {
+            overflow-x: hidden; 
+            scrollbar-width: none;
+            -ms-overflow-style: none
+        }
         body {
             margin: 0;
-            min-height: 100vh;
+            max-height: 100vh;
             background: rgba(26, 26, 26);
             color: #fff;
             font-family: 'Inter', Arial, sans-serif;
@@ -507,7 +512,7 @@
             grupy[item.id].ilosc += item.ilosc;
             grupy[item.id].koszt += item.cena * item.ilosc;
             if (item.wariant) {
-                 grupy[item.id].warianty.push(`<span class="wariant-ilosc">${item.ilosc}x</span> <span class="wariant-nazwa">${item.wariant}</span>`);
+                 grupy[item.id].warianty.push(`<span class="wariant-nazwa">${item.ilosc}x</span> <span class="wariant-nazwa">${item.wariant}</span>`);
             }
         });
 
