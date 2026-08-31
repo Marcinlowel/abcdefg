@@ -943,8 +943,8 @@
         }
 
         .wynik-img {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
         }
 
         .wynik-kod {
@@ -959,25 +959,38 @@
             letter-spacing: 2px;
         }
 
+        .wynik-kod-etykieta {
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
         .wynik-podpowiedz {
             font-family: 'JetBrains Mono', monospace;
             font-size: 10px;
             font-weight: 400;
-            background-color: rgba(233, 255, 133, 0.4);
-            border: 1px solid rgba(220, 243, 120, 0.8);
+            background-color: rgba(231, 247, 163, 0.2);
+            border: 1px solid rgba(241, 247, 163, 0.3);
             padding: 4px;
             border-radius: 10px;
-            margin: 10px 0;
+            margin: 16px 0;
         }
 
+        .wynik-info {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
         .wynik-zamknij-btn {
-            margin-top: 16px;
             background: transparent;
             border: none;
             color: #888;
             font-size: 13px;
             font-weight: 600;
-            text-decoration: underline;
+            text-decoration: none;
             cursor: pointer;
         }
 
@@ -985,6 +998,9 @@
             color: #fff;
         }
 
+        .wynik-title {
+            margin: 16px 0;
+        }
         .tg-btn {
             display: block;
             width: 100%;
@@ -1401,8 +1417,8 @@
     <div id="wynik-overlay" class="powiadomienie-overlay">
         <div class="powiadomienie-box">
             <img class="wynik-img" src="https://vapeowo.pl/zdjecia/positive.png">
-            <h2>Zamówienie utworzone</h2>
-            <p>Naciśnij przycisk <b> Wyślij na telegramie </b>i prześlij automatyczną wiadomość</p>
+            <h2 class="wynik-title">Zamówienie utworzone</h2>
+            <p class="wynik-info">Naciśnij przycisk <b> Wyślij na Telegramie </b>i prześlij automatyczną wiadomość</p>
             <div class="wynik-kod" id="wynik-kod"></div>
             <p class="wynik-podpowiedz">Zawartość zamówienia oraz kod wklejają się automatycznie, wyślij wygenerowaną wiadomość i opłać zamówienie, a my zajmiemy się resztą</p>
             <a id="wynik-tg-link" href="#" target="_blank" class="tg-btn">Wyślij na Telegramie</a> <br>
@@ -1898,7 +1914,7 @@
             if (!zapis) return;
 
             const { kod, telegramLink } = JSON.parse(zapis);
-            document.getElementById('wynik-kod').innerText = kod;
+            document.getElementById('wynik-kod').innerHTML = `<div class="wynik-kod-etykieta">Twój kod zamówienia</div>${kod}`;
             document.getElementById('wynik-tg-link').href = telegramLink;
             document.getElementById('wynik-overlay').classList.add('active');
 
