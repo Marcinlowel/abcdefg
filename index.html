@@ -162,7 +162,9 @@
         .powiadomienie-ok-btn {
             margin-top: 16px;
             color: #fff;
-            border: none;
+            background-color: rgba(168, 85, 247, 0.6);
+            border: 1px solid rgba(168, 85, 247, 0.8);
+            border-radius: 16px;
             padding: 10px 24px;
             font-weight: 700;
             cursor: pointer;
@@ -1761,7 +1763,7 @@
 
             const brakujaca = grupy.find(g => !wybraneGrupy[g.nazwa] || wybraneGrupy[g.nazwa].length === 0);
             if (brakujaca) {
-                pokazPowiadomienie(`Proszę wybrać przynajmniej jedną opcję: ${brakujaca.etykieta || brakujaca.nazwa}`);
+                pokazPowiadomienie(`Wybierz opcję dla: ${brakujaca.etykieta || brakujaca.nazwa}`);
                 return;
             }
 
@@ -1784,7 +1786,7 @@
 
                 if (idx > -1) {
                     if (koszyk[idx].ilosc + 1 > maxDostepne) {
-                        pokazPowiadomienie(`Dostępnych jest tylko ${maxDostepne} szt. wariantu: ${mialWariant}`);
+                        pokazPowiadomienie(`Dostępnych jest tylko ${maxDostepne} szt. dla: ${mialWariant}`);
                         return;
                     }
                     koszyk[idx].ilosc += 1;
