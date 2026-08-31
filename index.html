@@ -10,7 +10,7 @@
         html{
             overflow-x: hidden;
             scrollbar-width: none;
-            -ms-overflow-style: none
+            -ms-overflow-style: none;
         }
 
         html::-webkit-scrollbar {
@@ -943,8 +943,8 @@
         }
 
         .wynik-img {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
         }
 
         .wynik-kod {
@@ -1012,6 +1012,7 @@
 
         .wynik-kopiuj-ikona {
             position: absolute;
+            margin-right: 30px;
             right: 0;
             font-size: 20px;
             color: #888;
@@ -1025,6 +1026,17 @@
 
         .wynik-kopiuj-ikona.ph-check {
             color: #34d399;
+        }
+
+        .wynik-box {
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 24px;
+            max-width: 380px;
+            text-align: center;
+            color: #fff;
+            font-family: 'Inter', Arial, sans-serif;
         }
 
         .tg-btn {
@@ -1441,12 +1453,12 @@
     </div>
 
     <div id="wynik-overlay" class="powiadomienie-overlay">
-        <div class="powiadomienie-box">
+        <div class="wynik-box">
             <img class="wynik-img" src="https://vapeowo.pl/zdjecia/positive.png">
             <h2 class="wynik-title">Zamówienie utworzone</h2>
             <p class="wynik-info">Naciśnij przycisk <b> Wyślij na Telegramie </b>i prześlij automatyczną wiadomość</p>
             <div class="wynik-kod" id="wynik-kod"></div>
-            <p class="wynik-podpowiedz">Zawartość zamówienia oraz kod wklejają się automatycznie, wyślij wygenerowaną wiadomość i opłać zamówienie, a my zajmiemy się resztą</p>
+            <p class="wynik-podpowiedz">Zawartość zamówienia oraz kod wklejają się automatycznie, wyślij wygenerowaną wiadomość i opłać zamówienie, a my zajmiemy się resztą!</p>
             <a id="wynik-tg-link" href="#" target="_blank" class="tg-btn">Wyślij na Telegramie</a> <br>
             <button class="wynik-zamknij-btn" onclick="document.getElementById('wynik-overlay').classList.remove('active')">Zamknij</button>
         </div>
