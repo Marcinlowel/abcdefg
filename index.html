@@ -1522,7 +1522,7 @@
             }
 
             document.getElementById('podstrona-title').innerText = produkt.nazwa;
-            document.getElementById('podstrona-price').innerText =  pobierzBazowaCene(produkt).toFixed(2) + ' zł';
+            document.getElementById('podstrona-price').innerHTML = renderujCeneHTML(produkt);
             if (jestZestawem(idstr)) {
                 document.getElementById('podstrona-progi').innerHTML = '';
                 document.getElementById('podpowiedz').style.display = 'none';
@@ -1623,6 +1623,7 @@
 
                 przeliczCenyWKoszyku();
                 aktualizujStanKart();
+                aktualizujCenyKart();
                 zapiszIOdswiez();
             } catch (error) {
                 console.error('Błąd wczytywania produktów:', error);
@@ -1655,6 +1656,32 @@
             if (ilosc === 1) return 'Ostatnia sztuka';
             if (ilosc >= 2 && ilosc <= 4) return `Ostatnie ${ilosc} sztuki`;
             return `Ostatnie ${ilosc} sztuk`;
+        }
+
+
+        function renderujCeneHTML(produkt) {
+            const cenaBazowa = pobierzBazowaCene(produkt);
+            const cenaPromoRaw = produkt.cena_przed_promocja;
+            const cenaPromo = (cenaPromoRaw === null || cenaPromoRaw === undefined || cenaPromoRaw === '')
+                ? null
+                : parseFloat(String(cenaPromoRaw).replace(',', '.'));
+
+            if (cenaPromo !== null && cenaPromo > cenaBazowa) {
+                return `<span class="cena-stara">${cenaPromo.toFixed(2)} zł</span><span class="cena-nowa">${cenaBazowa.toFixed(2)} zł</span>`;
+            }
+            return `${cenaBazowa.toFixed(2)} zł`;
+        }
+        
+        function aktualizujCenyKart() {
+            document.querySelectorAll('.vw-card[data-id]').forEach(karta => {
+                const produkt = produktyData[karta.dataset.id];
+                if (!produkt) return;
+
+                const priceEl = karta.querySelector('.vw-price');
+                if (!priceEl) return;
+
+                priceEl.innerHTML = renderujCeneHTML(produkt);
+            });
         }
 
         function aktualizujStanKart() {
