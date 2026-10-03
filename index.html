@@ -616,7 +616,7 @@
         }
         
         .price-old {
-            font-size: 17px;
+            font-size: 30px;
             color: #8b86a0;
             text-decoration: line-through;
         }
@@ -1947,7 +1947,7 @@
                 : parseFloat(String(cenaPromoRaw).replace(',', '.'));
 
             if (cenaPromo !== null && cenaPromo > cenaBazowa) {
-                return `<span class="cena-stara">${cenaPromo.toFixed(2)} zł</span><span class="cena-nowa">${cenaBazowa.toFixed(2)} zł</span>`;
+                return `<span class="price-old">${cenaPromo.toFixed(2)} zł</span><span class="price-new">${cenaBazowa.toFixed(2)} zł</span>`;
             }
             return `${cenaBazowa.toFixed(2)} zł`;
         }
