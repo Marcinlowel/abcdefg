@@ -605,7 +605,7 @@
             margin-bottom: 20px;
         }
         
-        .price-label {
+        .glow-card__price-label {
             display: block;
             margin-bottom: 4px;
             font-size: 10px;
@@ -615,13 +615,13 @@
             color: #8b86a0;
         }
         
-        .price-old {
+        .glow-card__price-old {
             font-size: 30px;
             color: #8b86a0;
             text-decoration: line-through;
         }
         
-        .price-new {
+        .glow-card__price-new {
             font-size: 40px;
             font-weight: 700;
             line-height: 1;
@@ -1462,7 +1462,7 @@
         </div>
     </div>
 
-    <article class="glow-card" data-promo-id="5"></article>
+    <article class="glow-card" id="glow-card" data-promo-id="5"></article>
 
     <div class="vw-catalog">
 
@@ -1608,14 +1608,14 @@
         
         <div class="vw-card cat-bazy" data-id="15">
         <div class="vw-card-media">
-            <img src="https://vapeowo.pl/zdjecia/produkt_14.png" alt="Baza nikotynowa">
+            <img src="https://vapeowo.pl/zdjecia/produkt_15.png" alt="Baza nikotynowa">
             <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
         </div>
         <div class="vw-card-body">
             <h3 class="vw-card-title">Baza nikotynowa</h3>
         <div class="vw-card-footer">
             <div class="vw-price">100 zł</div>
-            <button class="vw-add-btn" onclick="openProduct(14)">Zobacz produkt</button>
+            <button class="vw-add-btn" onclick="openProduct(15)">Zobacz produkt</button>
         </div>
         </div>
         </div>
@@ -1629,7 +1629,7 @@
             <h3 class="vw-card-title">Baza sól</h3>
         <div class="vw-card-footer">
             <div class="vw-price">100 zł</div>
-            <button class="vw-add-btn" onclick="openProduct(15)">Zobacz produkt</button>
+            <button class="vw-add-btn" onclick="openProduct(16)">Zobacz produkt</button>
         </div>
         </div>
         </div>
@@ -1949,7 +1949,7 @@
                 : parseFloat(String(cenaPromoRaw).replace(',', '.'));
 
             if (cenaPromo !== null && cenaPromo > cenaBazowa) {
-                return `<span class="price-old">${cenaPromo.toFixed(2)} zł</span><span class="price-new">${cenaBazowa.toFixed(2)} zł</span>`;
+                return `<span class="cena_nowa">${cenaPromo.toFixed(2)} zł</span><span class="cena_stara">${cenaBazowa.toFixed(2)} zł</span>`;
             }
             return `${cenaBazowa.toFixed(2)} zł`;
         }
@@ -2205,6 +2205,7 @@
             const cenaPromo = (cenaPromoRaw === null || cenaPromoRaw === undefined || cenaPromoRaw === '') ? null : parseFloat(String(cenaPromoRaw).replace(',', '.')); 
             const maPromocje = cenaPromo !== null && cenaPromo > cenaBazowa; 
             const rabat = maPromocje ? Math.round((1 - cenaBazowa / cenaPromo) * 100) : 0; 
+            const formatCena = n => Number(n).toFixed(2).replace('.', ',') + ' zł';
             return ` 
                 <div class="glow-card__inner"> 
                     <div class="glow-card__media"> ${maPromocje ? `<span class="glow-card__badge">−${rabat}%</span>` : ""} 
@@ -2213,7 +2214,17 @@
                     <div class="glow-card__content"> 
                         <span class="glow-card__category">Polecamy: </span> 
                         <h2 class="glow-card__title">${escapeHtml(produkt.nazwa)}</h2> 
-                        <div class="glow-card__prices">${renderujCeneHTML(produkt)}</div> 
+                        <div class="glow-card__prices">
+                            ${maPromocje ? `
+                                <div>
+                                    <span class="glow-card__price-label">Przed promocją</span>
+                                    <span class="glow-card__price-old">${formatCena(cenaPromo)}</span>
+                                </div>` : ""}
+                            <div>
+                                <span class="glow-card__price-label">${maPromocje ? "Po promocji" : "Cena"}</span>
+                                <span class="glow-card__price-new">${formatCena(cenaBazowa)}</span>
+                            </div>
+                        </div>
                         <a href="#" class="glow-card__btn" onclick="openProduct(${id}); 
                     return false;">Zobacz produkt →</a> </div> </div>`; 
         } 
