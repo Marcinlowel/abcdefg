@@ -478,6 +478,7 @@
         
         .glow-card {
             position: relative;
+            justify-content: center;
             width: 100%;
             max-width: 1200px;
             border-radius: 28px;
@@ -593,6 +594,7 @@
             margin: 6px 0 28px;
             font-size: 34px;
             font-weight: 700;
+            color: #fff
         }
         
         .glow-card__prices {
@@ -2206,7 +2208,7 @@
                         <img src="${escapeHtml(produkt.zdjecie)}" alt="${escapeHtml(produkt.nazwa)}" loading="lazy"> 
                     </div> 
                     <div class="glow-card__content"> 
-                        <span class="glow-card__category">${escapeHtml(produkt.kategoria)}</span> 
+                        <span class="glow-card__category">Polecamy: </span> 
                         <h2 class="glow-card__title">${escapeHtml(produkt.nazwa)}</h2> 
                         <div class="glow-card__prices">${renderujCeneHTML(produkt)}</div> 
                         <a href="#" class="glow-card__btn" onclick="openProduct(${id}); 
