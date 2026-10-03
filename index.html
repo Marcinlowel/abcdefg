@@ -470,6 +470,182 @@
             
         }
 
+        @property --angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+        
+        .glow-card {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            border-radius: 28px;
+            padding: 2px; 
+            isolation: isolate;
+            animation: rotate 6s linear infinite;
+        }
+        
+        .glow-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: conic-gradient(
+            from var(--angle),
+            rgba(124, 58, 237, .25) 0deg,
+            rgba(124, 58, 237, .25) 200deg,
+            #7c3aed 280deg,
+            #c4b5fd 330deg,
+            #fff 350deg,
+            rgba(124, 58, 237, .25) 360deg
+            );
+            z-index: -1;
+        }
+        
+        .glow-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: conic-gradient(
+            from var(--angle),
+            transparent 0deg,
+            transparent 200deg,
+            #7c3aed 290deg,
+            #c4b5fd 340deg,
+            transparent 360deg
+            );
+            filter: blur(22px);
+            opacity: .75;
+            z-index: -2;
+        }
+        
+        @keyframes rotate {
+            to { --angle: 360deg; }
+        }
+        
+        .glow-card__inner {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 40px;
+            align-items: center;
+            padding: 32px;
+            background: #050408;
+            border-radius: 26px;
+            overflow: hidden;
+        }
+
+        .glow-card__inner::before {
+            content: "";
+            position: absolute;
+            top: -120px; right: -120px;
+            width: 360px; height: 360px;
+            background: radial-gradient(circle, rgba(124,58,237,.25), transparent 70%);
+            pointer-events: none;
+        }
+        
+        .glow-card__media {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            max-height: 470px;
+            width: 100%;
+            background: #110e1a;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+        
+        .glow-card__media img {
+            max-width: 80%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        
+        .glow-card__placeholder {
+            width: 40%;
+            aspect-ratio: 1 / 2;
+            border-radius: 14px;
+            background: linear-gradient(160deg, #e9f26b, #ff7ac8);
+        }
+        
+        .glow-card__badge {
+            position: absolute;
+            top: 12px; left: 12px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #7c3aed;
+            border-radius: 999px;
+        }
+        
+        .glow-card__category {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: #8b86a0;
+        }
+        
+        .glow-card__title {
+            margin: 6px 0 28px;
+            font-size: 34px;
+            font-weight: 700;
+        }
+        
+        .glow-card__prices {
+            display: flex;
+            align-items: flex-end;
+            gap: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .price-label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: #8b86a0;
+        }
+        
+        .price-old {
+            font-size: 17px;
+            color: #8b86a0;
+            text-decoration: line-through;
+        }
+        
+        .price-new {
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1;
+            text-shadow: 0 0 18px rgba(255,255,255,.35);
+        }
+        
+        .glow-card__btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 18px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #b8a4ff, #7c3aed 60%, #6d28d9);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, .45);
+            transition: transform .2s, box-shadow .2s;
+        }
+        
+        .glow-card__btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(124, 58, 237, .65);
+        }
         
         .pasek {
             width: 100%;
@@ -557,6 +733,7 @@
         #tab-wszystko:checked ~ #page-katalog .vw-title-wszystko,
         #tab-jednorazowki:checked ~ #page-katalog .vw-title-jednorazowki,
         #tab-liquidy:checked ~ #page-katalog .vw-title-liquidy,
+        #tab-zestawy:checked ~ #page-katalog .vw-title-bazy,
         #tab-urzadzenia:checked ~ #page-katalog .vw-title-urzadzenia,
         #tab-zestawy:checked ~ #page-katalog .vw-title-zestawy {
             display: block;
@@ -564,7 +741,8 @@
 
         #tab-wszystko:checked ~ .vw-catalog-top .vw-title-wszystko, 
         #tab-jednorazowki:checked ~ .vw-catalog-top .vw-title-jednorazowki, 
-        #tab-liquidy:checked ~ .vw-catalog-top .vw-title-liquidy, 
+        #tab-liquidy:checked ~ .vw-catalog-top .vw-title-liquidy,
+        #tab-zestawy:checked ~ #page-katalog .vw-title-bazy, 
         #tab-urzadzenia:checked ~ .vw-catalog-top .vw-title-urzadzenia, 
         #tab-zestawy:checked ~ .vw-catalog-top .vw-title-zestawy {
             display: block; 
@@ -598,6 +776,7 @@
         #tab-wszystko:checked ~ .vw-tabs label[for="tab-wszystko"],
         #tab-jednorazowki:checked ~ .vw-tabs label[for="tab-jednorazowki"],
         #tab-liquidy:checked ~ .vw-tabs label[for="tab-liquidy"],
+        #tab-bazy:checked ~ .vw-tabs label[for="tab-bazy"],
         #tab-urzadzenia:checked ~ .vw-tabs label[for="tab-urzadzenia"],
         #tab-zestawy:checked ~ .vw-tabs label[for="tab-zestawy"] {
             color: #fff;
@@ -614,6 +793,7 @@
 
         #tab-jednorazowki:checked ~ .vw-grid .vw-card:not(.cat-jednorazowki),
         #tab-liquidy:checked ~ .vw-grid .vw-card:not(.cat-liquidy),
+        #tab-bazy:checked ~ .vw-grid .vw-card:not(.cat-bazy),
         #tab-urzadzenia:checked ~ .vw-grid .vw-card:not(.cat-urzadzenia),
         #tab-zestawy:checked ~ .vw-grid .vw-card:not(.cat-zestawy) {
             display: none;
@@ -636,6 +816,7 @@
 
         #tab-jednorazowki:checked ~ #page-katalog .vw-card:not(.cat-jednorazowki),
         #tab-liquidy:checked ~ #page-katalog .vw-card:not(.cat-liquidy),
+        #tab-bazy:checked ~ #page-katalog .vw-card:not(.cat-bazy),
         #tab-urzadzenia:checked ~ #page-katalog .vw-card:not(.cat-urzadzenia),
         #tab-zestawy:checked ~ #page-katalog .vw-card:not(.cat-zestawy) {
             display: none;
@@ -1148,6 +1329,20 @@
             .wynik-box { max-width: 360px ;}
         }
 
+        @media (max-width: 800px) {
+            .glow-card__inner {
+            grid-template-columns: 1fr;
+            gap: 24px;
+            padding: 20px;
+            }
+            .glow-card__title { font-size: 26px; }
+            .price-new { font-size: 32px; }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .glow-card { animation: none; }
+        }
+
         @media (max-width: 768px) {
             .baner-wrapper { margin: 100px auto 30px auto; }
             .vw-podstrona { margin: 10px 0px 0px 0px; justify-content: left; }
@@ -1263,12 +1458,16 @@
             <button class="koszyk-checkout-btn" onclick="realizujZamowienie()">Przejdź do zamówienia</button>
         </div>
     </div>
+
+    <article class="glow-card" data-promo-id="5"></article>
+
     <div class="vw-catalog">
 
     <div id="page-katalog">
     <input type="radio" name="vwtab" id="tab-wszystko" class="vw-radio" checked>
     <input type="radio" name="vwtab" id="tab-jednorazowki" class="vw-radio">
     <input type="radio" name="vwtab" id="tab-liquidy" class="vw-radio">
+    <input type="radio" name="vwtab" id="tab-bazy" class="vw-radio">
     <input type="radio" name="vwtab" id="tab-urzadzenia" class="vw-radio">
     <input type="radio" name="vwtab" id="tab-zestawy" class="vw-radio">
 
@@ -1276,6 +1475,7 @@
         <h1 class="vw-title vw-title-wszystko">Wszystkie Produkty</h1>
         <h1 class="vw-title vw-title-jednorazowki">Jednorazówki</h1>
         <h1 class="vw-title vw-title-liquidy">Liquidy</h1>
+        <h1 class="vw-title vw-title-bazy">Bazy</h1>
         <h1 class="vw-title vw-title-urzadzenia">Urządzenia</h1>
         <h1 class="vw-title vw-title-zestawy">Zestawy</h1>
     </div>
@@ -1284,6 +1484,7 @@
         <label class="vw-tab-label" for="tab-wszystko">Wszystko</label>
         <label class="vw-tab-label" for="tab-jednorazowki">Jednorazówki</label>
         <label class="vw-tab-label" for="tab-liquidy">Liquidy</label>
+        <label class="vw-tab-label" for="tab-bazy">Bazy</label>
         <label class="vw-tab-label" for="tab-urzadzenia">Urządzenia</label>
         <label class="vw-tab-label" for="tab-zestawy">Zestawy</label>
     </div>
@@ -1346,6 +1547,20 @@
         </div>
         </div>
 
+        <div class="vw-card cat-jednorazowki" data-id="13">
+        <div class="vw-card-media">
+            <img src="https://vapeowo.pl/zdjecia/produkt_13.jpg" alt="MerryMi Kitty S">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">MerryMi Kitty S</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">64,99 zł</div>
+            <button class="vw-add-btn" onclick="openProduct(13)">Zobacz produkt</button>
+        </div>
+        </div>
+        </div>
+
         <div class="vw-card cat-liquidy" data-id="4">
         <div class="vw-card-media">
             <img src="https://vapeowo.pl/zdjecia/produkt_4.png" alt="MerryMi 30ml">
@@ -1370,6 +1585,48 @@
         <div class="vw-card-footer">
             <div class="vw-price">16,99 zł</div>
             <button class="vw-add-btn" onclick="openProduct(5)">Zobacz produkt</button>
+        </div>
+        </div>
+        </div>
+
+        <div class="vw-card cat-liquidy" data-id="14">
+        <div class="vw-card-media">
+            <img src="https://vapeowo.pl/zdjecia/produkt_14.png" alt="Fucked Lab 30ml 65 mg">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">Fucked Lab 30ml 65 mg</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">39,99 zł</div>
+            <button class="vw-add-btn" onclick="openProduct(14)">Zobacz produkt</button>
+        </div>
+        </div>
+        </div>
+        
+        <div class="vw-card cat-bazy" data-id="15">
+        <div class="vw-card-media">
+            <img src="https://vapeowo.pl/zdjecia/produkt_14.png" alt="Baza nikotynowa">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">Baza nikotynowa</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">100 zł</div>
+            <button class="vw-add-btn" onclick="openProduct(14)">Zobacz produkt</button>
+        </div>
+        </div>
+        </div>
+
+        <div class="vw-card cat-bazy" data-id="16">
+        <div class="vw-card-media">
+            <img src="https://vapeowo.pl/zdjecia/produkt_15.png" alt="Baza sól">
+            <div class="vw-card-stock"><span class="dot"></span>Dostępne</div>
+        </div>
+        <div class="vw-card-body">
+            <h3 class="vw-card-title">Baza sól</h3>
+        <div class="vw-card-footer">
+            <div class="vw-price">100 zł</div>
+            <button class="vw-add-btn" onclick="openProduct(15)">Zobacz produkt</button>
         </div>
         </div>
         </div>
@@ -1640,7 +1897,11 @@
                 przeliczCenyWKoszyku();
                 aktualizujStanKart();
                 aktualizujCenyKart();
-                zapiszIOdswiez();
+                przeliczCenyWKoszyku(); 
+                aktualizujStanKart(); 
+                aktualizujCenyKart();
+                initPromoCards(); 
+                zapiszIOdswiez(); 
             } catch (error) {
                 console.error('Błąd wczytywania produktów:', error);
                 document.getElementById('baner').style.display = 'none';
@@ -1924,6 +2185,42 @@
 
                 return aktualnaCena;
                 }
+        
+        function escapeHtml(value = "") { 
+        return String(value) 
+            .replace(/&/g, "&amp;") 
+            .replace(/</g, "&lt;") 
+            .replace(/>/g, "&gt;") 
+            .replace(/"/g, "&quot;") 
+            .replace(/'/g, "&#39;"); 
+        } 
+        function renderPromoCard(produkt, id) { 
+            const cenaBazowa = pobierzBazowaCene(produkt); 
+            const cenaPromoRaw = produkt.cena_przed_promocja; 
+            const cenaPromo = (cenaPromoRaw === null || cenaPromoRaw === undefined || cenaPromoRaw === '') ? null : parseFloat(String(cenaPromoRaw).replace(',', '.')); 
+            const maPromocje = cenaPromo !== null && cenaPromo > cenaBazowa; 
+            const rabat = maPromocje ? Math.round((1 - cenaBazowa / cenaPromo) * 100) : 0; 
+            return ` 
+                <div class="glow-card__inner"> 
+                    <div class="glow-card__media"> ${maPromocje ? `<span class="glow-card__badge">−${rabat}%</span>` : ""} 
+                        <img src="${escapeHtml(produkt.zdjecie)}" alt="${escapeHtml(produkt.nazwa)}" loading="lazy"> 
+                    </div> 
+                    <div class="glow-card__content"> 
+                        <span class="glow-card__category">${escapeHtml(produkt.kategoria)}</span> 
+                        <h2 class="glow-card__title">${escapeHtml(produkt.nazwa)}</h2> 
+                        <div class="glow-card__prices">${renderujCeneHTML(produkt)}</div> 
+                        <a href="#" class="glow-card__btn" onclick="openProduct(${id}); 
+                    return false;">Zobacz produkt →</a> </div> </div>`; 
+        } 
+        function initPromoCards() {
+             document.querySelectorAll('[data-promo-id]').forEach(el => { const id = el.dataset.promoId; const produkt = produktyData[id]; 
+        if (!produkt) {
+             el.remove(); return; 
+        } 
+        
+        el.innerHTML = renderPromoCard(produkt, id); 
+        }); 
+        }
 
         function przeliczCenyWKoszyku() {
             koszyk.forEach(item => {
