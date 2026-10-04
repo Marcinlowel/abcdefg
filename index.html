@@ -564,6 +564,7 @@
             max-width: 80%;
             max-height: 90%;
             object-fit: contain;
+            border-radius: 9px;
         }
         
         .glow-card__placeholder {
@@ -581,6 +582,7 @@
             font-weight: 700;
             background: #7c3aed;
             border-radius: 999px;
+            color: #fff;
         }
         
         .glow-card__category {
@@ -682,6 +684,7 @@
         }
 
         .baner-wrapper {
+            display: none;
             position: relative;
             max-width: 1320px;
             width: 100%;
@@ -1331,6 +1334,57 @@
             .vw-title { font-size: 30px; }
             .vw-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .wynik-box { max-width: 360px ;}
+        }
+
+        @media (max-width: 800px) {
+            .glow-card {
+                border-radius: 24px;
+            }
+            .glow-card__inner {
+                grid-template-columns: 38% 1fr;
+                gap: 14px;
+                padding: 14px;
+                border-radius: 22px;
+            }
+            .glow-card__media {
+                aspect-ratio: 4 / 3;
+                max-height: none;
+                border-radius: 14px;
+            }
+            .glow-card__badge {
+                top: 8px;
+                left: 8px;
+                padding: 3px 8px;
+                font-size: 10px;
+            }
+            .glow-card__category {
+                font-size: 9px;
+            }
+            .glow-card__title {
+                font-size: 20px;
+                margin: 4px 0 14px;
+                overflow-wrap: anywhere;
+            }
+            .glow-card__prices {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                margin-bottom: 14px;
+            }
+            .glow-card__price-label {
+                font-size: 8px;
+                margin-bottom: 2px;
+            }
+            .glow-card__price-old {
+                font-size: 15px;
+            }
+            .glow-card__price-new {
+                font-size: 26px;
+            }
+            .glow-card__btn {
+                padding: 12px;
+                font-size: 13px;
+            }
         }
 
         @media (max-width: 800px) {
